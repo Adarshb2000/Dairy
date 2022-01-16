@@ -18,7 +18,7 @@ export const pregSchema = new mongoose.Schema({
 
 export const vaccinationSchema = new mongoose.Schema({
   vaccine: String,
-  date: Date,
+  vaccinationDate: Date,
   doctor: String,
 })
 
@@ -31,7 +31,7 @@ export const diseaseSchema = new mongoose.Schema({
 
 export const milkHistorySchema = mongoose.Schema({
   milk: Number,
-  date: Date,
+  milkDate: Date,
   lineNumber: Number,
 })
 
@@ -41,7 +41,7 @@ export const cowSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  dateBought: Date,
+  purchaseDate: Date,
   vehicleNumber: Number,
   seller: String,
   comments: [String],
