@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import DateElement from './DateElement'
 import { objectForSubmission } from './Helper'
+import SelectElement from './SelectElement'
 
 const AddPregnancyRecord = () => {
   const { animal, tag } = useParams()
@@ -57,22 +58,15 @@ const AddPregnancyRecord = () => {
         <div>
           <h2>Test</h2>
           <DateElement name="testDate" label="Test" />
-          <label htmlFor="isPregnant">
-            {' '}
-            Pregnant
-            <select
-              id="isPregnant"
-              name="isPregnant"
-              defaultValue=""
-              onChange={(e) => setIsPregnant(e.target.value)}
-            >
-              <option value="" disabled defaultChecked>
-                select
-              </option>
-              <option value={false}>No</option>
-              <option value={true}>Yes</option>
-            </select>
-          </label>
+          <SelectElement
+            options={[
+              ['No', false],
+              ['Yes', true],
+            ]}
+            name="isPregnant"
+            defaultValue=""
+            label="Pregnant"
+          />
           <br />
           <label htmlFor="doctor">
             {' '}
@@ -94,14 +88,15 @@ const AddPregnancyRecord = () => {
           <h2>Delivery</h2>
           <DateElement name="deliveryDate" label="Delivery" />
           <br />
-          <label htmlFor="gender">
-            {' '}
-            Gender
-            <select name="gender" onChange={(e) => setGender(e.target.value)}>
-              <option value="female">Padiya</option>
-              <option value="male">Pada</option>
-            </select>
-          </label>
+          <SelectElement
+            name="gender"
+            options={[
+              ['Padiya', 'female'],
+              ['Pada', 'male'],
+            ]}
+            defaultValue=""
+            label={'Gender'}
+          />
         </div>
         <br />
         <br />

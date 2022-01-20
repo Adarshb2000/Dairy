@@ -13,7 +13,7 @@ router.post('/new-record', async (req, res) => {
     res.status(201).json(cow)
   } catch (e) {
     if (e.code === 11000) {
-      res.status(409).json({ message: 'Tag number already present' })
+      res.status(409).json({ message: 'Tag already present' })
     } else {
       throw e
     }

@@ -24,7 +24,6 @@ const authentication = async (username, password) => {
 }
 
 const objectForSubmission = (form, obj = {}) => {
-  const token = localStorage.getItem('token')
   return Object.assign(
     Object.fromEntries(
       Array.from(form.getElementsByTagName('input')).map((element) => {
@@ -33,6 +32,8 @@ const objectForSubmission = (form, obj = {}) => {
             return [element.name, parseFloat(element.value)]
           case 'date':
             return [element.name, new Date(element.value)]
+          case 'bool':
+            return [element.name, element.value === 'true' ? true : false]
           default:
             return [element.name, element.value]
         }
@@ -43,6 +44,7 @@ const objectForSubmission = (form, obj = {}) => {
 }
 
 const logDetails = async (subRoute, body) => {
+  const token = localStorage.getItem('token')
   const res = await fetch(api + subRoute, {
     method: 'POST',
     headers: {
