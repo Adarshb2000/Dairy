@@ -1,3 +1,6 @@
 export const key = 'jwtSecretKey'
-export const username = 'baderiadairy'
-export const password = '9827password'
+export const username = 'password'
+export const password = 'password'
+
+export const host = 'localhost'
+export const port = 3000

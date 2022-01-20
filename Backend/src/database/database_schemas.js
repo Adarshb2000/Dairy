@@ -34,21 +34,3 @@ export const milkHistorySchema = mongoose.Schema({
   date: Date,
   lineNumber: Number,
 })
-
-export const cowSchema = new mongoose.Schema({
-  tag: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  dateBought: Date,
-  vehicleNumber: Number,
-  seller: String,
-  comments: [String],
-  pregnancy: [pregSchema],
-  disease: [diseaseSchema],
-  milkHistory: [milkHistorySchema],
-})
-
-export const Cows = mongoose.model('Cows', cowSchema)
-Cows.createIndexes({ tag: 1 })

@@ -3,26 +3,23 @@ import morgan from 'morgan'
 import cors from 'cors'
 import bp from 'body-parser'
 import { createToken, verifyToken } from './auth/jwt_auth.js'
-import {
-  cowSchema,
-  pregSchema,
-  diseaseSchema,
-  vaccinationSchema,
-  milkHistorySchema,
-  Cows,
-} from './cows.js'
 import { password, username } from './config.js'
-import { connect } from './database_connection.js'
-import { router } from './database_routes.js'
+import { connect } from './database/database_connection.js'
+import { router } from './database/database_routes.js'
 
 export const app = express()
 
 app.disable('x-powered-by')
 
+app.use(cors())
 app.use(morgan('dev'))
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
-app.use(cors())
+
+app.use(function (err, req, res, next) {
+  console.log(err.stack)
+  res.status(500).send('Something broke')
+})
 
 app.use('/api', router)
 
