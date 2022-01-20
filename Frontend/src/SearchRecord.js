@@ -33,15 +33,13 @@ const SearchRecord = () => {
 
   const navigate = useNavigate()
 
-  const fetchDet = async (animal, tag) => {
+  const fetchDet = async () => {
     try {
-      const temp = await fetchDetails(animal, tag)
-      details.current = temp
-      console.log(Object.entries(details.current))
+      details.current = await fetchDetails(animal, tag)
       setLoading(false)
     } catch (e) {
       if (e instanceof DataBaseError) {
-        alert('record not found')
+        alert(e.message)
         navigate('/', { replace: true })
       } else if (e instanceof TokenError) {
         logout(navigate)
@@ -50,7 +48,7 @@ const SearchRecord = () => {
   }
 
   useEffect(() => {
-    fetchDet(animal, tag)
+    fetchDet()
   }, [])
 
   return loading ? (

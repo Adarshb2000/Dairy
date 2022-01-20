@@ -58,6 +58,7 @@ const Home = () => {
       <br />
       <hr />
       <br />
+      <Link to="/add-pregnancy/cow/1">check here</Link>
       <button
         onClick={() => {
           logout(navigate)

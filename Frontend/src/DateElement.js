@@ -22,93 +22,97 @@ const DateElement = (props) => {
   return (
     <div>
       <label>
-        Day
-        <select
-          id="day"
-          name="Day"
-          defaultValue={null}
-          onChange={(e) => {
-            setDay(e.target.value)
-            onDateChange()
-          }}
-          onBlur={(e) => {
-            setDay(e.target.value)
-            onDateChange()
-          }}
-        >
-          <option defaultValue={true} disabled>
-            Day
-          </option>
-          {days.map((value) => {
-            return (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            )
-          })}
-        </select>
+        {' '}
+        {props.label} &nbsp;
+        <label>
+          Day
+          <select
+            id="day"
+            name="Day"
+            defaultValue={null}
+            onChange={(e) => {
+              setDay(e.target.value)
+              onDateChange()
+            }}
+            onBlur={(e) => {
+              setDay(e.target.value)
+              onDateChange()
+            }}
+          >
+            <option defaultValue={true} disabled>
+              Day
+            </option>
+            {days.map((value) => {
+              return (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              )
+            })}
+          </select>
+        </label>
+        <label>
+          Month
+          <select
+            id="month"
+            name="Month"
+            defaultValue={null}
+            onChange={(e) => {
+              setMonth(e.target.value)
+              onDateChange()
+            }}
+            onBlur={(e) => {
+              setMonth(e.target.value)
+              onDateChange()
+            }}
+          >
+            <option defaultValue={true} disabled>
+              Month
+            </option>
+            {months.map((value, index) => {
+              return (
+                <option key={index} value={index + 1}>
+                  {value}
+                </option>
+              )
+            })}
+          </select>
+        </label>
+        <label>
+          Year
+          <select
+            id="year"
+            name="Year"
+            defaultValue={null}
+            onChange={(e) => {
+              setYear(e.target.value)
+              onDateChange()
+            }}
+            onBlur={(e) => {
+              setYear(e.target.value)
+              onDateChange()
+            }}
+          >
+            <option defaultValue={true} disabled>
+              Year
+            </option>
+            {years.map((value, index) => {
+              return (
+                <option key={index} value={value}>
+                  {value}
+                </option>
+              )
+            })}
+          </select>
+        </label>
+        <input
+          onChange={() => {}}
+          name={props.name}
+          value={date}
+          hidden
+          type="date"
+        />
       </label>
-      <label>
-        Month
-        <select
-          id="month"
-          name="Month"
-          defaultValue={null}
-          onChange={(e) => {
-            setMonth(e.target.value)
-            onDateChange()
-          }}
-          onBlur={(e) => {
-            setMonth(e.target.value)
-            onDateChange()
-          }}
-        >
-          <option defaultValue={true} disabled>
-            Month
-          </option>
-          {months.map((value, index) => {
-            return (
-              <option key={index} value={index + 1}>
-                {value}
-              </option>
-            )
-          })}
-        </select>
-      </label>
-      <label>
-        Year
-        <select
-          id="year"
-          name="Year"
-          defaultValue={null}
-          onChange={(e) => {
-            setYear(e.target.value)
-            onDateChange()
-          }}
-          onBlur={(e) => {
-            setYear(e.target.value)
-            onDateChange()
-          }}
-        >
-          <option defaultValue={true} disabled>
-            Year
-          </option>
-          {years.map((value, index) => {
-            return (
-              <option key={index} value={value}>
-                {value}
-              </option>
-            )
-          })}
-        </select>
-      </label>
-      <input
-        onChange={() => {}}
-        name={props.name}
-        value={date}
-        hidden
-        type="date"
-      />
     </div>
   )
 }

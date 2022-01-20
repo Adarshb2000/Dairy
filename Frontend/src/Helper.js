@@ -23,12 +23,11 @@ const authentication = async (username, password) => {
   }
 }
 
-const logDetails = async (event, subRoute, obj = {}) => {
-  event.preventDefault()
+const objectForSubmission = (form, obj = {}) => {
   const token = localStorage.getItem('token')
-  const body = Object.assign(
+  return Object.assign(
     Object.fromEntries(
-      Array.from(event.target.getElementsByTagName('input')).map((element) => {
+      Array.from(form.getElementsByTagName('input')).map((element) => {
         switch (element.type) {
           case 'number':
             return [element.name, parseFloat(element.value)]
@@ -41,6 +40,9 @@ const logDetails = async (event, subRoute, obj = {}) => {
     ),
     obj
   )
+}
+
+const logDetails = async (subRoute, body) => {
   const res = await fetch(api + subRoute, {
     method: 'POST',
     headers: {
@@ -53,14 +55,15 @@ const logDetails = async (event, subRoute, obj = {}) => {
     const ret = await res.json()
     return ret
   } else {
-    if ([408, 403, 400].includes(res.status)) {
-      throw new TokenError(res.statusText)
+    console.log(res)
+    if (res.status === 409) {
+      throw new DataBaseError(res.message)
+    } else if ([408, 403, 400].includes(res.status)) {
+      throw new TokenError(res.message)
     } else if (res.status === 500) {
       throw new Error('Contact the maker')
-    } else {
-      throw new DataBaseError(res.statusText)
     }
   }
 }
 
-export { authentication, logout, logDetails }
+export { authentication, logout, logDetails, objectForSubmission }

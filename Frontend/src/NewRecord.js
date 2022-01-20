@@ -1,6 +1,6 @@
-import { useContext, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { logDetails, logout } from './Helper'
+import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
 import { DataBaseError, TokenError } from './CustomErrors'
 const NewRecord = () => {
@@ -8,25 +8,33 @@ const NewRecord = () => {
   const [animal, setAnimal] = useState('cow')
   const [tag, setTag] = useState(1)
   const [seller, setSeller] = useState('bleh')
+  const [loading, setLoading] = useState(false)
   const [vehicleNumber, setVehicleNumber] = useState('4')
   const comments = useRef(['this is a comment'])
   const [currComment, setCurrComment] = useState('')
 
-  return userLoggedIn.current ? (
+  return loading ? (
+    <>Loading...</>
+  ) : (
     <div>
       <form
-        onSubmit={(event) =>
-          logDetails(event, '/new-record', {
+        onSubmit={(event) => {
+          event.preventDefault()
+          setLoading(true)
+          const object = objectForSubmission(event.target, {
             comments: comments.current,
           })
+          logDetails('/new-record', object)
             .then(console.log)
             .catch((e) => {
+              console.log(e)
               alert(e.message)
               if (e instanceof TokenError) {
                 logout(navigate)
               }
+              setLoading(false)
             })
-        }
+        }}
       >
         <h4> ADD RECORD </h4>
         <label htmlFor="animal">
@@ -107,8 +115,6 @@ const NewRecord = () => {
         <button type="submit">Submit</button>
       </form>
     </div>
-  ) : (
-    <Navigate replace to="/login" />
   )
 }
 
