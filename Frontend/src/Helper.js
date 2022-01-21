@@ -3,7 +3,7 @@ import { DataBaseError, TokenError } from './CustomErrors'
 
 const logout = (navigate) => {
   localStorage.clear()
-  navigate('/login')
+  navigate('/login', { replace: true })
 }
 
 const authentication = async (username, password) => {

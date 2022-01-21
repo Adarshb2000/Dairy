@@ -1,17 +1,60 @@
 import { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { DataBaseError, TokenError } from './CustomErrors'
 import DateElement from './DateElement'
-import { objectForSubmission } from './Helper'
+import { logDetails, logout, objectForSubmission } from './Helper'
 import SelectElement from './SelectElement'
 
 const AddPregnancyRecord = () => {
   const { animal, tag } = useParams()
+  const { pathname: subRoute } = useLocation()
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const [bullNumber, setBullNumber] = useState(0)
-  const [supervisor, setSupervisor] = useState('bleh')
-  const [gender, setGender] = useState('female')
+  const [worker, setWorker] = useState('bleh')
+  const [number, setNumber] = useState(0)
   const [doctor, setDoctor] = useState('bleh2')
-  const [isPregnant, setIsPregnant] = useState(true)
+
+  const formSubmission = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const data = objectForSubmission(e.target)
+    const pregnancyData = {
+      copulation: {
+        date: data.uthiDate,
+        bullNumber: data.bullNumber,
+        worker: data.worker,
+      },
+      examination: {
+        date: data.testDate,
+        doctor: data.doctor,
+        duration: data.duration,
+        isPregnant: data.isPregnant === 'true' ? true : false,
+      },
+      lactation: {
+        date: data.lactationDate,
+      },
+      delivery: {
+        number: data.number,
+        date: data.deliveryDate,
+        gender: data.gender,
+      },
+    }
+    try {
+      const sentData = await logDetails(subRoute, pregnancyData)
+      console.log(sentData)
+    } catch (e) {
+      if (e instanceof TokenError) {
+        alert('not logged in')
+        logout(navigate)
+      } else if (e instanceof DataBaseError) {
+        alert('No such record found')
+        navigate(`/new-record/${animal}/${tag}`, { replace: true })
+      }
+    }
+    setLoading(false)
+  }
+
   return loading ? (
     <>Loading... </>
   ) : (
@@ -19,15 +62,10 @@ const AddPregnancyRecord = () => {
       <h1>
         Tag No: {tag} &nbsp; {animal}
       </h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          console.log(objectForSubmission(e.target))
-        }}
-      >
+      <form onSubmit={formSubmission}>
         <div>
           <h2>Uthi</h2>
-          <DateElement name="uthiDate" label="Uthi" />
+          <DateElement name="uthiDate" label="Date" />
           <label htmlFor="bullNumber">
             {' '}
             BullNumber
@@ -43,21 +81,21 @@ const AddPregnancyRecord = () => {
             />
           </label>
           <br />
-          <label htmlFor="supervisor">
+          <label htmlFor="worker">
             {' '}
-            Supervisor
+            Worker
             <input
               type="text"
-              value={supervisor}
-              onChange={({ target }) => setSupervisor(target.value)}
-              name="supervisor"
+              value={worker}
+              onChange={({ target }) => setWorker(target.value)}
+              name="worker"
             />
           </label>
           <br />
         </div>
         <div>
           <h2>Test</h2>
-          <DateElement name="testDate" label="Test" />
+          <DateElement name="testDate" label="Date" />
           <SelectElement
             options={[
               ['No', false],
@@ -82,10 +120,23 @@ const AddPregnancyRecord = () => {
         </div>
         <br />
         <br />
-        <DateElement name="lactationDate" label="Hurai" />
+        <h2>Hurai</h2>
+        <DateElement name="lactationDate" label="Date" />
         <br />
         <div>
           <h2>Delivery</h2>
+          <label htmlFor="number">
+            {' '}
+            Number
+            <input
+              min={0}
+              step={1}
+              type="number"
+              name="number"
+              value={number}
+              onChange={({ target }) => setNumber(target.value)}
+            />
+          </label>
           <DateElement name="deliveryDate" label="Delivery" />
           <br />
           <SelectElement
