@@ -6,6 +6,11 @@ import Buffalos from './buffalo.js'
 export const router = express.Router()
 router.use(verifyToken)
 
+const removeProperties = (obj) => {
+  if (obj) ['_id', '__v'].forEach((prop) => delete obj[prop])
+  return obj
+}
+
 router.post('/new-record', async (req, res) => {
   const details = req.body
   try {
@@ -24,9 +29,9 @@ const getAnimal = async (req, res, next) => {
   const tag = req.params.tag
   let animal
   if (req.params.animal === 'cow') {
-    animal = await Cows.findOne({ tag: tag }, { _id: 0, __v: 0 })
+    animal = await Cows.findOne({ tag: tag })
   } else if (req.params.animal === 'buffalo') {
-    animal = await Buffalos.findOne({ tag: tag }, { _id: 0, __v: 0 })
+    animal = await Buffalos.findOne({ tag: tag })
   }
   if (animal) {
     req.animal = animal
@@ -37,8 +42,8 @@ const getAnimal = async (req, res, next) => {
 }
 
 router.get('/:animal/:tag', getAnimal, (req, res) => {
-  const animal = req.animal
-  res.status(200).json(animal)
+  const animal = req.animal._doc
+  res.status(200).json(removeProperties(animal))
 })
 router.post('/update/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
@@ -57,6 +62,7 @@ router.post('/add-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
   const animal = req.animal
   try {
     animal.pregnancy.push({ ...details })
+    console.log(animal)
     await animal.save()
     res.sendStatus(201)
   } catch (e) {

@@ -1,21 +1,23 @@
 import mongoose from 'mongoose'
 
 export const pregSchema = new mongoose.Schema({
-  number: Number,
   copulation: {
     date: Date,
     bullNumber: Number,
-    supervisor: String,
+    worker: String,
   },
   examination: {
     date: Date,
     doctor: String,
-    time: Number,
+    duration: Number,
     isPregnant: Boolean,
     reason: String,
   },
-  lactationDate: Date,
+  lactation: {
+    date: Date,
+  },
   delivery: {
+    number: Number,
     date: Date,
     gender: String,
   },

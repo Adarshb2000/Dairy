@@ -58,7 +58,7 @@ const SearchRecord = () => {
       <h1>Search record</h1>
       {Object.entries(details.current).map(([key, value], index) => (
         <p key={index}>
-          {key.toLocaleUpperCase()} {value}
+          {key.toLocaleUpperCase()} {JSON.stringify(value)}
         </p>
       ))}
     </div>

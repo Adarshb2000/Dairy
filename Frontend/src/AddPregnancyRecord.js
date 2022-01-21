@@ -43,6 +43,7 @@ const AddPregnancyRecord = () => {
     try {
       const sentData = await logDetails(subRoute, pregnancyData)
       console.log(sentData)
+      navigate(`/${animal}/${tag}`)
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
