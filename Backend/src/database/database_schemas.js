@@ -25,12 +25,12 @@ export const pregSchema = new mongoose.Schema({
 
 export const vaccinationSchema = new mongoose.Schema({
   vaccine: String,
-  vaccinationDate: Date,
+  date: Date,
   doctor: String,
 })
 
 export const diseaseSchema = new mongoose.Schema({
-  testDate: Date,
+  date: Date,
   doctor: String,
   vaccination: [vaccinationSchema],
   cured: Boolean,

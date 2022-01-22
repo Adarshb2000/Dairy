@@ -62,9 +62,8 @@ router.post('/add-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
   const animal = req.animal
   try {
     animal.pregnancy.push({ ...details })
-    console.log(animal)
     await animal.save()
-    res.sendStatus(201)
+    res.status(201).json(animal._doc)
   } catch (e) {
     res.status(500).json(e)
   }
@@ -92,8 +91,23 @@ router.post('/add-disease/:animal/:tag', getAnimal, async (req, res) => {
   try {
     animal.disease.push({ ...details })
     await animal.save()
-    res.sendStatus(201)
+    res.status(201).json(animal)
   } catch (e) {
+    res.status(500).json(e)
+  }
+})
+
+router.post('/add-vaccine/:animal/:tag', getAnimal, async (req, res) => {
+  const details = req.body
+  const animal = req.animal
+  const len = animal.disease.length - 1
+  try {
+    animal.disease[len].vaccination.push({ ...details })
+    animal.disease[len].cured = details.cured
+    animal.save()
+    res.status(201).json(animal)
+  } catch (e) {
+    console.log(e)
     res.status(500).json(e)
   }
 })
