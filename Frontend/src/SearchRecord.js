@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { DataBaseError, TokenError } from './CustomErrors'
 import { logout } from './Helper'
 import { api } from './config'
+import DiseaseForm from './DiseaseForm'
 
 const fetchDetails = async (animal, tag) => {
   const token = localStorage.getItem('token')
@@ -58,9 +59,13 @@ const SearchRecord = () => {
       <h1>Search record</h1>
       {Object.entries(details.current).map(([key, value], index) => (
         <p key={index}>
-          {key.toLocaleUpperCase()} {JSON.stringify(value)}
+          {key.toLocaleUpperCase()}{' '}
+          {key === 'disease' || key === 'pregnancy'
+            ? JSON.stringify(value[value.length - 1])
+            : JSON.stringify(value)}
         </p>
       ))}
+      <DiseaseForm disease={false} />
     </div>
   )
 }

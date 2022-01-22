@@ -1,54 +1,83 @@
+import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import DateElement from './DateElement'
+import SelectElement from './SelectElement'
 import { DataBaseError, TokenError } from './CustomErrors'
-import { logDetails, logout, objectForSubmission } from './Helper'
+import { logDetails, logout } from './Helper'
+import { objectForDiseaseForm, objectForVaccineForm } from './diseaseObjects'
 
-const diseaseFormSubmission = async (form, subRoute, navigate, animal, tag) => {
-  const data = objectForSubmission(form)
-  const body = {
-    date: data.diseaseDate,
-    doctor: data.doctor,
-    vaccination: {
-      vaccine: data.vaccine,
-      date: data.diseaseDate,
-      doctor: data.doctor,
-    },
-    cured: data.cured,
-  }
+const DiseaseForm = ({ disease = true }) => {
+  const { animal, tag } = useParams()
+  const subRoute = disease
+    ? `/add-disease/${animal}/${tag}`
+    : `/add-vaccine/${animal}/${tag}`
+  const getObject = disease ? objectForDiseaseForm : objectForVaccineForm
+  const [doctor, setDoctor] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [vaccine, setVaccine] = useState('')
+  const navigate = useNavigate()
 
-  try {
-    const res = await logDetails(subRoute, body)
-    console.log(res)
-    navigate(`/${animal}/${tag}`, { replace: true })
-  } catch (e) {
-    if (e instanceof TokenError) {
-      alert('not logged in')
-      logout(navigate)
-    } else if (e instanceof DataBaseError) {
-      alert('no such record found')
-      navigate(`/new-record/${animal}/${tag}`, { replace: true })
+  const formSubmission = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const body = getObject(e.target)
+    try {
+      await logDetails(subRoute, body)
+      if (disease) navigate(`/${animal}/${tag}`, { replace: true })
+      else window.location.reload()
+    } catch (e) {
+      if (e instanceof TokenError) {
+        alert('not logged in')
+        logout(navigate)
+      } else if (e instanceof DataBaseError) {
+        alert('no such record found')
+        navigate(`/new-record/${animal}/${tag}`, { replace: true })
+      }
     }
   }
+
+  return loading ? (
+    <>Loading...</>
+  ) : (
+    <div>
+      <form onSubmit={formSubmission}>
+        <DateElement label="Date" name="date" />
+        <br />
+        <label htmlFor="doctor">
+          Doctor
+          <input
+            type="text"
+            name="doctor"
+            value={doctor}
+            onChange={({ target }) => {
+              setDoctor(target.value)
+            }}
+          />
+        </label>
+        <br />
+        <label htmlFor="vaccine">
+          {' '}
+          Vaccine
+          <input
+            type="text"
+            name="vaccine"
+            value={vaccine}
+            onChange={({ target }) => setVaccine(target.value)}
+          />
+        </label>
+        <SelectElement
+          name="cured"
+          options={[
+            ['Yes', true],
+            ['No', false],
+          ]}
+          label="Cured"
+          defaultValue={false}
+        />
+        <button type="submit"> Submit </button>
+      </form>
+    </div>
+  )
 }
 
-const vaccineFormSubmission = async (e) => {
-  const data = objectForSubmission(e.target)
-  const vaccination = {
-    vaccine: data.vaccine,
-    date: data.vaccinationDate,
-    doctor: data.doctor,
-  }
-
-  try {
-    const res = await logDetails(subRoute, vaccination)
-    console.log(res)
-    navigate(`/${animal}/${tag}`, { replace: true })
-  } catch (e) {
-    if (e instanceof TokenError) {
-      alert('not logged in')
-      logout(navigate)
-    } else if (e instanceof DataBaseError) {
-      alert('no such record found')
-      navigate(`/new-record/${animal}/${tag}`, { replace: true })
-    }
-  }
-}
-export { diseaseFormSubmission, vaccineFormSubmission }
+export default DiseaseForm
