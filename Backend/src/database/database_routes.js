@@ -49,7 +49,7 @@ router.post('/update/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
   try {
-    Object.assign(animal, details)
+    Object.assign(animal._doc, details)
     await animal.save()
     res.status(201).json(animal)
   } catch (e) {
