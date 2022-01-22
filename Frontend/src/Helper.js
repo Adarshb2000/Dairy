@@ -32,8 +32,6 @@ const objectForSubmission = (form, obj = {}) => {
             return [element.name, parseFloat(element.value)]
           case 'date':
             return [element.name, new Date(element.value)]
-          case 'bool':
-            return [element.name, element.value === 'true' ? true : false]
           default:
             return [element.name, element.value]
         }

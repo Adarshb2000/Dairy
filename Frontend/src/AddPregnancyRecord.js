@@ -43,7 +43,7 @@ const AddPregnancyRecord = () => {
     try {
       const sentData = await logDetails(subRoute, pregnancyData)
       console.log(sentData)
-      navigate(`/${animal}/${tag}`)
+      navigate(`/${animal}/${tag}`, { replace: true })
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
@@ -53,13 +53,13 @@ const AddPregnancyRecord = () => {
         navigate(`/new-record/${animal}/${tag}`, { replace: true })
       }
     }
-    setLoading(false)
   }
 
   return loading ? (
     <>Loading... </>
   ) : (
     <div>
+      <h1>Pregnancy Record</h1>
       <h1>
         Tag No: {tag} &nbsp; {animal}
       </h1>
