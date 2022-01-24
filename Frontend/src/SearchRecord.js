@@ -4,6 +4,7 @@ import { DataBaseError, TokenError } from './CustomErrors'
 import { logout } from './Helper'
 import { api } from './config'
 import DiseaseForm from './DiseaseForm'
+import AddMilkRecord from './AddMilkRecord'
 
 const fetchDetails = async (animal, tag) => {
   const token = localStorage.getItem('token')
@@ -66,6 +67,7 @@ const SearchRecord = () => {
         </p>
       ))}
       <DiseaseForm disease={false} />
+      <AddMilkRecord />
     </div>
   )
 }

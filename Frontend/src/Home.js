@@ -58,7 +58,7 @@ const Home = () => {
       <br />
       <hr />
       <br />
-      <Link to="/add-disease/cow/1">check here</Link>
+      <Link to="/add-milk">check here</Link>
       <button
         onClick={() => {
           logout(navigate)

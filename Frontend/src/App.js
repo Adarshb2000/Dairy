@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import NewRecord from './NewRecord'
 import SearchRecord from './SearchRecord'
 import AddPregnancyRecord from './AddPregnancyRecord'
-import { objectForDiseaseForm } from './diseaseObjects'
 import AddDiseaseRecord from './AddDiseaseRecord'
+import AddMilkRecord from './AddMilkRecord'
 
 const App = () => {
   return (
@@ -24,6 +24,7 @@ const App = () => {
           path="/add-disease/:animal/:tag"
           element={<AddDiseaseRecord />}
         />
+        <Route path="/add-milk" element={<AddMilkRecord />} />
       </Routes>
     </Router>
   )
