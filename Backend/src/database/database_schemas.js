@@ -36,8 +36,8 @@ export const diseaseSchema = new mongoose.Schema({
   cured: Boolean,
 })
 
-export const milkHistorySchema = mongoose.Schema({
+export const milkSchema = mongoose.Schema({
   milk: Number,
-  milkDate: Date,
+  date: Date,
   lineNumber: Number,
 })

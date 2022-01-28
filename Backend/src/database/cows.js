@@ -1,9 +1,5 @@
 import mongoose from 'mongoose'
-import {
-  diseaseSchema,
-  milkHistorySchema,
-  pregSchema,
-} from './database_schemas.js'
+import { diseaseSchema, milkSchema, pregSchema } from './database_schemas.js'
 
 const cowSchema = new mongoose.Schema({
   tag: {
@@ -17,7 +13,7 @@ const cowSchema = new mongoose.Schema({
   comments: [String],
   pregnancy: [pregSchema],
   disease: [diseaseSchema],
-  milkHistory: [milkHistorySchema],
+  milk: [milkSchema],
 })
 
 const Cows = mongoose.model('Cows', cowSchema)

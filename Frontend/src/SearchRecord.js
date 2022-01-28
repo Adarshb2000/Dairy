@@ -31,6 +31,8 @@ const fetchDetails = async (animal, tag) => {
 const SearchRecord = () => {
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(true)
+  const [addDisease, setAddDisease] = useState(true)
+  const [addMilk, setAddMilk] = useState(true)
   const details = useRef(null)
 
   const navigate = useNavigate()
@@ -38,6 +40,7 @@ const SearchRecord = () => {
   const fetchDet = async () => {
     try {
       details.current = await fetchDetails(animal, tag)
+      console.log(details.current)
       setLoading(false)
     } catch (e) {
       if (e instanceof DataBaseError) {
@@ -57,17 +60,28 @@ const SearchRecord = () => {
     <>Loading</>
   ) : (
     <div>
-      <h1>Search record</h1>
-      {Object.entries(details.current).map(([key, value], index) => (
-        <p key={index}>
-          {key.toLocaleUpperCase()}{' '}
-          {key === 'disease' || key === 'pregnancy'
-            ? JSON.stringify(value[value.length - 1])
-            : JSON.stringify(value)}
-        </p>
-      ))}
-      <DiseaseForm disease={false} />
-      <AddMilkRecord />
+      <h1>
+        Tag number: {animal} {details.current.tag}
+      </h1>
+      <h2>
+        {new Date(details.current.purchaseDate).toLocaleDateString('hi-IN', {
+          month: 'long',
+          year: 'numeric',
+        })}{' '}
+        {details.current.seller} ki {details.current.vehicleNumber}N aayi
+      </h2>
+
+      <button onClick={() => setAddDisease(!addDisease)}>
+        Add/Update disease
+      </button>
+      <div hidden={addDisease}>
+        <DiseaseForm disease={false} />
+      </div>
+      <br />
+      <button onClick={() => setAddMilk(!addMilk)}>Add Milk</button>
+      <div hidden={addMilk}>
+        <AddMilkRecord />
+      </div>
     </div>
   )
 }
