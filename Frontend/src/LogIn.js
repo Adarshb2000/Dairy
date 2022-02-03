@@ -5,8 +5,8 @@ import { authentication } from './Helper'
 const LogIn = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [username, setUsername] = useState('password')
-  const [password, setPassword] = useState('password')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const formSubmit = async (e) => {
     e.preventDefault()
@@ -25,36 +25,40 @@ const LogIn = () => {
   return loading ? (
     <>Loading</>
   ) : (
-    <div>
-      {}
-      <div>
-        <div>LOGIN</div>
-        <form onSubmit={formSubmit}>
+    <div className="wrapper">
+      <div className="box1">
+        <div className="login-heading">LOGIN</div>
+        <form className="form1" onSubmit={formSubmit}>
           <div>
             <label htmlFor="Username">
-              Username
+              <span className="font-semibold">Username:</span>
               <input
+                className="inputs"
                 id="username"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={({ target }) => setUsername(target.value)}
                 value={username}
                 placeholder="username"
               />
             </label>
+          </div>
+          <div>
             <label htmlFor="Password">
-              Password
+              <span className="font-semibold">Password:</span>
               <input
+                className="inputs"
                 id="password"
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={({ target }) => setPassword(target.value)}
                 value={password}
                 placeholder="password"
               />
             </label>
           </div>
           <div>
-            <button>Submit</button>
+            <button className="buttons">Submit</button>
           </div>
         </form>
+        {/* <div className="avai"></div> */}
       </div>
     </div>
   )
