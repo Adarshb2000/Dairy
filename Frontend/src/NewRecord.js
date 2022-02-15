@@ -3,21 +3,23 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
 import { DataBaseError, TokenError } from './CustomErrors'
+import SelectElement from './SelectElement'
 const NewRecord = () => {
   const navigate = useNavigate()
-  const [animal, setAnimal] = useState('cow')
-  const [tag, setTag] = useState(1)
-  const [seller, setSeller] = useState('bleh')
+  const [tag, setTag] = useState(0)
+  const [seller, setSeller] = useState('')
   const [loading, setLoading] = useState(false)
-  const [vehicleNumber, setVehicleNumber] = useState('4')
-  const comments = useRef(['this is a comment'])
+  const [vehicleNumber, setVehicleNumber] = useState()
+  const comments = useRef([])
   const [currComment, setCurrComment] = useState('')
+  const [fr, setFr] = useState(false)
 
   return loading ? (
     <>Loading...</>
   ) : (
-    <div>
+    <div className="wrapper">
       <form
+        className="box0 bigbox w-5/6 bg-white"
         onSubmit={(event) => {
           event.preventDefault()
           setLoading(true)
@@ -36,22 +38,20 @@ const NewRecord = () => {
             })
         }}
       >
-        <h4> ADD RECORD </h4>
-        <label htmlFor="animal">
-          Animal
-          <select
-            id="animal"
-            name="animal"
-            defaultValue={null}
-            onChange={(e) => setAnimal(e.target.value)}
-          >
-            <option value="cow">Cow</option>
-            <option value="buffalo">Buffalo</option>
-          </select>
-        </label>
+        <h4 className="heading1"> ADD RECORD </h4>
+        <SelectElement
+          name="animal"
+          label="Animal:"
+          options={[
+            ['Cow', 'cow'],
+            ['Buffalo', 'buffalo'],
+          ]}
+          className="inputs"
+        />
         <label htmlFor="tag">
-          Tag No.
+          Tag No.:
           <input
+            className="inputs w-20"
             onChange={(e) => setTag(e.target.value)}
             value={tag}
             id="tag"
@@ -59,25 +59,25 @@ const NewRecord = () => {
             type="number"
           />
         </label>
-        <hr />
-        <label htmlFor="purchaseDate"></label>
         <label htmlFor="seller">
-          Seller
+          Seller:
           <input
+            className="inputs"
             onChange={(e) => setSeller(e.target.value)}
             id="seller"
             name="seller"
             value={seller}
           />
         </label>
-        <br />
-        <br />
-        <DateElement name="purchaseDate" />
-        <br />
-        <br />
+        <DateElement
+          label="Purchase Date:"
+          name="purchaseDate"
+          className="inputs max-w-min"
+        />
         <label htmlFor="vehicleNumber">
-          Vehicle Number{' '}
+          Vehicle No.:
           <input
+            className="inputs w-20"
             onChange={(e) => setVehicleNumber(e.target.value)}
             id="vehicleNumber"
             name="vehicleNumber"
@@ -85,32 +85,53 @@ const NewRecord = () => {
             value={vehicleNumber}
           />
         </label>
-        <br />
-        <br />
+
         <label htmlFor="comments">
-          Comments{' '}
-          <ul>
-            {comments.current.map((val, index) => (
-              <li key={index}>
-                {val}
-                <br />
-              </li>
-            ))}
-          </ul>
-          <textarea
-            onChange={(e) => setCurrComment(e.target.value)}
-            id="comments"
-            name="comments"
-          />
-          <button
-            type="button"
-            onClick={() => {
-              comments.current.push(currComment)
-              setCurrComment('')
-            }}
+          Comments:{' '}
+          <div
+            className="max-h-20 overflow-y-scroll"
+            hidden={!comments.current.length}
           >
-            add
-          </button>
+            <ul className="text-red1">
+              {fr ? '' : ''}
+              {comments.current.map((val, index) => (
+                <li
+                  key={index}
+                  onClick={(e) => {
+                    comments.current = comments.current.filter((val) => {
+                      return val !== e.target.innerText.trim()
+                    })
+                    setFr(!fr)
+                  }}
+                >
+                  {val}
+                  <br />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex-row">
+            <textarea
+              className="inputs"
+              onChange={(e) => setCurrComment(e.target.value)}
+              id="comments"
+              name="comments"
+              value={currComment}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (currComment) {
+                  comments.current.push(currComment)
+                  setCurrComment('')
+                } else {
+                  alert('Enter some comment')
+                }
+              }}
+            >
+              add
+            </button>
+          </div>
         </label>
         <button type="submit">Submit</button>
       </form>

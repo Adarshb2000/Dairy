@@ -1,6 +1,12 @@
 import { useState } from 'react'
 
-const SelectElement = ({ name, options, label, defaultValue = null }) => {
+const SelectElement = ({
+  name,
+  options,
+  label,
+  defaultValue = '',
+  className = '',
+}) => {
   const [variable, setVariable] = useState(defaultValue)
 
   return (
@@ -19,6 +25,7 @@ const SelectElement = ({ name, options, label, defaultValue = null }) => {
           onChange={({ target }) => setVariable(target.value)}
           onBlur={({ target }) => setVariable(target.value)}
           value={variable}
+          className={className}
         >
           <option value="" disabled>
             Select

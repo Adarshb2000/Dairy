@@ -4,6 +4,7 @@
 
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -22,6 +23,31 @@
   @apply md:h-2/5 md:w-2/3 lg:w-1/3;
 }
 
+.box2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  border-radius: 10px;
+
+  @apply h-2/5 w-screen md:w-3/4 bg-white;
+}
+.box3 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+  justify-content: space-evenly;
+  @apply sm:flex-row sm:justify-evenly sm:h-auto;
+}
+.datebox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 28%;
+  @apply sm:flex-row sm:justify-start sm:h-auto;
+}
 .form1 {
   display: flex;
   flex-direction: column;
@@ -33,24 +59,42 @@
   font-size: large;
 }
 
+.box0 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: left;
+  padding-left: 10%;
+
+  border-radius: 10px;
+}
+
+.bigbox {
+  height: 95%;
+}
+
 .login-heading {
-  flex-grow: 1;
-  flex-shrink: 1;
   text-align: center;
   font-size: xx-large;
-  color: theme('colors.red1');
-  font-weight: bold;
+  @apply text-red1 font-bold;
+}
+
+.heading1 {
+  max-height: min-content;
+  text-align: center;
+  font-size: x-large;
+  @apply text-red1 font-bold;
 }
 
 .inputs {
-  @apply ml-8 p-1 pl-2 bg-red1 text-white placeholder-grey1
+  @apply ml-6 p-1 pl-2 bg-red1 text-white placeholder-grey1
     rounded-md;
 }
 
 .buttons {
-  @apply bg-red1 px-1.5 py-0.5 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
+  @apply bg-red1 px-1.5 py-0.5 w-20 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
 }
 
-.avai {
-  @apply w-10 h-10;
+.buttons2 {
+  @apply bg-red1 px-1.5 py-0.5 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
 }
