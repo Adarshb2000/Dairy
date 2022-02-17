@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
-import { DataBaseError, TokenError } from './CustomErrors'
+import { TokenError } from './CustomErrors'
 import SelectElement from './SelectElement'
 const NewRecord = () => {
   const navigate = useNavigate()
@@ -22,10 +22,16 @@ const NewRecord = () => {
         className="box0 bigbox w-5/6 bg-white"
         onSubmit={(event) => {
           event.preventDefault()
+          var object
+          try {
+            object = objectForSubmission(event.target, {
+              comments: comments.current,
+            })
+          } catch (e) {
+            alert(e.message)
+            return
+          }
           setLoading(true)
-          const object = objectForSubmission(event.target, {
-            comments: comments.current,
-          })
           logDetails('/new-record', object)
             .then(console.log)
             .catch((e) => {
@@ -42,6 +48,7 @@ const NewRecord = () => {
         <SelectElement
           name="animal"
           label="Animal:"
+          required={true}
           options={[
             ['Cow', 'cow'],
             ['Buffalo', 'buffalo'],
@@ -52,11 +59,13 @@ const NewRecord = () => {
           Tag No.:
           <input
             className="inputs w-20"
+            required={true}
             onChange={(e) => setTag(e.target.value)}
             value={tag}
             id="tag"
             name="tag"
             type="number"
+            min={0}
           />
         </label>
         <label htmlFor="seller">
@@ -133,7 +142,9 @@ const NewRecord = () => {
             </button>
           </div>
         </label>
-        <button type="submit">Submit</button>
+        <button className="buttons justify-self-center" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   )

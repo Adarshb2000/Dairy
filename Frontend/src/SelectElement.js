@@ -6,6 +6,7 @@ const SelectElement = ({
   label,
   defaultValue = '',
   className = '',
+  required = false,
 }) => {
   const [variable, setVariable] = useState(defaultValue)
 
@@ -26,6 +27,7 @@ const SelectElement = ({
           onBlur={({ target }) => setVariable(target.value)}
           value={variable}
           className={className}
+          required={required}
         >
           <option value="" disabled>
             Select

@@ -1,4 +1,4 @@
-import DiseaseForm from './diseaseForm'
+import DiseaseForm from './DiseaseForm'
 
 const AddDiseaseRecord = () => {
   return (

@@ -64,7 +64,7 @@ const Home = () => {
       <br />
       <hr />
       <br />
-      <Link to="/add-milk">check here</Link>
+      <Link to="/add-milk">add milk record</Link>
       <button
         className="buttons2"
         onClick={() => {

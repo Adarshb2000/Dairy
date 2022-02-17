@@ -27,6 +27,10 @@ const objectForSubmission = (form, obj = {}) => {
   return Object.assign(
     Object.fromEntries(
       Array.from(form.getElementsByTagName('input')).map((element) => {
+        if (element.required) {
+          if (element.value === '' || element.value === '0')
+            throw new Error(`${element.name} required`)
+        }
         switch (element.type) {
           case 'number':
             return [element.name, parseFloat(element.value)]

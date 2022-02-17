@@ -4,7 +4,7 @@ import { DataBaseError, TokenError } from './CustomErrors'
 import { logout } from './Helper'
 import { api } from './config'
 import DiseaseForm from './DiseaseForm'
-import AddMilkRecord from './AddMilkRecord'
+import MilkForm from './MilkForm'
 
 const fetchDetails = async (animal, tag) => {
   const token = localStorage.getItem('token')
@@ -32,7 +32,7 @@ const SearchRecord = () => {
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(true)
   const [addDisease, setAddDisease] = useState(true)
-  const [addMilk, setAddMilk] = useState(true)
+  const [addMilk, setAddMilk] = useState(false)
   const details = useRef(null)
 
   const navigate = useNavigate()
@@ -58,31 +58,38 @@ const SearchRecord = () => {
   return loading ? (
     <>Loading</>
   ) : (
-    <div>
-      <h1>
-        Tag number: {animal} {details.current.tag}
-      </h1>
-      <h2>
-        {new Date(details.current.purchaseDate).toLocaleDateString('hi-IN', {
-          month: 'long',
-          year: 'numeric',
-        })}{' '}
-        {details.current.seller} ki {details.current.vehicleNumber}N aayi
-      </h2>
+    <div className="wrapper">
+      <div className="box0 bigbox w-5/6 bg-white justify-center">
+        <h1>
+          Tag number: {animal} {details.current.tag}
+        </h1>
+        <h2>
+          {new Date(details.current.purchaseDate).toLocaleDateString('hi-IN', {
+            month: 'long',
+            year: 'numeric',
+          })}{' '}
+          {details.current.seller} ki {details.current.vehicleNumber}N aayi
+        </h2>
 
-      <button onClick={() => setAddDisease(!addDisease)}>
-        Add/Update disease
-      </button>
-      <div hidden={addDisease}>
-        <DiseaseForm disease={false} />
+        <button onClick={() => setAddDisease(!addDisease)}>
+          Add/Update disease
+        </button>
+        <div hidden={addDisease}>
+          <DiseaseForm disease={false} />
+        </div>
+        <div className="flex flex-col justify-center">
+          <button
+            className="buttons2 w-24"
+            onClick={() => setAddMilk(!addMilk)}
+          >
+            Add Milk
+          </button>
+          <div hidden={addMilk}>
+            <MilkForm />
+          </div>
+        </div>
+        <Link to={'/'}>Home</Link>
       </div>
-      <br />
-      <button onClick={() => setAddMilk(!addMilk)}>Add Milk</button>
-      <div hidden={addMilk}>
-        <AddMilkRecord />
-      </div>
-      <br />
-      <Link to={'/'}>Home</Link>
     </div>
   )
 }
