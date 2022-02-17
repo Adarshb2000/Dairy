@@ -58,7 +58,6 @@ const LogIn = () => {
             <button className="buttons">Submit</button>
           </div>
         </form>
-        {/* <div className="avai"></div> */}
       </div>
     </div>
   )

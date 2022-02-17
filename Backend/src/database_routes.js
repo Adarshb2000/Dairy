@@ -51,6 +51,21 @@ router.post('/update', getTag, async (req, res) => {
 
 router.post('/add-pregnancy', getTag, async (req, res) => {
   const details = req.body
+  if (!details) {
+    res.sendStatus(400)
+    return
+  }
+  const cow = req.cow
+  cow.pregnancy.push({ ...details })
+})
+
+router.post('/add-complete-pregnancy', getTag, async (req, res) => {
+  const details = req.body
+  if (!details) {
+    res.status(400).json({ message: 'Bad request' })
+    return
+  }
+  details[completed] = true
   const cow = req.cow
   cow.pregnancy.push({ ...details })
   await cow.save()

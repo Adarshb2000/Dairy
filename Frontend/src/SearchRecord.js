@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { DataBaseError, TokenError } from './CustomErrors'
 import { logout } from './Helper'
 import { api } from './config'
@@ -40,11 +40,10 @@ const SearchRecord = () => {
   const fetchDet = async () => {
     try {
       details.current = await fetchDetails(animal, tag)
-      console.log(details.current)
       setLoading(false)
     } catch (e) {
       if (e instanceof DataBaseError) {
-        alert(e.message)
+        alert('No such record found')
         navigate('/', { replace: true })
       } else if (e instanceof TokenError) {
         logout(navigate)
@@ -82,6 +81,8 @@ const SearchRecord = () => {
       <div hidden={addMilk}>
         <AddMilkRecord />
       </div>
+      <br />
+      <Link to={'/'}>Home</Link>
     </div>
   )
 }

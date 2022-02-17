@@ -21,6 +21,7 @@ export const pregSchema = new mongoose.Schema({
     date: Date,
     gender: String,
   },
+  completed: Boolean,
 })
 
 export const vaccinationSchema = new mongoose.Schema({

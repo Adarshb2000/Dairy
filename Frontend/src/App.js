@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/new-record" element={<NewRecord />} />
         <Route path="/:animal/:tag" element={<SearchRecord />} />
         <Route
-          path="/add-pregnancy/:animal/:tag"
+          path="/add-complete-pregnancy/:animal/:tag"
           element={<AddPregnancyRecord />}
         />
         <Route
