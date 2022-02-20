@@ -7,6 +7,7 @@ import SearchRecord from './SearchRecord'
 import AddPregnancyRecord from './AddPregnancyRecord'
 import AddDiseaseRecord from './AddDiseaseRecord'
 import AddMilkRecord from './AddMilkRecord'
+import SearchRecordOurStyle from './SearchRecordOurStyle'
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/new-record" element={<NewRecord />} />
-        <Route path="/:animal/:tag" element={<SearchRecord />} />
+        <Route path="/:animal/:tag" element={<SearchRecordOurStyle />} />
         <Route
           path="/add-complete-pregnancy/:animal/:tag"
           element={<AddPregnancyRecord />}

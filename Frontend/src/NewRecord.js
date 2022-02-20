@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
 import { TokenError } from './CustomErrors'
@@ -20,28 +20,19 @@ const NewRecord = () => {
     <div className="wrapper">
       <form
         className="box0 bigbox w-5/6 bg-white"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault()
-          var object
+          setLoading(true)
+          const object = objectForSubmission(event.target, {
+            comments: comments.current,
+          })
           try {
-            object = objectForSubmission(event.target, {
-              comments: comments.current,
-            })
+            logDetails('/new-record', object)
+            navigate(`/${object.animal}/${object.tag}`)
           } catch (e) {
             alert(e.message)
             return
           }
-          setLoading(true)
-          logDetails('/new-record', object)
-            .then(console.log)
-            .catch((e) => {
-              console.log(e)
-              alert(e.message)
-              if (e instanceof TokenError) {
-                logout(navigate)
-              }
-              setLoading(false)
-            })
         }}
       >
         <h4 className="heading1"> ADD RECORD </h4>
@@ -71,18 +62,14 @@ const NewRecord = () => {
         <label htmlFor="seller">
           Seller:
           <input
-            className="inputs"
+            className="inputs w-3/5 sm:w-48"
             onChange={(e) => setSeller(e.target.value)}
             id="seller"
             name="seller"
             value={seller}
           />
         </label>
-        <DateElement
-          label="Purchase Date:"
-          name="purchaseDate"
-          className="inputs max-w-min"
-        />
+        <DateElement label="Purchase Date:" name="purchaseDate" />
         <label htmlFor="vehicleNumber">
           Vehicle No.:
           <input
@@ -128,6 +115,7 @@ const NewRecord = () => {
               value={currComment}
             />
             <button
+              className="text-red1 text-sm font-semibold border-2 border-red1 px-2 ml-2 rounded-md"
               type="button"
               onClick={() => {
                 if (currComment) {
@@ -138,7 +126,7 @@ const NewRecord = () => {
                 }
               }}
             >
-              add
+              Add
             </button>
           </div>
         </label>

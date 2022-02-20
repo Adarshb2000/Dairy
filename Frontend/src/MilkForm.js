@@ -35,35 +35,41 @@ const MilkForm = () => {
   return loading ? (
     <>Loading...</>
   ) : (
-    <form className="box4 " onSubmit={formSubmission}>
+    <form
+      className="box4 h-96 sm:h-60 bg-white rounded-xl mt-4 px-4 py-2"
+      onSubmit={formSubmission}
+    >
       {Object.keys(parameters).length === 0 ? (
-        <div>
-          <SelectElement
-            label="Animal"
-            name="animal"
-            defaultValue={''}
-            options={[
-              ['Cow', 'cow'],
-              ['Buffalo', 'buffalo'],
-            ]}
-          />
-          <label htmlFor="tag">
-            Tag No.
-            <input
-              onChange={(e) => setTag(e.target.value)}
-              value={tag}
-              id="tag"
-              name="tag"
-              type="number"
+        <div className="mb-2">
+          <div className="flex flex-col justify-start sm:flex-row p-4">
+            <SelectElement
+              label="Animal:"
+              name="animal"
+              defaultValue={''}
+              options={[
+                ['Cow', 'cow'],
+                ['Buffalo', 'buffalo'],
+              ]}
+              className="inputs"
             />
-          </label>
+            <label className="mt-2 sm:ml-16 sm:mt-0" htmlFor="tag">
+              Tag No.:
+              <input
+                onChange={(e) => setTag(e.target.value)}
+                value={tag}
+                id="tag"
+                name="tag"
+                type="number"
+                className="inputs w-20"
+              />
+            </label>
+          </div>
           <hr />
         </div>
       ) : (
         <></>
       )}
       <label htmlFor="lineNumber">
-        {' '}
         Line Number:
         <input
           className="inputs w-20"
@@ -77,7 +83,7 @@ const MilkForm = () => {
       </label>
       <DateElement label="Date:" name="date" className="inputs w-20" />
       <label htmlFor="milk">
-        Milk
+        Milk:
         <input
           className="inputs w-20"
           type="number"
@@ -88,9 +94,8 @@ const MilkForm = () => {
           onChange={({ target: { value } }) => setMilk(value)}
         />
       </label>
-      <button className="buttons" type="submit">
-        {' '}
-        Submit{' '}
+      <button className="buttons self-center" type="submit">
+        Submit
       </button>
     </form>
   )

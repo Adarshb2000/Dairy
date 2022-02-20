@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import DateElement from './DateElement'
 import SelectElement from './SelectElement'
@@ -16,6 +16,7 @@ const DiseaseForm = ({ disease = true }) => {
   const [loading, setLoading] = useState(false)
   const [vaccine, setVaccine] = useState('')
   const navigate = useNavigate()
+  const pathname = useLocation().pathname
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -23,7 +24,8 @@ const DiseaseForm = ({ disease = true }) => {
     const body = getObject(e.target)
     try {
       await logDetails(subRoute, body)
-      if (disease) navigate(`/${animal}/${tag}`, { replace: true })
+      if (pathname === `/add-disease/${animal}/${tag}`)
+        navigate(`/${animal}/${tag}`, { replace: true })
       else window.location.reload()
     } catch (e) {
       if (e instanceof TokenError) {
@@ -39,44 +41,47 @@ const DiseaseForm = ({ disease = true }) => {
   return loading ? (
     <>Loading...</>
   ) : (
-    <div>
-      <form onSubmit={formSubmission}>
-        <DateElement label="Date" name="date" />
-        <br />
-        <label htmlFor="doctor">
-          Doctor
-          <input
-            type="text"
-            name="doctor"
-            value={doctor}
-            onChange={({ target }) => {
-              setDoctor(target.value)
-            }}
-          />
-        </label>
-        <br />
-        <label htmlFor="vaccine">
-          {' '}
-          Vaccine
-          <input
-            type="text"
-            name="vaccine"
-            value={vaccine}
-            onChange={({ target }) => setVaccine(target.value)}
-          />
-        </label>
-        <SelectElement
-          name="cured"
-          options={[
-            ['Yes', true],
-            ['No', false],
-          ]}
-          label="Cured"
-          defaultValue={false}
+    <form
+      className="box4 h-96 sm:h-60 bg-white rounded-xl mt-4 px-4 py-2"
+      onSubmit={formSubmission}
+    >
+      <DateElement label="Date:" name="date" className="inputs w-20" />
+      <label htmlFor="doctor">
+        Doctor:
+        <input
+          type="text"
+          name="doctor"
+          className="inputs"
+          value={doctor}
+          onChange={({ target }) => {
+            setDoctor(target.value)
+          }}
         />
-        <button type="submit"> Submit </button>
-      </form>
-    </div>
+      </label>
+      <label htmlFor="vaccine">
+        Vaccine:
+        <input
+          type="text"
+          name="vaccine"
+          value={vaccine}
+          onChange={({ target }) => setVaccine(target.value)}
+          className="inputs w-20"
+        />
+      </label>
+      <SelectElement
+        name="cured"
+        options={[
+          ['Yes', true],
+          ['No', false],
+        ]}
+        label="Cured:"
+        defaultValue={false}
+        className="inputs"
+      />
+      <button className="buttons self-center" type="submit">
+        Submit
+      </button>
+    </form>
   )
 }
 

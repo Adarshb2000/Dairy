@@ -61,7 +61,7 @@ const logDetails = async (subRoute, body) => {
   } else {
     console.log(res)
     if (res.status === 409) {
-      throw new DataBaseError(res.message)
+      throw new Error(res.message)
     } else if ([408, 403, 400].includes(res.status)) {
       throw new TokenError(res.message)
     } else if (res.status === 500) {

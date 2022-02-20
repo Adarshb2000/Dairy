@@ -45,16 +45,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: max-content;
   justify-content: space-evenly;
-  @apply sm:flex-row sm:justify-evenly sm:h-auto;
+  @apply max-w-5xl;
 }
+
+
 .datebox {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  height: 28%;
-  @apply sm:flex-row sm:justify-start sm:h-auto;
+  justify-content: space-between;
+  @apply h-36 my-2 sm:flex-row sm:justify-start sm:h-auto;
 }
 .form1 {
   display: flex;
@@ -76,6 +76,14 @@
   border-radius: 10px;
 }
 
+.padding-left {
+  padding-left: 0%;
+}
+
+.box0-center {
+  align-items: center;
+}
+
 .bigbox {
   height: 95%;
 }
@@ -86,11 +94,34 @@
   @apply text-red1 font-bold;
 }
 
+.pregnancy-box {
+  @apply flex flex-col justify-evenly bg-rose-200 rounded-lg px-4 my-2 py-3;
+}
+
+.heading0 {
+  max-height: min-content;
+  text-align: center;
+  font-size: xx-large;
+  @apply text-red1 font-bold;
+}
+
 .heading1 {
   max-height: min-content;
   text-align: center;
   font-size: x-large;
   @apply text-red1 font-bold;
+}
+
+.bg-colour {
+  background-color: white;
+}
+.heading2 {
+  max-height: min-content;
+  @apply text-xl font-bold;
+}
+.heading3 {
+  max-height: min-content;
+  @apply text-lg font-bold;
 }
 
 .inputs {
@@ -104,4 +135,13 @@
 
 .buttons2 {
   @apply bg-red1 px-1.5 py-0.5 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
+}
+.justifying-start {
+  justify-content: start;
+}
+.bg-colour-green {
+  @apply bg-green1;
+}
+.bg-colour-red {
+  @apply bg-red-600;
 }

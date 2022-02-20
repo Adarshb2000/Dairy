@@ -1,19 +1,17 @@
 import { useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { DataBaseError, TokenError } from './CustomErrors'
-import DateElement from './DateElement'
 import { logDetails, logout, objectForSubmission } from './Helper'
-import SelectElement from './SelectElement'
+import CopulationForm from './pregnancy-forms/CopulationForm'
+import DeliveryForm from './pregnancy-forms/DeliveryForm'
+import ExaminationForm from './pregnancy-forms/ExaminationForm'
+import LactationForm from './pregnancy-forms/LactationForm'
 
 const AddPregnancyRecord = () => {
   const { animal, tag } = useParams()
   const { pathname: subRoute } = useLocation()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const [bullNumber, setBullNumber] = useState(0)
-  const [worker, setWorker] = useState('bleh')
-  const [number, setNumber] = useState(0)
-  const [doctor, setDoctor] = useState('bleh2')
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -58,102 +56,26 @@ const AddPregnancyRecord = () => {
   return loading ? (
     <>Loading... </>
   ) : (
-    <div>
-      <h1>Pregnancy Record</h1>
-      <h1>
-        Tag No: {tag} &nbsp; {animal}
-      </h1>
-      <form onSubmit={formSubmission}>
-        <div>
-          <h2>Uthi</h2>
-          <DateElement name="uthiDate" label="Date" />
-          <label htmlFor="bullNumber">
-            {' '}
-            BullNumber
-            <input
-              type="number"
-              value={bullNumber}
-              onChange={(e) => {
-                setBullNumber(e.target.value)
-              }}
-              min={0}
-              step={1}
-              name="bullNumber"
-            />
-          </label>
-          <br />
-          <label htmlFor="worker">
-            {' '}
-            Worker
-            <input
-              type="text"
-              value={worker}
-              onChange={({ target }) => setWorker(target.value)}
-              name="worker"
-            />
-          </label>
-          <br />
-        </div>
-        <div>
-          <h2>Test</h2>
-          <DateElement name="testDate" label="Date" />
-          <SelectElement
-            options={[
-              ['No', false],
-              ['Yes', true],
-            ]}
-            name="isPregnant"
-            defaultValue=""
-            label="Pregnant"
-          />
-          <br />
-          <label htmlFor="doctor">
-            {' '}
-            Doctor
-            <input
-              type="text"
-              value={doctor}
-              onChange={({ target }) => setDoctor(target.value)}
-              name="doctor"
-            />
-          </label>
-          <br />
-        </div>
-        <br />
-        <br />
-        <h2>Hurai</h2>
-        <DateElement name="lactationDate" label="Date" />
-        <br />
-        <div>
-          <h2>Delivery</h2>
-          <label htmlFor="number">
-            {' '}
-            Number
-            <input
-              min={0}
-              step={1}
-              type="number"
-              name="number"
-              value={number}
-              onChange={({ target }) => setNumber(target.value)}
-            />
-          </label>
-          <DateElement name="deliveryDate" label="Delivery" />
-          <br />
-          <SelectElement
-            name="gender"
-            options={[
-              ['Padiya', 'female'],
-              ['Pada', 'male'],
-            ]}
-            defaultValue=""
-            label={'Gender'}
-          />
-        </div>
-        <br />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+    <div className="wrapper">
+      <h1 className="heading1 pb-3">PREGNANCY RECORD</h1>
+      <div className="flex flex-col justify-start rounded-lg w-5/6 sm:pl-14 h-auto overflow-y-scroll bg-white px-4 pb-4">
+        <form className="flex flex-col sm:w-3/4" onSubmit={formSubmission}>
+          <h2 className="text-2xl text-red1 font-bold py-3 self">
+            {animal.toUpperCase()} &nbsp;{tag}
+          </h2>
+          <CopulationForm />
+          <ExaminationForm />
+          <LactationForm />
+          <DeliveryForm />
+
+          <button
+            className="buttons2 w-5/6 my-3 text-lg font-semibold self-center"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
