@@ -61,6 +61,7 @@ router.post('/add-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
   try {
+    console.log(details)
     animal.pregnancy.push({ ...details })
     await animal.save()
     res.status(201).json(animal)
@@ -73,11 +74,7 @@ router.post('/update-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
   try {
-    if (!animal.pregnancy.length) {
-      animal.pregnancy.push({ ...details })
-    } else {
-      Object.assign(animal.pregnancy[animal.pregnancy.length - 1], details)
-    }
+    Object.assign(animal.pregnancy[animal.pregnancy.length - 1], details)
     await animal.save()
     res.status(201).json(animal)
   } catch (e) {
