@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { host } from './config'
 import { logout } from './Helper'
 
 const Home = () => {
@@ -23,21 +24,21 @@ const Home = () => {
 
   const verifyToken = async () => {
     try {
-      const ret = await fetch('http://192.168.29.235:1235/api/verifyToken', {
+      const ret = await fetch(host, {
         headers: {
           'x-auth-token': localStorage.getItem('token'),
         },
       })
-      if (!ret.ok) throw new Error('Invalid')
-      // else setLoading(false)
+      if (!ret.ok) navigate('/login')
+      else setLoading(false)
     } catch (e) {
-      navigate('/login', { replace: true })
+      alert('Not connected to internet')
     }
   }
 
   useEffect(() => {
     verifyToken()
-  })
+  }, [])
 
   return loading ? (
     <>Loading...</>
@@ -45,7 +46,7 @@ const Home = () => {
     <div className="wrapper">
       <form className="box2" onSubmit={formSubmit}>
         <h4 className="heading1"> SEARCH RECORD </h4>
-        <div className="box3">
+        <div className="box3 px-2">
           <label htmlFor="animal">
             Animal:
             <select
@@ -79,23 +80,19 @@ const Home = () => {
           search
         </button>
       </form>
-      <hr />
-      <br />
-      <button className="buttons2">
-        <Link to={'/new-record'}>add new record</Link>
-      </button>
-      <br />
-      <hr />
-      <br />
-      <Link to="/cow/1">cow 1</Link>
-      <button
-        className="buttons2"
-        onClick={() => {
-          logout(navigate)
-        }}
-      >
-        logout
-      </button>
+      <div className="flex w-full justify-evenly my-4">
+        <button className="buttons2">
+          <Link to={'/new-record'}>add new record</Link>
+        </button>
+        <button
+          className="buttons2"
+          onClick={() => {
+            logout(navigate)
+          }}
+        >
+          logout
+        </button>
+      </div>
     </div>
   )
 }

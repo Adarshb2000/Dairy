@@ -1,22 +1,7 @@
 import mongoose from 'mongoose'
-import { diseaseSchema, milkSchema, pregSchema } from './database_schemas.js'
+import animalSchema from './animal_schema.js'
 
-const cowSchema = new mongoose.Schema({
-  tag: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  dateBought: Date,
-  vehicleNumber: Number,
-  seller: String,
-  comments: [String],
-  pregnancy: [pregSchema],
-  disease: [diseaseSchema],
-  milk: [milkSchema],
-})
-
-const Cows = mongoose.model('Cows', cowSchema)
+const Cows = mongoose.model('Cows', animalSchema)
 Cows.createIndexes({ tag: 1 })
 
 export default Cows

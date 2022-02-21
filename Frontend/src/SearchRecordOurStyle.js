@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import PregnancyDisplay from './PregnancyDisplay'
 import { DataBaseError, TokenError } from './CustomErrors'
-import { logout } from './Helper'
+import { deleteTag, logout } from './Helper'
 import { api } from './config'
 import DiseaseForm from './DiseaseForm'
 import MilkForm from './MilkForm'
@@ -45,6 +45,7 @@ const SearchRecordOurStyle = () => {
   const [milk, setMilk] = useState([])
   const [addPregnancy, setAddPregnancy] = useState(true)
   const [isPregnant, setIsPregnant] = useState(true)
+  const deleteTagConfirmation = useRef(false)
 
   const navigate = useNavigate()
 
@@ -153,7 +154,7 @@ const SearchRecordOurStyle = () => {
               </button>
               <Link
                 to={`/add-complete-pregnancy/${animal}/${tag}`}
-                className="buttons2 w-auto m-2"
+                className="buttons w-20 min-w-fit m-2"
               >
                 Add complete pregnancy
               </Link>
@@ -220,6 +221,23 @@ const SearchRecordOurStyle = () => {
                 Add Milk
               </button>
             </div>
+          </div>
+          <div className="flex flex-col-reverse sm:flex-row justify-evenly bg-rose-200 rounded-lg px-4 py-3 my-2 h-auto">
+            <Link to={'/'} className="buttons w-24 min-w-fit m-2">
+              &larr; Go back
+            </Link>
+            <button
+              onClick={async () => {
+                if (deleteTagConfirmation.current) deleteTag(animal, tag)
+                else {
+                  alert(`Are you sure you want to delete ${animal} ${tag}`)
+                  deleteTagConfirmation.current = true
+                }
+              }}
+              className="buttons delete-button"
+            >
+              Delete Tag
+            </button>
           </div>
         </div>
       </div>

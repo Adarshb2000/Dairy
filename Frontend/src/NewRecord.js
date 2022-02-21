@@ -19,7 +19,7 @@ const NewRecord = () => {
   ) : (
     <div className="wrapper">
       <form
-        className="box0 bigbox w-5/6 bg-white"
+        className="box0 bigbox w-screen bg-white min-h-fit sm:w-5/6"
         onSubmit={async (event) => {
           event.preventDefault()
           setLoading(true)
