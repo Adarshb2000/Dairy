@@ -151,6 +151,12 @@ const SearchRecordOurStyle = () => {
               >
                 {!isPregnant ? 'Add' : 'Update'} Pregnancy
               </button>
+              <Link
+                to={`/add-complete-pregnancy/${animal}/${tag}`}
+                className="buttons2 w-auto m-2"
+              >
+                Add complete pregnancy
+              </Link>
             </div>
           </div>
           <div className="pregnancy-box h-auto">

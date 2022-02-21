@@ -5,8 +5,8 @@ import { authentication } from './Helper'
 const LogIn = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState()
 
   const formSubmit = async (e) => {
     e.preventDefault()
@@ -26,7 +26,7 @@ const LogIn = () => {
     <>Loading</>
   ) : (
     <div className="wrapper">
-      <div className="box1">
+      <div className="box1 height-auto">
         <div className="login-heading">LOGIN</div>
         <form className="form1" onSubmit={formSubmit}>
           <div>

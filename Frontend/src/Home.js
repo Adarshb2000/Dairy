@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { logout } from './Helper'
+
 const Home = () => {
   const navigate = useNavigate()
   const [animal, setAnimal] = useState()
   const [tag, setTag] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   const formSubmit = async (e) => {
     //search for a record
@@ -18,7 +20,28 @@ const Home = () => {
       alert('invalid tag number')
     }
   }
-  return (
+
+  const verifyToken = async () => {
+    try {
+      const ret = await fetch('http://192.168.29.235:1235/api/verifyToken', {
+        headers: {
+          'x-auth-token': localStorage.getItem('token'),
+        },
+      })
+      if (!ret.ok) throw new Error('Invalid')
+      // else setLoading(false)
+    } catch (e) {
+      navigate('/login', { replace: true })
+    }
+  }
+
+  useEffect(() => {
+    verifyToken()
+  })
+
+  return loading ? (
+    <>Loading...</>
+  ) : (
     <div className="wrapper">
       <form className="box2" onSubmit={formSubmit}>
         <h4 className="heading1"> SEARCH RECORD </h4>

@@ -37,6 +37,7 @@ const AddPregnancyRecord = () => {
         date: data.deliveryDate,
         gender: data.gender,
       },
+      completed: true,
     }
     try {
       const sentData = await logDetails(subRoute, pregnancyData)

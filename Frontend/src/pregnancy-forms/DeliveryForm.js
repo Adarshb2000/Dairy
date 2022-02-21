@@ -3,7 +3,7 @@ import DateElement from '../DateElement'
 import SelectElement from '../SelectElement'
 
 const DeliveryForm = () => {
-  const [number, setNumber] = useState(0)
+  const [number, setNumber] = useState()
 
   return (
     <div className="pregnancy-box h-64 sm:h-48">
