@@ -26,7 +26,7 @@ const LogIn = () => {
     <>Loading</>
   ) : (
     <div className="wrapper">
-      <div className="box1">
+      <div className="box1 min-h-auto">
         <div className="login-heading">LOGIN</div>
         <form className="form1" onSubmit={formSubmit}>
           <div>

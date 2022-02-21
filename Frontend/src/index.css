@@ -133,6 +133,11 @@
   @apply bg-red1 px-1.5 py-0.5 w-20 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
 }
 
+.delete-button {
+  background-color: #ff0f0f;
+  @apply min-w-fit w-24 border-0;
+}
+
 .buttons2 {
   @apply bg-red1 px-1.5 py-0.5 border-red1 border-2 text-white rounded-3xl hover:bg-white hover:border-red1 hover:text-red1 hover:font-bold;
 }

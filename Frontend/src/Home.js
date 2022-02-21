@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { host } from './config'
 import { logout } from './Helper'
 const Home = () => {
   const navigate = useNavigate()
   const [animal, setAnimal] = useState()
   const [tag, setTag] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   const formSubmit = async (e) => {
     //search for a record
@@ -18,11 +20,32 @@ const Home = () => {
       alert('invalid tag number')
     }
   }
-  return (
+
+  const verifyToken = async () => {
+    try {
+      const ret = await fetch(host, {
+        headers: {
+          'x-auth-token': localStorage.getItem('token'),
+        },
+      })
+      if (!ret.ok) navigate('/login')
+      else setLoading(false)
+    } catch (e) {
+      alert('Not connected to internet')
+    }
+  }
+
+  useEffect(() => {
+    verifyToken()
+  }, [])
+
+  return loading ? (
+    <>Loading...</>
+  ) : (
     <div className="wrapper">
       <form className="box2" onSubmit={formSubmit}>
         <h4 className="heading1"> SEARCH RECORD </h4>
-        <div className="box3">
+        <div className="box3 px-2">
           <label htmlFor="animal">
             Animal:
             <select
@@ -56,23 +79,19 @@ const Home = () => {
           search
         </button>
       </form>
-      <hr />
-      <br />
-      <button className="buttons2">
-        <Link to={'/new-record'}>add new record</Link>
-      </button>
-      <br />
-      <hr />
-      <br />
-      <Link to="/cow/1">cow 1</Link>
-      <button
-        className="buttons2"
-        onClick={() => {
-          logout(navigate)
-        }}
-      >
-        logout
-      </button>
+      <div className="flex w-full justify-evenly my-4">
+        <button className="buttons2">
+          <Link to={'/new-record'}>add new record</Link>
+        </button>
+        <button
+          className="buttons2"
+          onClick={() => {
+            logout(navigate)
+          }}
+        >
+          logout
+        </button>
+      </div>
     </div>
   )
 }

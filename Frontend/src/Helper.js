@@ -6,6 +6,20 @@ const logout = (navigate) => {
   navigate('/login', { replace: true })
 }
 
+const deleteTag = async (animal, tag) => {
+  const ret = await fetch(`${api}/delete/${animal}/${tag}`, {
+    method: 'DELETE',
+    headers: {
+      'x-auth-token': localStorage.getItem('token'),
+    },
+  })
+  if (ret.ok) {
+    return true
+  } else {
+    throw new Error('Could not delete tag')
+  }
+}
+
 const authentication = async (username, password) => {
   const data = { username: username, password: password }
   const res = await fetch(`${host}/auth`, {
@@ -70,4 +84,4 @@ const logDetails = async (subRoute, body) => {
   }
 }
 
-export { authentication, logout, logDetails, objectForSubmission }
+export { authentication, logout, logDetails, objectForSubmission, deleteTag }

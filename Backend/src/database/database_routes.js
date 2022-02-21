@@ -14,8 +14,11 @@ const removeProperties = (obj) => {
 router.post('/new-record', async (req, res) => {
   const details = req.body
   try {
-    const cow = await Cows.create({ ...details })
-    res.status(201).json(cow)
+    const animal =
+      details.animal === 'cow'
+        ? await Cows.create({ ...details })
+        : await Buffalos.create({ ...details })
+    res.status(201).json(animal)
   } catch (e) {
     if (e.code === 11000) {
       res.status(409).json({ message: 'Tag already present' })
@@ -140,11 +143,12 @@ router.post('/update-disease/:animal/:tag', getAnimal, async (req, res) => {
   }
 })
 
-router.get('/all', async (req, res) => {
-  res.json(await Cows.find())
+router.delete('/delete/:animal/:tag', getAnimal, async (req, res) => {
+  const animal = req.animal
+  console.log(animal)
+  res.json(201)
 })
 
-router.delete('/all', async (req, res) => {
-  await Cows.deleteMany()
-  res.sendStatus(200)
+router.get('/all', async (req, res) => {
+  res.json(await Cows.find())
 })
