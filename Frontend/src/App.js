@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom'
+import { StrictMode } from 'react'
 import Home from './Home'
 import LogIn from './LogIn'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import NewRecord from './NewRecord'
-import SearchRecord from './SearchRecord'
 import AddPregnancyRecord from './AddPregnancyRecord'
 import AddDiseaseRecord from './AddDiseaseRecord'
 import AddMilkRecord from './AddMilkRecord'
@@ -15,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="/new-record/:animal/:tag" element={<NewRecord />} />
         <Route path="/new-record" element={<NewRecord />} />
         <Route path="/:animal/:tag" element={<SearchRecordOurStyle />} />
         <Route
@@ -30,4 +31,9 @@ const App = () => {
     </Router>
   )
 }
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById('root')
+)

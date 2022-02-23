@@ -26,6 +26,7 @@ const Home = () => {
     try {
       const ret = await fetch(host, {
         headers: {
+          'Content-Type': 'application/json',
           'x-auth-token': localStorage.getItem('token'),
         },
       })
@@ -44,7 +45,7 @@ const Home = () => {
     <>Loading...</>
   ) : (
     <div className="wrapper">
-      <form className="box2" onSubmit={formSubmit}>
+      <form className="box2 h-screen" onSubmit={formSubmit}>
         <h4 className="heading1"> SEARCH RECORD </h4>
         <div className="box3 px-2">
           <label htmlFor="animal">

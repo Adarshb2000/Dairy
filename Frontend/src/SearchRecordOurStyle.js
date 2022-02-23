@@ -52,7 +52,6 @@ const SearchRecordOurStyle = () => {
   const fetchDet = async () => {
     try {
       details.current = await fetchDetails(animal, tag)
-      console.log(details.current)
       setIsPregnant(
         !(
           !details.current.pregnancy.length ||
@@ -69,8 +68,7 @@ const SearchRecordOurStyle = () => {
       setLoading(false)
     } catch (e) {
       if (e instanceof DataBaseError) {
-        alert('No such record found')
-        navigate('/', { replace: true })
+        setLoading(false)
       } else if (e instanceof TokenError) {
         logout(navigate)
       } else console.log(e)
@@ -83,7 +81,7 @@ const SearchRecordOurStyle = () => {
 
   return loading ? (
     <>Loading</>
-  ) : (
+  ) : details.current ? (
     <div className="wrapper overflow-auto">
       <div className="flex flex-col h-screen bg-white sm:w-5/6 mt-8 rounded-xl w-screen">
         <div className="flex relative justify-center py-2">
@@ -228,8 +226,12 @@ const SearchRecordOurStyle = () => {
             </Link>
             <button
               onClick={async () => {
-                if (deleteTagConfirmation.current) deleteTag(animal, tag)
-                else {
+                if (deleteTagConfirmation.current) {
+                  if (await deleteTag(animal, tag)) {
+                    alert('Success!')
+                    navigate('/', { replace: true })
+                  }
+                } else {
                   alert(`Are you sure you want to delete ${animal} ${tag}`)
                   deleteTagConfirmation.current = true
                 }
@@ -239,6 +241,20 @@ const SearchRecordOurStyle = () => {
               Delete Tag
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="wrapper">
+      <div className="flex rounded-xl bg-white p-4">
+        <div className="pregnancy-box h-auto">
+          <h4 className="heading1">Record not found</h4>
+          <Link
+            to={`/new-record/${animal}/${tag}`}
+            className="buttons w-auto self-center"
+          >
+            Add it!
+          </Link>
         </div>
       </div>
     </div>

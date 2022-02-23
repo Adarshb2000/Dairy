@@ -1,12 +1,14 @@
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
-import { TokenError } from './CustomErrors'
 import SelectElement from './SelectElement'
+
 const NewRecord = () => {
+  const params = useParams()
+  const [tag, setTag] = useState(params.tag || '')
+  const animal = params.animal || ''
   const navigate = useNavigate()
-  const [tag, setTag] = useState(0)
   const [seller, setSeller] = useState('')
   const [loading, setLoading] = useState(false)
   const [vehicleNumber, setVehicleNumber] = useState()
@@ -28,7 +30,7 @@ const NewRecord = () => {
           })
           try {
             logDetails('/new-record', object)
-            navigate(`/${object.animal}/${object.tag}`)
+            navigate(`/${object.animal}/${object.tag}`, { replace: true })
           } catch (e) {
             alert(e.message)
             return
@@ -45,6 +47,7 @@ const NewRecord = () => {
             ['Buffalo', 'buffalo'],
           ]}
           className="inputs"
+          defaultValue={animal}
         />
         <label htmlFor="tag">
           Tag No.:
@@ -130,7 +133,7 @@ const NewRecord = () => {
             </button>
           </div>
         </label>
-        <button className="buttons justify-self-center" type="submit">
+        <button className="buttons w-auto" type="submit">
           Submit
         </button>
       </form>

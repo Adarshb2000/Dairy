@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
+import { host } from '../config.js'
 
 export const connect = async () => {
   await mongoose
-    .connect('mongodb://localhost:27017/dairy')
+    .connect(`mongodb://${host}:27017/dairy`)
     .then(() => {
       console.log('connected')
     })

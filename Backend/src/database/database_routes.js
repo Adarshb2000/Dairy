@@ -144,8 +144,10 @@ router.post('/update-disease/:animal/:tag', getAnimal, async (req, res) => {
 })
 
 router.delete('/delete/:animal/:tag', getAnimal, async (req, res) => {
-  const animal = req.animal
-  console.log(animal)
+  const { animal, tag } = req.params
+  animal == 'cow'
+    ? await Cows.deleteOne({ tag: tag })
+    : await Buffalos.deleteOne({ tag: tag })
   res.json(201)
 })
 

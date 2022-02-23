@@ -5,8 +5,8 @@ import { authentication } from './Helper'
 const LogIn = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [username, setUsername] = useState()
-  const [password, setPassword] = useState()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const formSubmit = async (e) => {
     e.preventDefault()
@@ -34,10 +34,13 @@ const LogIn = () => {
               <span className="font-semibold">Username:</span>
               <input
                 className="inputs"
-                id="username"
-                onChange={({ target }) => setUsername(target.value)}
+                onChange={({ target }) =>
+                  setUsername(target.value.toLowerCase())
+                }
                 value={username}
+                autoCapitalize="none"
                 placeholder="username"
+                autoFocus={true}
               />
             </label>
           </div>

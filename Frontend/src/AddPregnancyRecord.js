@@ -40,8 +40,7 @@ const AddPregnancyRecord = () => {
       completed: true,
     }
     try {
-      const sentData = await logDetails(subRoute, pregnancyData)
-      console.log(sentData)
+      await logDetails(subRoute, pregnancyData)
       navigate(`/${animal}/${tag}`, { replace: true })
     } catch (e) {
       if (e instanceof TokenError) {

@@ -2,7 +2,6 @@
   "name": "dairy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "dependencies": {
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.6",
@@ -25,6 +24,7 @@
   },
   "scripts": {
     "dev": "parcel src/index.html --host 192.168.29.235",
+    "build": "parcel build src/index.html",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
   },
