@@ -69,12 +69,12 @@ const logDetails = async (subRoute, body) => {
     },
     body: JSON.stringify(body),
   })
+  const ret = await res.json()
   if (res.ok) {
-    const ret = await res.json()
     return ret
   } else {
     if (res.status === 409) {
-      throw new Error(res.message)
+      throw new DataBaseError(ret.message)
     } else if ([408, 403, 400].includes(res.status)) {
       throw new TokenError(res.message)
     } else if (res.status === 500) {

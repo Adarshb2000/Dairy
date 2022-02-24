@@ -82,18 +82,19 @@ const SearchRecordOurStyle = () => {
   return loading ? (
     <>Loading</>
   ) : details.current ? (
-    <div className="wrapper overflow-auto">
-      <div className="flex flex-col h-screen bg-white sm:w-5/6 mt-8 rounded-xl w-screen">
+    <div className="wrapper medium">
+      <div className="search-record-container">
         <div className="flex relative justify-center py-2">
           <div className="heading0 self-end mt-4">{animal.toUpperCase()}</div>
           <div className="absolute right-6 text-7xl font-bold text-red1">
             {details.current.tag}
           </div>
         </div>
-        <div className="flex flex-col justify-evenly px-8 bigbox justifying-start overflow-x-hidden overflow-y-scroll w-auto ">
+        <div className="flex-column justify-evenly px-3.5 sm:px-8 h-auto">
+          {/* Basic Information */}
           <div className="pregnancy-box h-48">
             <h2 className="heading2">PURCHASE</h2>
-            <div className="pregnancy-box bg-colour h-24 m-2">
+            <div className="pregnancy-box bg-colour h-24 m-2 overflow-y-auto">
               <label htmlFor="date">
                 Date:{' '}
                 <span>
@@ -115,6 +116,8 @@ const SearchRecordOurStyle = () => {
               </label>
             </div>
           </div>
+
+          {/* Pregnancy information */}
           <div className="pregnancy-box h-auto">
             <h2 className="heading2">PREGNANCY</h2>
             <div className="divide-y-4 divide-white">
@@ -129,7 +132,7 @@ const SearchRecordOurStyle = () => {
                 }
               />
             </div>
-            <div className="flex justify-center">
+            <div className="flex-column xs:min-h-[70px]">
               <button
                 onClick={() => {
                   setPreg(
@@ -140,13 +143,19 @@ const SearchRecordOurStyle = () => {
                   scrollTo({ top: 0 })
                 }}
                 hidden={!(details.current.pregnancy.length > 1)}
-                className="buttons w-44 self-center"
+                className="buttons2 min-w-fit"
               >
                 {preg.length > 1 ? 'hide' : 'show all'}
               </button>
               <button
-                onClick={() => setAddPregnancy(!addPregnancy)}
-                className="buttons2 w-auto m-2"
+                onClick={() => {
+                  if (addPregnancy) {
+                    setAddMilk(addPregnancy)
+                    setAddDisease(addPregnancy)
+                  }
+                  setAddPregnancy(!addPregnancy)
+                }}
+                className="buttons2 w-fit m-2"
               >
                 {!isPregnant ? 'Add' : 'Update'} Pregnancy
               </button>
@@ -158,6 +167,8 @@ const SearchRecordOurStyle = () => {
               </Link>
             </div>
           </div>
+
+          {/* Disease information */}
           <div className="pregnancy-box h-auto">
             <h2 className="heading2">DISEASE</h2>
             <div className="divide-y-4 divide-white">
@@ -188,13 +199,21 @@ const SearchRecordOurStyle = () => {
                 {disease.length > 1 ? 'hide' : 'show all'}
               </button>
               <button
-                onClick={() => setAddDisease(!addDisease)}
+                onClick={() => {
+                  if (addDisease) {
+                    setAddPregnancy(addDisease)
+                    setAddMilk(addDisease)
+                  }
+                  setAddDisease(!addDisease)
+                }}
                 className="buttons2 w-auto m-2"
               >
                 {isCured ? 'Add' : 'Update'} disease
               </button>
             </div>
           </div>
+
+          {/* Milk information */}
           <div className="pregnancy-box h-auto">
             <h2 className="heading2">MILK RECORD</h2>
             <MilkDisplay info={milk.slice(0, milkDisplay)} />
@@ -214,13 +233,19 @@ const SearchRecordOurStyle = () => {
               </button>
               <button
                 className="buttons2 w-24 m-2"
-                onClick={() => setAddMilk(!addMilk)}
+                onClick={() => {
+                  if (addMilk) {
+                    setAddPregnancy(addMilk)
+                    setAddDisease(addMilk)
+                  }
+                  setAddMilk(!addMilk)
+                }}
               >
                 Add Milk
               </button>
             </div>
           </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-evenly bg-rose-200 rounded-lg px-4 py-3 my-2 h-auto">
+          <div className="flex flex-col-reverse sm:flex-row justify-evenly items-center bg-rose-200 rounded-lg px-4 py-3 my-2 h-auto">
             <Link to={'/'} className="buttons w-24 min-w-fit m-2">
               &larr; Go back
             </Link>
@@ -234,9 +259,13 @@ const SearchRecordOurStyle = () => {
                 } else {
                   alert(`Are you sure you want to delete ${animal} ${tag}`)
                   deleteTagConfirmation.current = true
+                  setTimeout(
+                    () => (deleteTagConfirmation.current = false),
+                    2000
+                  )
                 }
               }}
-              className="buttons delete-button"
+              className="delete-button"
             >
               Delete Tag
             </button>

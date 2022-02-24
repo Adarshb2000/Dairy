@@ -9,6 +9,18 @@ module.exports = {
         red1: '#b41d1d',
         green1: '#00cc00',
       },
+      screens: {
+        xs: '480px',
+        xshort: {
+          raw: '(max-height: 480px)',
+        },
+        short: {
+          raw: '(max-height: 640px)',
+        },
+        medium: {
+          raw: '(max-height: 768px)',
+        },
+      },
     },
   },
   plugins: [],

@@ -55,7 +55,7 @@ const PregnancyForm = ({ lastPregnancy }) => {
     <>Loading...</>
   ) : (
     <form
-      className="box4 h-96 sm:h-60 bg-white rounded-xl mt-4 px-4 py-2"
+      className="box4 h-96 sm:h-60 min-h-fit bg-white rounded-xl mt-4 px-4 py-2"
       onSubmit={formSubmission}
     >
       {phases[phase]}

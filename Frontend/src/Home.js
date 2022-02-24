@@ -44,10 +44,10 @@ const Home = () => {
   return loading ? (
     <>Loading...</>
   ) : (
-    <div className="wrapper">
-      <form className="box2 h-screen" onSubmit={formSubmit}>
+    <div className="wrapper extra-short">
+      <form className="home-container" onSubmit={formSubmit}>
         <h4 className="heading1"> SEARCH RECORD </h4>
-        <div className="box3 px-2">
+        <div className="responsive-box min-h-[80px]">
           <label htmlFor="animal">
             Animal:
             <select
@@ -67,7 +67,7 @@ const Home = () => {
           <label htmlFor="tag">
             Tag No.:
             <input
-              className="inputs"
+              className="inputs w-20"
               onChange={(e) => setTag(e.target.value)}
               id="tag"
               name="Tag"
@@ -80,20 +80,21 @@ const Home = () => {
         <button className="buttons" type="submit">
           search
         </button>
+        <div className="border-t-2 border-grey1 w-full h-0"></div>
+        <div className="responsive-box min-h-[70px]">
+          <button className="buttons2 h-fit w-fit">
+            <Link to={'/new-record'}>add new record</Link>
+          </button>
+          <button
+            className="buttons2 h-fit w-fit"
+            onClick={() => {
+              logout(navigate)
+            }}
+          >
+            logout
+          </button>
+        </div>
       </form>
-      <div className="flex w-full justify-evenly my-4">
-        <button className="buttons2">
-          <Link to={'/new-record'}>add new record</Link>
-        </button>
-        <button
-          className="buttons2"
-          onClick={() => {
-            logout(navigate)
-          }}
-        >
-          logout
-        </button>
-      </div>
     </div>
   )
 }

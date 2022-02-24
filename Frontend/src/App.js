@@ -8,6 +8,7 @@ import AddPregnancyRecord from './AddPregnancyRecord'
 import AddDiseaseRecord from './AddDiseaseRecord'
 import AddMilkRecord from './AddMilkRecord'
 import SearchRecordOurStyle from './SearchRecordOurStyle'
+import Test from './Test'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           element={<AddDiseaseRecord />}
         />
         <Route path="/add-milk" element={<AddMilkRecord />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   )

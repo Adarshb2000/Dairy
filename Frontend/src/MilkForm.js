@@ -9,7 +9,7 @@ const MilkForm = () => {
   const parameters = useParams()
   const [lineNumber, setLineNumber] = useState(0)
   const [milk, setMilk] = useState(0)
-  const [animal, setAnimal] = useState(parameters.animal || '')
+  const animal = useState(parameters.animal || '')
   const navigate = useNavigate()
   const [tag, setTag] = useState(parameters.tag || 0)
   const [loading, setLoading] = useState(false)
@@ -17,8 +17,9 @@ const MilkForm = () => {
     e.preventDefault()
     setLoading(true)
     try {
+      const object = objectForSubmission(e.target)
       const res = await logDetails(
-        `/add-milk/${animal}/${tag}`,
+        `/add-milk/${animal || object.animal}/${tag}`,
         objectForSubmission(e.target)
       )
       window.location.reload()
@@ -41,7 +42,7 @@ const MilkForm = () => {
     >
       {Object.keys(parameters).length === 0 ? (
         <div className="mb-2">
-          <div className="flex flex-col justify-start sm:flex-row p-4">
+          <div className="flex-column justify-start sm:flex-row p-4">
             <SelectElement
               label="Animal:"
               name="animal"

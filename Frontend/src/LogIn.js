@@ -25,43 +25,39 @@ const LogIn = () => {
   return loading ? (
     <>Loading</>
   ) : (
-    <div className="wrapper">
-      <div className="box1 min-h-auto">
-        <div className="login-heading">LOGIN</div>
-        <form className="form1" onSubmit={formSubmit}>
-          <div>
-            <label htmlFor="Username">
-              <span className="font-semibold">Username:</span>
-              <input
-                className="inputs"
-                onChange={({ target }) =>
-                  setUsername(target.value.toLowerCase())
-                }
-                value={username}
-                autoCapitalize="none"
-                placeholder="username"
-                autoFocus={true}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="Password">
-              <span className="font-semibold">Password:</span>
-              <input
-                className="inputs"
-                id="password"
-                type="password"
-                onChange={({ target }) => setPassword(target.value)}
-                value={password}
-                placeholder="password"
-              />
-            </label>
-          </div>
-          <div>
-            <button className="buttons">Submit</button>
-          </div>
-        </form>
-      </div>
+    <div className="wrapper extra-short">
+      <form className="login-container" onSubmit={formSubmit}>
+        <div className="heading0">LOGIN</div>
+        <div>
+          <label htmlFor="Username">
+            <span className="font-semibold">Username:</span>
+            <input
+              className="inputs min-w-[100px] max-w-[250px] w-3/5"
+              onChange={({ target }) => setUsername(target.value.toLowerCase())}
+              value={username}
+              autoCapitalize="none"
+              placeholder="username"
+              autoFocus={true}
+            />
+          </label>
+        </div>
+        <div>
+          <label htmlFor="Password">
+            <span className="font-semibold">Password:</span>
+            <input
+              className="inputs min-w-[100px] max-w-[250px] w-3/5"
+              id="password"
+              type="password"
+              onChange={({ target }) => setPassword(target.value)}
+              value={password}
+              placeholder="password"
+            />
+          </label>
+        </div>
+        <div>
+          <button className="buttons">Submit</button>
+        </div>
+      </form>
     </div>
   )
 }

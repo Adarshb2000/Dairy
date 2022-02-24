@@ -58,8 +58,8 @@ const AddPregnancyRecord = () => {
   ) : (
     <div className="wrapper">
       <h1 className="heading1 pb-3">PREGNANCY RECORD</h1>
-      <div className="flex flex-col justify-start rounded-lg w-5/6 sm:pl-14 h-auto overflow-y-scroll bg-white px-4 pb-4">
-        <form className="flex flex-col sm:w-3/4" onSubmit={formSubmission}>
+      <div className="flex-column justify-start rounded-lg w-5/6 sm:pl-14 h-auto overflow-y-scroll bg-white px-4 pb-4">
+        <form className="flex-column sm:w-3/4" onSubmit={formSubmission}>
           <h2 className="text-2xl text-red1 font-bold py-3 self">
             {animal.toUpperCase()} &nbsp;{tag}
           </h2>

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
 import SelectElement from './SelectElement'
+import { DataBaseError, TokenError } from './CustomErrors'
 
 const NewRecord = () => {
   const params = useParams()
@@ -19,9 +20,9 @@ const NewRecord = () => {
   return loading ? (
     <>Loading...</>
   ) : (
-    <div className="wrapper">
+    <div className="wrapper medium">
       <form
-        className="box0 bigbox w-screen bg-white min-h-fit sm:w-5/6"
+        className="new-record-container"
         onSubmit={async (event) => {
           event.preventDefault()
           setLoading(true)
@@ -29,10 +30,16 @@ const NewRecord = () => {
             comments: comments.current,
           })
           try {
-            logDetails('/new-record', object)
+            await logDetails('/new-record', object)
             navigate(`/${object.animal}/${object.tag}`, { replace: true })
           } catch (e) {
             alert(e.message)
+            if (e instanceof DataBaseError)
+              navigate(`/${object.animal}/${object.tag}`, { replace: true })
+            else if (e instanceof TokenError) {
+              logout(navigate)
+              navigate('/login', { replace: true })
+            }
             return
           }
         }}
@@ -65,7 +72,7 @@ const NewRecord = () => {
         <label htmlFor="seller">
           Seller:
           <input
-            className="inputs w-3/5 sm:w-48"
+            className="inputs w-3/5 max-w-[192px]"
             onChange={(e) => setSeller(e.target.value)}
             id="seller"
             name="seller"

@@ -1,6 +1,10 @@
 import { useState } from 'react'
 
-const DateElement = ({ label, name, className = 'inputs w-20' }) => {
+const DateElement = ({
+  label,
+  name,
+  className = 'inputs max-w-fit max-h-fit',
+}) => {
   const currYear = new Date().getFullYear()
   const years = Array.from({ length: currYear - 2000 + 1 }).map(
     (_, index) => currYear - index
