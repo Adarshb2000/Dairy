@@ -95,25 +95,37 @@ const SearchRecordOurStyle = () => {
           <div className="pregnancy-box h-48">
             <h2 className="heading2">PURCHASE</h2>
             <div className="pregnancy-box bg-colour h-24 m-2 overflow-y-auto">
-              <label htmlFor="date">
-                Date:{' '}
-                <span>
-                  {new Date(details.current.purchaseDate).toLocaleDateString(
-                    'hi-IN',
-                    {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    }
-                  )}
-                </span>
-              </label>
-              <label htmlFor="seller">
-                Seller: <span>{details.current.seller}</span>
-              </label>
-              <label htmlFor="vehicleNumber">
-                Vehicle Number: <span>{details.current.vehicleNumber}</span>
-              </label>
+              {details.current.purchaseDate ? (
+                <label htmlFor="date">
+                  Date:{' '}
+                  <span>
+                    {new Date(details.current.purchaseDate).toLocaleDateString(
+                      'hi-IN',
+                      {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      }
+                    )}
+                  </span>
+                </label>
+              ) : (
+                <></>
+              )}
+              {details.current.seller ? (
+                <label htmlFor="seller">
+                  Seller: <span>{details.current.seller}</span>
+                </label>
+              ) : (
+                <></>
+              )}
+              {details.current.vehicleNumber ? (
+                <label htmlFor="vehicleNumber">
+                  Vehicle Number: <span>{details.current.vehicleNumber}</span>
+                </label>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
 
@@ -135,20 +147,6 @@ const SearchRecordOurStyle = () => {
             <div className="flex-column xs:min-h-[70px]">
               <button
                 onClick={() => {
-                  setPreg(
-                    preg.length === 1
-                      ? details.current.pregnancy
-                      : details.current.pregnancy.slice(-1)
-                  )
-                  scrollTo({ top: 0 })
-                }}
-                hidden={!(details.current.pregnancy.length > 1)}
-                className="buttons2 min-w-fit"
-              >
-                {preg.length > 1 ? 'hide' : 'show all'}
-              </button>
-              <button
-                onClick={() => {
                   if (addPregnancy) {
                     setAddMilk(addPregnancy)
                     setAddDisease(addPregnancy)
@@ -158,6 +156,20 @@ const SearchRecordOurStyle = () => {
                 className="buttons2 w-fit m-2"
               >
                 {!isPregnant ? 'Add' : 'Update'} Pregnancy
+              </button>
+              <button
+                onClick={() => {
+                  setPreg(
+                    preg.length === 1
+                      ? details.current.pregnancy
+                      : details.current.pregnancy.slice(-1)
+                  )
+                  scrollTo({ top: 0 })
+                }}
+                hidden={!(details.current.pregnancy.length > 1)}
+                className="buttons2 m-2 w-fit"
+              >
+                {preg.length > 1 ? 'hide' : 'show all'}
               </button>
               <Link
                 to={`/add-complete-pregnancy/${animal}/${tag}`}

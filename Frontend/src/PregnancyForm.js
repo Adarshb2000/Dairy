@@ -32,12 +32,16 @@ const PregnancyForm = ({ lastPregnancy }) => {
 
   const formSubmission = async (e) => {
     e.preventDefault()
+    var object
+    try {
+      object = objectForPregnancyForm(objectForSubmission(e.target), phase)
+    } catch (e) {
+      alert(e.message)
+      return
+    }
     setLoading(true)
     try {
-      await logDetails(
-        subRoute,
-        objectForPregnancyForm(objectForSubmission(e.target), phase)
-      )
+      await logDetails(subRoute, object)
       window.location.reload()
     } catch (e) {
       if (e instanceof TokenError) {
@@ -47,7 +51,7 @@ const PregnancyForm = ({ lastPregnancy }) => {
         alert('No such record found')
         navigate(`/new-record/${animal}/${tag}`, { replace: true })
       } else {
-        console.log(e)
+        alert(e.message)
       }
     }
   }
@@ -55,7 +59,7 @@ const PregnancyForm = ({ lastPregnancy }) => {
     <>Loading...</>
   ) : (
     <form
-      className="box4 h-96 sm:h-60 min-h-fit bg-white rounded-xl mt-4 px-4 py-2"
+      className="box4 min-h-fit bg-white rounded-xl mt-4 px-4 py-2"
       onSubmit={formSubmission}
     >
       {phases[phase]}
@@ -63,7 +67,14 @@ const PregnancyForm = ({ lastPregnancy }) => {
         <button type="submit" className="buttons2 w-auto">
           Submit
         </button>
-        <button className="buttons2 w-fit">Miscarriage</button>
+        <button
+          className="buttons2 w-fit bg-colour-red"
+          onClick={(e) => {
+            e.preventDefault()
+          }}
+        >
+          End Pregnancy
+        </button>
       </div>
     </form>
   )

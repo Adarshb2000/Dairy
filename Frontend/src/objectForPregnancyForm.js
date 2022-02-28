@@ -1,4 +1,5 @@
 const objectForPregnancyForm = (data, phase, completed = false) => {
+  if (!Object.keys(data).length) throw new Error('Enter some details')
   const temp = {
     0: {
       copulation: {
@@ -30,6 +31,7 @@ const objectForPregnancyForm = (data, phase, completed = false) => {
   const object = Object.assign({}, temp[phase])
   object.completed =
     (phase === 1 && data.isPregnant === 'false') || phase === 3 || completed
+  console.log(object)
   return object
 }
 

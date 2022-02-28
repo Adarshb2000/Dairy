@@ -1,25 +1,41 @@
 const PregnancyDisplay = ({ info }) => {
-  return (
+  return Object.keys(info).length > 1 ? (
     <div className="flex overflow-x-scroll lg:overflow-hidden">
-      <div className="pregnancy-box min-w-fit bg-colour h-32 m-2">
-        <h2 className="heading3">Uthi</h2>
-        <label htmlFor="date">
-          Date:{' '}
-          <span>
-            {new Date(info.copulation.date).toLocaleDateString('IN', {
-              day: 'numeric',
-              month: 'numeric',
-              year: 'numeric',
-            })}
-          </span>
-        </label>
-        <label htmlFor="worker">
-          Worker: <span>{info.copulation.worker}</span>
-        </label>
-        <label htmlFor="bullNumber">
-          Bull Number: <span>{info.copulation.bullNumber}</span>
-        </label>
-      </div>
+      {info.copulation ? (
+        <div className="pregnancy-box min-w-fit bg-colour h-32 m-2">
+          <h2 className="heading3">Uthi</h2>
+          {info.copulation.date ? (
+            <label htmlFor="date">
+              Date:{' '}
+              <span>
+                {new Date(info.copulation.date).toLocaleDateString('IN', {
+                  day: 'numeric',
+                  month: 'numeric',
+                  year: 'numeric',
+                })}
+              </span>
+            </label>
+          ) : (
+            <></>
+          )}
+          {info.copulation.worker ? (
+            <label htmlFor="worker">
+              Worker: <span>{info.copulation.worker}</span>
+            </label>
+          ) : (
+            <></>
+          )}
+          {info.copulation.bullNumber ? (
+            <label htmlFor="bullNumber">
+              Bull Number: <span>{info.copulation.bullNumber}</span>
+            </label>
+          ) : (
+            <></>
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
       {info.examination ? (
         <div className="pregnancy-box min-w-fit bg-colour h-32 m-2">
           <h2 className="heading3">Test</h2>
@@ -49,7 +65,7 @@ const PregnancyDisplay = ({ info }) => {
       )}
       {info.lactation ? (
         <div className="pregnancy-box justifying-start min-w-fit bg-colour h-32 m-2">
-          <h2 className="heading3">Hurai</h2>
+          <h2 className="heading3">Chutai</h2>
           <label htmlFor="date">
             Date:{' '}
             <span>
@@ -89,6 +105,8 @@ const PregnancyDisplay = ({ info }) => {
         <></>
       )}
     </div>
+  ) : (
+    <></>
   )
 }
 

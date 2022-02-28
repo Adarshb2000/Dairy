@@ -9,36 +9,51 @@ import LactationForm from './pregnancy-forms/LactationForm'
 
 const AddPregnancyRecord = () => {
   const { animal, tag } = useParams()
-  const { pathname: subRoute } = useLocation()
+  const subRoute = `/add-pregnancy/${animal}/${tag}`
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const formSubmission = async (e) => {
     e.preventDefault()
-    setLoading(true)
     const data = objectForSubmission(e.target)
-    const pregnancyData = {
-      copulation: {
-        date: data.uthiDate,
-        bullNumber: data.bullNumber,
-        worker: data.worker,
-      },
-      examination: {
-        date: data.testDate,
-        doctor: data.doctor,
-        duration: data.duration,
-        isPregnant: data.isPregnant === 'true' ? true : false,
-      },
-      lactation: {
-        date: data.lactationDate,
-      },
-      delivery: {
-        number: data.number,
-        date: data.deliveryDate,
-        gender: data.gender,
-      },
-      completed: true,
+    const pregnancyData = {}
+    if (data.uthiDate || data.bullNumber || data.worker)
+      Object.assign(pregnancyData, {
+        copulation: {
+          date: data.uthiDate,
+          bullNumber: data.bullNumber,
+          worker: data.worker,
+        },
+      })
+    if (data.testDate || data.doctor || data.isPregnant)
+      Object.assign(pregnancyData, {
+        examination: {
+          date: data.testDate,
+          doctor: data.doctor,
+          isPregnant: data.isPregnant === 'true' ? true : false,
+        },
+      })
+    if (data.lactationDate)
+      Object.assign(pregnancyData, {
+        lactation: {
+          date: data.lactationDate,
+        },
+      })
+    if (data.number || data.deliveryDate || data.gender)
+      Object.assign(pregnancyData, {
+        delivery: {
+          number: data.number,
+          date: data.deliveryDate,
+          gender: data.gender,
+        },
+      })
+
+    if (!Object.keys(pregnancyData).length) {
+      alert('Please provide some detail')
+      return
     }
+    pregnancyData.completed = true
+    setLoading(true)
     try {
       await logDetails(subRoute, pregnancyData)
       navigate(`/${animal}/${tag}`, { replace: true })

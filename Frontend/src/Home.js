@@ -7,7 +7,7 @@ import { logout } from './Helper'
 const Home = () => {
   const navigate = useNavigate()
   const [animal, setAnimal] = useState()
-  const [tag, setTag] = useState(0)
+  const [tag, setTag] = useState('')
   const [loading, setLoading] = useState(true)
 
   const formSubmit = async (e) => {
@@ -73,7 +73,7 @@ const Home = () => {
               name="Tag"
               value={tag}
               type="number"
-              min={0}
+              min={1}
             />
           </label>
         </div>

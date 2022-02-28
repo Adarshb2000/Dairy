@@ -38,18 +38,20 @@ const authentication = async (username, password) => {
 }
 
 const objectForSubmission = (form, obj = {}) => {
-  return Object.assign(
+  const object = Object.assign(
     Object.fromEntries(
       Array.from(form.getElementsByTagName('input')).map((element) => {
-        if (element.required) {
-          if (element.value === '' || element.value === '0')
-            throw new Error(`${element.name} required`)
+        if (element.value === '' || element.value === '0') {
+          if (element.required) throw new Error(`${element.name} required`)
+          else return [element.name, undefined]
         }
         switch (element.type) {
           case 'number':
             return [element.name, parseFloat(element.value)]
           case 'date':
             return [element.name, new Date(element.value)]
+          case 'checkbox':
+            return [element.name, element.checked]
           default:
             return [element.name, element.value]
         }
@@ -57,6 +59,10 @@ const objectForSubmission = (form, obj = {}) => {
     ),
     obj
   )
+  Object.entries(object).forEach(([key, value]) => {
+    if (value === undefined) delete object[key]
+  })
+  return object
 }
 
 const logDetails = async (subRoute, body) => {

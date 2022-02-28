@@ -3,7 +3,7 @@ import { useState } from 'react'
 const DateElement = ({
   label,
   name,
-  className = 'inputs max-w-fit max-h-fit',
+  className = 'inputs max-w-fit max-h-fit min-w-fit',
 }) => {
   const currYear = new Date().getFullYear()
   const years = Array.from({ length: currYear - 2000 + 1 }).map(
@@ -13,11 +13,15 @@ const DateElement = ({
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
   const days = Array.from({ length: 31 }).map((val, index) => index + 1)
-  const months = Array.from({ length: 12 }).map((val, index) =>
-    new Date(0, index).toLocaleString('en', { month: 'long' })
+  const months = Array.from({ length: 12 }).map(
+    (_, index) =>
+      new Date(0, index).toLocaleString('en', { month: 'long' }) +
+      ' (' +
+      String(index + 1) +
+      ')'
   )
 
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState('')
 
   const onDateChange = () => {
     setDate(new Date(year, month - 1, day, 5, 30).toISOString().split('T')[0])

@@ -2,9 +2,8 @@ import { objectForSubmission } from './Helper'
 
 const objectForDiseaseForm = (form) => {
   const data = objectForSubmission(form)
+  if (Object.keys(data).length == 1) throw new Error('Enter some details')
   const body = {
-    date: data.date,
-    doctor: data.doctor,
     vaccination: [
       {
         vaccine: data.vaccine,
@@ -17,5 +16,11 @@ const objectForDiseaseForm = (form) => {
   return body
 }
 
-const objectForVaccineForm = (form) => objectForSubmission(form)
+const objectForVaccineForm = (form) => {
+  const data = objectForSubmission(form)
+  console.log(data)
+  if (Object.keys(data).length == 1 && !data.cured)
+    throw new Error('Enter some details')
+  return data
+}
 export { objectForDiseaseForm, objectForVaccineForm }

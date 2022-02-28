@@ -3,10 +3,10 @@ import DateElement from '../DateElement'
 import SelectElement from '../SelectElement'
 
 const DeliveryForm = () => {
-  const [number, setNumber] = useState()
+  const [number, setNumber] = useState('')
 
   return (
-    <div className="pregnancy-box h-64 sm:h-48">
+    <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Delivery</h2>
       <label htmlFor="number">
         Number:
@@ -20,7 +20,7 @@ const DeliveryForm = () => {
           className="inputs w-20"
         />
       </label>
-      <DateElement name="deliveryDate" label="Date:" className="inputs w-20" />
+      <DateElement name="deliveryDate" label="Date:" />
       <SelectElement
         name="gender"
         options={[

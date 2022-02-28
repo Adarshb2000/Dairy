@@ -6,9 +6,9 @@ const ExaminationForm = () => {
   const [doctor, setDoctor] = useState()
 
   return (
-    <div className="pregnancy-box h-72 sm:h-60">
+    <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Test</h2>
-      <DateElement name="testDate" label="Date:" className="inputs w-20" />
+      <DateElement name="testDate" label="Date:" />
       <SelectElement
         options={[
           ['No', false],

@@ -6,9 +6,9 @@ const CopulationForm = () => {
   const [worker, setWorker] = useState()
 
   return (
-    <div className="pregnancy-box h-72 sm:h-60">
+    <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Uthi</h2>
-      <DateElement name="uthiDate" label="Date:" className="inputs w-20" />
+      <DateElement name="uthiDate" label="Date:" />
       <label htmlFor="bullNumber">
         BullNumber:
         <input
@@ -23,7 +23,7 @@ const CopulationForm = () => {
           name="bullNumber"
         />
       </label>
-      <label htmlFor="worker">
+      <label htmlFor="worker my-2">
         Worker:
         <input
           type="text"

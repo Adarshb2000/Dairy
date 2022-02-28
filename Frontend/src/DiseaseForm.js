@@ -2,6 +2,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import DateElement from './DateElement'
 import SelectElement from './SelectElement'
+import BinaryElement from './BinaryElement'
 import { DataBaseError, TokenError } from './CustomErrors'
 import { logDetails, logout } from './Helper'
 import { objectForDiseaseForm, objectForVaccineForm } from './diseaseObjects'
@@ -20,8 +21,14 @@ const DiseaseForm = ({ disease = true }) => {
 
   const formSubmission = async (e) => {
     e.preventDefault()
+    var body
+    try {
+      body = getObject(e.target)
+    } catch (e) {
+      alert(e.message)
+      return
+    }
     setLoading(true)
-    const body = getObject(e.target)
     try {
       await logDetails(subRoute, body)
       if (pathname === `/add-disease/${animal}/${tag}`)
@@ -34,6 +41,8 @@ const DiseaseForm = ({ disease = true }) => {
       } else if (e instanceof DataBaseError) {
         alert('no such record found')
         navigate(`/new-record/${animal}/${tag}`, { replace: true })
+      } else {
+        console.log(e)
       }
     }
   }
@@ -68,15 +77,11 @@ const DiseaseForm = ({ disease = true }) => {
           className="inputs w-20"
         />
       </label>
-      <SelectElement
+      <BinaryElement
         name="cured"
-        options={[
-          ['Yes', true],
-          ['No', false],
-        ]}
+        options={['Not ok', 'ok']}
         label="Cured:"
         defaultValue={false}
-        className="inputs"
       />
       <button className="buttons self-center" type="submit">
         Submit
