@@ -9,15 +9,16 @@ const MilkForm = () => {
   const parameters = useParams()
   const [lineNumber, setLineNumber] = useState(0)
   const [milk, setMilk] = useState(0)
-  const animal = useState(parameters.animal || '')
+  const animal = parameters.animal || ''
   const navigate = useNavigate()
-  const [tag, setTag] = useState(parameters.tag || 0)
+  const [tag, setTag] = useState(parameters.tag || '')
   const [loading, setLoading] = useState(false)
   const formSubmission = async (e) => {
     e.preventDefault()
-    setLoading(true)
     try {
       const object = objectForSubmission(e.target)
+      if (Object.keys(object).length != 3) throw new Error('Enter all details')
+      setLoading(true)
       const res = await logDetails(
         `/add-milk/${animal || object.animal}/${tag}`,
         objectForSubmission(e.target)
@@ -30,6 +31,8 @@ const MilkForm = () => {
       } else if (e instanceof DataBaseError) {
         alert('No such record found')
         navigate(`/new-record/${animal}/${tag}`, { replace: true })
+      } else {
+        alert(e.message)
       }
     }
   }
@@ -37,7 +40,7 @@ const MilkForm = () => {
     <>Loading...</>
   ) : (
     <form
-      className="box4 h-96 sm:h-60 bg-white rounded-xl mt-4 px-4 py-2"
+      className="box4 bg-white rounded-xl mt-4 px-4 py-2"
       onSubmit={formSubmission}
     >
       {Object.keys(parameters).length === 0 ? (

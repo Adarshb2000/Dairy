@@ -12,23 +12,27 @@ const MilkDisplay = ({ info }) => {
             </tr>
           </thead>
           <tbody>
-            {info.map(({ lineNumber, date, milk }, index) => (
-              <tr key={index}>
-                <td className="border border-rose-400 text-center">
-                  {index + 1}
-                </td>
-                <td className="border border-rose-400 text-center">
-                  {lineNumber}
-                </td>
-                <td className="border border-rose-400 text-center">
-                  {new Date(date).toLocaleDateString('hi-In', {
-                    month: 'numeric',
-                    year: '2-digit',
-                  })}
-                </td>
-                <td className="border border-rose-400 text-center">{milk}</td>
-              </tr>
-            ))}
+            {info.map(({ lineNumber, date, milk }, index) =>
+              lineNumber && date && milk ? (
+                <tr key={index}>
+                  <td className="border border-rose-400 text-center">
+                    {index + 1}
+                  </td>
+                  <td className="border border-rose-400 text-center">
+                    {lineNumber}
+                  </td>
+                  <td className="border border-rose-400 text-center">
+                    {new Date(date).toLocaleDateString('hi-In', {
+                      day: 'numeric',
+                      month: 'numeric',
+                    })}
+                  </td>
+                  <td className="border border-rose-400 text-center">{milk}</td>
+                </tr>
+              ) : (
+                <></>
+              )
+            )}
           </tbody>
         </table>
       </div>
