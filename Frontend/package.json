@@ -24,7 +24,7 @@
   },
   "scripts": {
     "test": "parcel src/index.html --open chrome --https",
-    "start": "parcel build src/index.html && parcel dev ",
+    "start": "parcel build src/index.html && parcel src/index.html --host 192.168.29.235",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
   },
