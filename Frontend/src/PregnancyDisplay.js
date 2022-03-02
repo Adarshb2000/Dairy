@@ -53,7 +53,9 @@ const PregnancyDisplay = ({ info }) => {
             Doctor: <span>{info.examination.doctor}</span>
           </label>
           {info.examination.duration ? (
-            <label htmlFor="duration">{info.examination.duration}</label>
+            <label htmlFor="duration">
+              Duration:{info.examination.duration} months
+            </label>
           ) : (
             <></>
           )}
