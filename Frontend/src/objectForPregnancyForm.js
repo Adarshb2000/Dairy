@@ -12,6 +12,7 @@ const objectForPregnancyForm = (data, phase, completed = false) => {
       examination: {
         date: data.testDate,
         doctor: data.doctor,
+        duration: data.duration,
         isPregnant: data.isPregnant,
       },
     },

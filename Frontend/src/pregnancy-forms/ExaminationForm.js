@@ -3,12 +3,23 @@ import DateElement from '../DateElement'
 import SelectElement from '../SelectElement'
 
 const ExaminationForm = () => {
-  const [doctor, setDoctor] = useState()
+  const [doctor, setDoctor] = useState('')
+  const [duration, setDuration] = useState('')
 
   return (
     <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Test</h2>
       <DateElement name="testDate" label="Date:" />
+      <label htmlFor="doctor">
+        Doctor:
+        <input
+          type="text"
+          value={doctor}
+          onChange={({ target }) => setDoctor(target.value)}
+          name="doctor"
+          className="inputs w-48"
+        />
+      </label>
       <SelectElement
         options={[
           ['No', false],
@@ -19,14 +30,15 @@ const ExaminationForm = () => {
         label="Pregnant:"
         className="inputs w-20"
       />
-      <label htmlFor="doctor">
-        Doctor:
+      <label htmlFor="duration">
+        Duration:
         <input
-          type="text"
-          value={doctor}
-          onChange={({ target }) => setDoctor(target.value)}
-          name="doctor"
-          className="inputs w-48"
+          name="duration"
+          type="number"
+          step={0.5}
+          value={duration}
+          onChange={({ target }) => setDuration(target.value)}
+          className="inputs w-20"
         />
       </label>
     </div>

@@ -22,13 +22,15 @@ const PregnancyForm = ({ lastPregnancy }) => {
     3: <DeliveryForm />,
   }
 
-  const phase = !lastPregnancy
-    ? 0
-    : !lastPregnancy.examination
-    ? 1
-    : !lastPregnancy.lactation
-    ? 2
-    : 3
+  const [phase, setPhase] = useState(
+    !lastPregnancy
+      ? 0
+      : !lastPregnancy.examination
+      ? 1
+      : !lastPregnancy.lactation
+      ? 2
+      : 3
+  )
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -66,6 +68,16 @@ const PregnancyForm = ({ lastPregnancy }) => {
       <div className="flex justify-evenly">
         <button type="submit" className="buttons2 w-auto">
           Submit
+        </button>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault()
+            setPhase((phase + 1) % 4)
+          }}
+          className="buttons2 w-auto"
+        >
+          skip
         </button>
         <button
           className="buttons2 w-fit bg-colour-red"
