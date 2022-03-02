@@ -52,6 +52,11 @@ const PregnancyDisplay = ({ info }) => {
           <label htmlFor="doctor">
             Doctor: <span>{info.examination.doctor}</span>
           </label>
+          {info.examination.duration ? (
+            <label htmlFor="duration">{info.examination.duration}</label>
+          ) : (
+            <></>
+          )}
           <label htmlFor="isPregnant">
             {info.examination.isPregnant ? (
               <span className="text-green-600 font-bold">Pregnant</span>
