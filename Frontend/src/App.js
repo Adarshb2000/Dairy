@@ -9,6 +9,7 @@ import AddDiseaseRecord from './AddDiseaseRecord'
 import AddMilkRecord from './AddMilkRecord'
 import SearchRecordOurStyle from './SearchRecordOurStyle'
 import Test from './Test'
+import PregnancyUpdate from './pregnancy-forms/PregnancyUpdate'
 
 const App = () => {
   return (

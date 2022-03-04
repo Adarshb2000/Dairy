@@ -32,7 +32,6 @@ const objectForPregnancyForm = (data, phase, completed = false) => {
   const object = Object.assign({}, temp[phase])
   object.completed =
     (phase === 1 && data.isPregnant === 'false') || phase === 3 || completed
-  console.log(object)
   return object
 }
 

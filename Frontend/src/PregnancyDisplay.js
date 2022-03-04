@@ -1,14 +1,21 @@
-const PregnancyDisplay = ({ info }) => {
-  return Object.keys(info).length > 1 ? (
-    <div className="flex overflow-x-scroll lg:overflow-hidden">
-      {info.copulation ? (
-        <div className="pregnancy-box min-w-fit bg-colour h-32 m-2">
+const PregnancyDisplay = ({
+  info: { copulation, examination, lactation, delivery },
+  doubleClick,
+}) => {
+  return (
+    <div className="flex overflow-x-auto lg:overflow-hidden">
+      {/* Copulation Display */}
+      {copulation ? (
+        <div
+          className="pregnancy-box min-w-fit bg-colour h-32 m-2"
+          onDoubleClick={() => doubleClick(copulation, 0)}
+        >
           <h2 className="heading3">Uthi</h2>
-          {info.copulation.date ? (
+          {copulation.date ? (
             <label htmlFor="date">
               Date:{' '}
               <span>
-                {new Date(info.copulation.date).toLocaleDateString('IN', {
+                {new Date(copulation.date).toLocaleDateString('IN', {
                   day: 'numeric',
                   month: 'numeric',
                   year: 'numeric',
@@ -18,16 +25,16 @@ const PregnancyDisplay = ({ info }) => {
           ) : (
             <></>
           )}
-          {info.copulation.worker ? (
+          {copulation.worker ? (
             <label htmlFor="worker">
-              Worker: <span>{info.copulation.worker}</span>
+              Worker: <span>{copulation.worker}</span>
             </label>
           ) : (
             <></>
           )}
-          {info.copulation.bullNumber ? (
+          {copulation.bullNumber ? (
             <label htmlFor="bullNumber">
-              Bull Number: <span>{info.copulation.bullNumber}</span>
+              Bull Number: <span>{copulation.bullNumber}</span>
             </label>
           ) : (
             <></>
@@ -36,13 +43,19 @@ const PregnancyDisplay = ({ info }) => {
       ) : (
         <></>
       )}
-      {info.examination ? (
-        <div className="pregnancy-box min-w-fit bg-colour h-32 m-2">
+
+      {/* Examination Display */}
+
+      {examination ? (
+        <div
+          className="pregnancy-box min-w-fit bg-colour h-32 m-2"
+          onDoubleClick={() => doubleClick(examination, 1)}
+        >
           <h2 className="heading3">Test</h2>
           <label htmlFor="date">
             Date:{' '}
             <span>
-              {new Date(info.examination.date).toLocaleDateString('IN', {
+              {new Date(examination.date).toLocaleDateString('IN', {
                 day: 'numeric',
                 month: 'numeric',
                 year: 'numeric',
@@ -50,17 +63,17 @@ const PregnancyDisplay = ({ info }) => {
             </span>
           </label>
           <label htmlFor="doctor">
-            Doctor: <span>{info.examination.doctor}</span>
+            Doctor: <span>{examination.doctor}</span>
           </label>
-          {info.examination.duration ? (
+          {examination.duration ? (
             <label htmlFor="duration">
-              Duration:{info.examination.duration} months
+              Duration: {examination.duration} months
             </label>
           ) : (
             <></>
           )}
           <label htmlFor="isPregnant">
-            {info.examination.isPregnant ? (
+            {examination.isPregnant ? (
               <span className="text-green-600 font-bold">Pregnant</span>
             ) : (
               <span className="text-red-600 font-bold">Not Pregnant</span>
@@ -70,13 +83,19 @@ const PregnancyDisplay = ({ info }) => {
       ) : (
         <></>
       )}
-      {info.lactation ? (
-        <div className="pregnancy-box justifying-start min-w-fit bg-colour h-32 m-2">
+
+      {/* Lactation Display */}
+
+      {lactation ? (
+        <div
+          className="pregnancy-box justifying-start min-w-fit bg-colour h-32 m-2"
+          onDoubleClick={() => doubleClick(lactation, 2)}
+        >
           <h2 className="heading3">Chutai</h2>
           <label htmlFor="date">
             Date:{' '}
             <span>
-              {new Date(info.lactation.date).toLocaleDateString('IN', {
+              {new Date(lactation.date).toLocaleDateString('IN', {
                 day: 'numeric',
                 month: 'numeric',
                 year: 'numeric',
@@ -87,16 +106,22 @@ const PregnancyDisplay = ({ info }) => {
       ) : (
         <></>
       )}
-      {info.delivery ? (
-        <div className="pregnancy-box bg-colour min-w-fit h-32 m-2">
+
+      {/* Delivery Display */}
+
+      {delivery ? (
+        <div
+          className="pregnancy-box bg-colour min-w-fit h-32 m-2"
+          onDoubleClick={() => doubleClick(delivery, 3)}
+        >
           <h2 className="heading3">Delivery</h2>
           <label htmlFor="number">
-            Number: <span>{info.delivery.number}</span>
+            Number: <span>{delivery.number}</span>
           </label>
           <label htmlFor="date">
             Date:{' '}
             <span>
-              {new Date(info.delivery.date).toLocaleDateString('IN', {
+              {new Date(delivery.date).toLocaleDateString('IN', {
                 day: 'numeric',
                 month: 'numeric',
                 year: 'numeric',
@@ -105,15 +130,13 @@ const PregnancyDisplay = ({ info }) => {
           </label>
           <label htmlFor="gender">
             Gender:{' '}
-            <span>{info.delivery.gender === 'female' ? 'padiya' : 'pada'}</span>
+            <span>{delivery.gender === 'female' ? 'padiya' : 'pada'}</span>
           </label>
         </div>
       ) : (
         <></>
       )}
     </div>
-  ) : (
-    <></>
   )
 }
 

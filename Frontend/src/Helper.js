@@ -6,6 +6,28 @@ const logout = (navigate) => {
   navigate('/login', { replace: true })
 }
 
+const fetchDetails = async (animal, tag) => {
+  const token = localStorage.getItem('token')
+  const res = await fetch(`${api}/${animal}/${tag}`, {
+    method: 'GET',
+    headers: {
+      'x-auth-token': token,
+    },
+  })
+  if (res.ok) {
+    const ret = await res.json()
+    return ret
+  } else {
+    if (res.status === 404) {
+      throw new DataBaseError(res.message)
+    } else if (res.status === 500) {
+      alert('Contact the maker')
+    } else {
+      throw new TokenError(res.message)
+    }
+  }
+}
+
 const deleteTag = async (animal, tag) => {
   const ret = await fetch(`${api}/delete/${animal}/${tag}`, {
     method: 'DELETE',
@@ -89,4 +111,11 @@ const logDetails = async (subRoute, body) => {
   }
 }
 
-export { authentication, logout, logDetails, objectForSubmission, deleteTag }
+export {
+  authentication,
+  logout,
+  logDetails,
+  objectForSubmission,
+  deleteTag,
+  fetchDetails,
+}

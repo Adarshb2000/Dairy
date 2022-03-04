@@ -2,14 +2,14 @@ import { useState } from 'react'
 import DateElement from '../DateElement'
 import SelectElement from '../SelectElement'
 
-const ExaminationForm = () => {
-  const [doctor, setDoctor] = useState('')
-  const [duration, setDuration] = useState('')
+const ExaminationForm = ({ info }) => {
+  const [doctor, setDoctor] = useState(info?.doctor || '')
+  const [duration, setDuration] = useState(info?.duration || '')
 
   return (
     <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Test</h2>
-      <DateElement name="testDate" label="Date:" />
+      <DateElement name="testDate" label="Date:" defaultValue={info?.date} />
       <label htmlFor="doctor">
         Doctor:
         <input
@@ -26,7 +26,7 @@ const ExaminationForm = () => {
           ['Yes', true],
         ]}
         name="isPregnant"
-        defaultValue=""
+        defaultValue={info?.isPregnant || ''}
         label="Pregnant:"
         className="inputs w-20"
       />

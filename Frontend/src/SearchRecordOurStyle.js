@@ -2,42 +2,25 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import PregnancyDisplay from './PregnancyDisplay'
 import { DataBaseError, TokenError } from './CustomErrors'
-import { deleteTag, logout } from './Helper'
-import { api } from './config'
+import { deleteTag, logout, fetchDetails } from './Helper'
 import DiseaseForm from './DiseaseForm'
 import MilkForm from './MilkForm'
 import DiseaseDisplay from './DiseaseDisplay'
 import MilkDisplay from './MilkDisplay'
-import PregnancyForm from './PregnancyForm'
-
-const fetchDetails = async (animal, tag) => {
-  const token = localStorage.getItem('token')
-  const res = await fetch(`${api}/${animal}/${tag}`, {
-    method: 'GET',
-    headers: {
-      'x-auth-token': token,
-    },
-  })
-  if (res.ok) {
-    const ret = await res.json()
-    return ret
-  } else {
-    if (res.status === 404) {
-      throw new DataBaseError(res.message)
-    } else if (res.status === 500) {
-      alert('Contact the maker')
-    } else {
-      throw new TokenError(res.message)
-    }
-  }
-}
+import PregnancyForm from './pregnancy-forms/PregnancyForm'
+import PregnancyUpdate from './pregnancy-forms/PregnancyUpdate'
 
 const SearchRecordOurStyle = () => {
   const { animal, tag } = useParams()
+
   const [loading, setLoading] = useState(true)
+
+  // Add form
   const [addDisease, setAddDisease] = useState(true)
   const [isCured, setIsCured] = useState(true)
   const [addMilk, setAddMilk] = useState(true)
+
+  // Details
   const details = useRef(null)
   const [preg, setPreg] = useState([])
   const [disease, setDisease] = useState([])
@@ -45,9 +28,20 @@ const SearchRecordOurStyle = () => {
   const [milk, setMilk] = useState([])
   const [addPregnancy, setAddPregnancy] = useState(true)
   const [isPregnant, setIsPregnant] = useState(true)
+  const [updatePregnancy, setUpdatePregnancy] = useState(true)
+
   const deleteTagConfirmation = useRef(false)
 
+  const info = useRef({})
+  const phase = useRef(-1)
+
   const navigate = useNavigate()
+
+  const doubleClick = (information, ph) => {
+    info.current = information
+    phase.current = ph
+    setUpdatePregnancy(!updatePregnancy)
+  }
 
   const fetchDet = async () => {
     try {
@@ -82,8 +76,8 @@ const SearchRecordOurStyle = () => {
   return loading ? (
     <>Loading</>
   ) : details.current ? (
-    <div className="wrapper medium">
-      <div className="search-record-container">
+    <div className="wrapper">
+      <div className="search-record-container medium overflow-y-auto">
         <div className="flex relative justify-center py-2">
           <div className="heading0 self-end mt-4">{animal.toUpperCase()}</div>
           <div className="absolute right-6 text-7xl font-bold text-red1">
@@ -134,8 +128,15 @@ const SearchRecordOurStyle = () => {
             <h2 className="heading2">PREGNANCY</h2>
             <div className="divide-y-4 divide-white">
               {preg.map((ele, index) => (
-                <PregnancyDisplay info={ele} key={index} />
+                <PregnancyDisplay
+                  info={ele}
+                  key={index}
+                  doubleClick={doubleClick}
+                />
               ))}
+            </div>
+            <div className="h-auto self-center" hidden={updatePregnancy}>
+              <PregnancyUpdate info={info.current} phase={phase.current} />
             </div>
             <div className="h-auto self-center" hidden={addPregnancy}>
               <PregnancyForm

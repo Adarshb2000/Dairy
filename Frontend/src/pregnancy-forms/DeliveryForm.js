@@ -2,8 +2,8 @@ import { useState } from 'react'
 import DateElement from '../DateElement'
 import SelectElement from '../SelectElement'
 
-const DeliveryForm = () => {
-  const [number, setNumber] = useState('')
+const DeliveryForm = ({ info }) => {
+  const [number, setNumber] = useState(info?.number || '')
 
   return (
     <div className="pregnancy-box pregnancy-box-big">
@@ -20,15 +20,19 @@ const DeliveryForm = () => {
           className="inputs w-20"
         />
       </label>
-      <DateElement name="deliveryDate" label="Date:" />
+      <DateElement
+        name="deliveryDate"
+        label="Date:"
+        defaultValue={info?.deliveryDate}
+      />
       <SelectElement
         name="gender"
         options={[
           ['Padiya', 'female'],
           ['Pada', 'male'],
         ]}
-        defaultValue=""
-        label={'Gender:'}
+        defaultValue={info?.gender || ''}
+        label="Gender:"
         className="inputs w-20"
       />
     </div>

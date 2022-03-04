@@ -23,7 +23,7 @@
 }
 
 .search-record-container {
-  @apply flex-column bg-white h-auto sm:w-5/6 rounded-xl w-full;
+  @apply flex-column justify-start bg-white h-auto sm:w-5/6 rounded-xl w-full ;
 }
 
 .responsive-box {

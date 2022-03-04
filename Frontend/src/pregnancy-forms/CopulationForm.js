@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import DateElement from '../DateElement'
 
-const CopulationForm = () => {
-  const [bullNumber, setBullNumber] = useState()
-  const [worker, setWorker] = useState()
+const CopulationForm = ({ info }) => {
+  const [bullNumber, setBullNumber] = useState(info?.bullNumber || '')
+  const [worker, setWorker] = useState(info?.worker || '')
 
   return (
     <div className="pregnancy-box pregnancy-box-big">
       <h2 className="heading2">Uthi</h2>
-      <DateElement name="uthiDate" label="Date:" />
+      <DateElement
+        name="uthiDate"
+        label="Date:"
+        defaultValue={info?.uthiDate}
+      />
       <label htmlFor="bullNumber">
         BullNumber:
         <input

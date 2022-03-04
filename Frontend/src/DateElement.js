@@ -4,15 +4,16 @@ const DateElement = ({
   label,
   name,
   className = 'inputs max-w-fit max-h-fit min-w-fit',
+  defaultValue = null,
 }) => {
   const currYear = new Date().getFullYear()
   const years = Array.from({ length: currYear - 2000 + 1 }).map(
     (_, index) => currYear - index
   )
-  const [day, setDay] = useState('')
-  const [month, setMonth] = useState('')
-  const [year, setYear] = useState('')
-  const days = Array.from({ length: 31 }).map((val, index) => index + 1)
+  const [day, setDay] = useState(defaultValue?.getDate() || '')
+  const [month, setMonth] = useState(defaultValue?.getMonth() + 1 || '')
+  const [year, setYear] = useState(defaultValue?.getFullYear() || '')
+  const days = Array.from({ length: 31 }).map((_, index) => index + 1)
   const months = Array.from({ length: 12 }).map(
     (_, index) =>
       new Date(0, index).toLocaleString('en', { month: 'long' }) +
@@ -20,8 +21,9 @@ const DateElement = ({
       String(index + 1) +
       ')'
   )
-
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(
+    defaultValue?.toISOString().split('T')[0] || ''
+  )
 
   const onDateChange = () => {
     setDate(new Date(year, month - 1, day, 5, 30).toISOString().split('T')[0])
