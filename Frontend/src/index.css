@@ -42,7 +42,7 @@
 }
 
 .pregnancy-box {
-  @apply flex-column justify-evenly bg-rose-200 rounded-lg px-4 my-2 py-3;
+  @apply flex-column w-full justify-evenly bg-rose-200 rounded-lg px-4 my-2 py-3;
 }
 
 .pregnancy-box-big {

@@ -17,7 +17,7 @@ const ExaminationForm = ({ info }) => {
           value={doctor}
           onChange={({ target }) => setDoctor(target.value)}
           name="doctor"
-          className="inputs w-48"
+          className="inputs max-w-[48] w-3/5"
         />
       </label>
       <SelectElement
