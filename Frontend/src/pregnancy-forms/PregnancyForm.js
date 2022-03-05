@@ -1,36 +1,31 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DataBaseError, TokenError } from '../CustomErrors'
-import { logDetails, objectForSubmission } from '../Helper'
+import DeleteButton from '../DeleteButton'
+import { deleteDetails, logDetails, objectForSubmission } from '../Helper'
 import objectForPregnancyForm from '../objectForPregnancyForm'
 import CopulationForm from './CopulationForm'
 import DeliveryForm from './DeliveryForm'
 import ExaminationForm from './ExaminationForm'
 import LactationForm from './LactationForm'
 
-const PregnancyForm = ({ lastPregnancy }) => {
+const PregnancyForm = ({ phase, edit = false, info = {} }) => {
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(false)
-  const subRoute = !lastPregnancy
+  const subRoute = !(phase || edit)
     ? `/add-pregnancy/${animal}/${tag}`
     : `/update-pregnancy/${animal}/${tag}`
 
-  const phases = {
-    0: <CopulationForm />,
-    1: <ExaminationForm />,
-    2: <LactationForm />,
-    3: <DeliveryForm />,
+  if (info?.date) {
+    info.date = new Date(info.date)
   }
 
-  const [phase, setPhase] = useState(
-    !lastPregnancy
-      ? 0
-      : !lastPregnancy.examination
-      ? 1
-      : !lastPregnancy.lactation
-      ? 2
-      : 3
-  )
+  const phases = {
+    0: <CopulationForm info={info} />,
+    1: <ExaminationForm info={info} />,
+    2: <LactationForm info={info} />,
+    3: <DeliveryForm info={info} />,
+  }
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -69,24 +64,39 @@ const PregnancyForm = ({ lastPregnancy }) => {
         <button type="submit" className="buttons2 w-auto">
           Submit
         </button>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault()
-            setPhase((phase + 1) % 4)
-          }}
-          className="buttons2 w-auto"
-        >
-          skip
-        </button>
-        <button
-          className="buttons2 w-fit bg-colour-red"
-          onClick={(e) => {
-            e.preventDefault()
-          }}
-        >
-          End Pregnancy
-        </button>
+        {edit || (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault()
+              setPhase((phase + 1) % 4)
+            }}
+            className="buttons2 w-auto"
+          >
+            skip
+          </button>
+        )}
+        {edit || (
+          <button
+            className="buttons2 w-fit bg-colour-red"
+            onClick={(e) => {
+              e.preventDefault()
+            }}
+          >
+            End Pregnancy
+          </button>
+        )}
+        {edit && (
+          <DeleteButton
+            subRoute={`/delete-pregnancy/${animal}/${tag}`}
+            body={{ phase: phase }}
+            navigate={() => {
+              window.location.reload()
+            }}
+            alertDialog={'Are you sure you want to delete this pregnancy'}
+            text={'Delete'}
+          />
+        )}
       </div>
     </form>
   )

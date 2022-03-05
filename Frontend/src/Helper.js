@@ -28,20 +28,6 @@ const fetchDetails = async (animal, tag) => {
   }
 }
 
-const deleteTag = async (animal, tag) => {
-  const ret = await fetch(`${api}/delete/${animal}/${tag}`, {
-    method: 'DELETE',
-    headers: {
-      'x-auth-token': localStorage.getItem('token'),
-    },
-  })
-  if (ret.ok) {
-    return true
-  } else {
-    throw new Error('Could not delete tag')
-  }
-}
-
 const authentication = async (username, password) => {
   const data = { username: username, password: password }
   const res = await fetch(`${host}/auth`, {
@@ -111,11 +97,34 @@ const logDetails = async (subRoute, body) => {
   }
 }
 
+const deleteDetails = async (subRoute, body = {}) => {
+  const token = localStorage.getItem('token')
+  const res = await fetch(api + subRoute, {
+    method: 'DELETE',
+    headers: {
+      'x-auth-token': token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+  if (res.ok) {
+    return true
+  } else {
+    if (res.status === 409) {
+      throw new DataBaseError('Invalid request')
+    } else if ([408, 403, 400].includes(res.status)) {
+      throw new TokenError('LogIn again')
+    } else if (res.status === 500) {
+      throw new Error('Contact the maker')
+    }
+  }
+}
+
 export {
   authentication,
   logout,
   logDetails,
   objectForSubmission,
-  deleteTag,
+  deleteDetails,
   fetchDetails,
 }

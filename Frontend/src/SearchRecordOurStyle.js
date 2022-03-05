@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import PregnancyDisplay from './PregnancyDisplay'
 import { DataBaseError, TokenError } from './CustomErrors'
-import { deleteTag, logout, fetchDetails } from './Helper'
+import { deleteDetails, logout, fetchDetails } from './Helper'
 import DiseaseForm from './DiseaseForm'
 import MilkForm from './MilkForm'
 import DiseaseDisplay from './DiseaseDisplay'
 import MilkDisplay from './MilkDisplay'
 import PregnancyForm from './pregnancy-forms/PregnancyForm'
-import PregnancyUpdate from './pregnancy-forms/PregnancyUpdate'
+import DeleteButton from './DeleteButton'
 
 const SearchRecordOurStyle = () => {
   const { animal, tag } = useParams()
@@ -26,32 +26,39 @@ const SearchRecordOurStyle = () => {
   const [disease, setDisease] = useState([])
   const [milkDisplay, setMilkDisplay] = useState(5)
   const [milk, setMilk] = useState([])
-  const [addPregnancy, setAddPregnancy] = useState(true)
-  const [isPregnant, setIsPregnant] = useState(true)
-  const [updatePregnancy, setUpdatePregnancy] = useState(true)
 
-  const deleteTagConfirmation = useRef(false)
+  const [pregnancyFormDisplay, setPregnancyFormDisplay] = useState(true)
+  const currentPhase = useRef(-1)
 
   const info = useRef({})
-  const phase = useRef(-1)
+  const [phase, setPhase] = useState(-1)
 
   const navigate = useNavigate()
 
   const doubleClick = (information, ph) => {
+    setPregnancyFormDisplay(false)
     info.current = information
-    phase.current = ph
-    setUpdatePregnancy(!updatePregnancy)
+    setPhase(ph)
+    setPregnancyFormDisplay(!pregnancyFormDisplay)
   }
 
   const fetchDet = async () => {
     try {
       details.current = await fetchDetails(animal, tag)
-      setIsPregnant(
-        !(
-          !details.current.pregnancy.length ||
-          details.current.pregnancy.slice(-1)[0].completed
-        )
-      )
+      const lastPregnancy = details.current.pregnancy.slice(-1)[0]
+      currentPhase.current =
+        !lastPregnancy || lastPregnancy?.completed
+          ? 0
+          : !lastPregnancy?.examination
+          ? 1
+          : !lastPregnancy?.lactation
+          ? 2
+          : 3
+
+      console.log(lastPregnancy)
+
+      setPhase(currentPhase.current)
+
       setIsCured(
         !details.current.disease.length ||
           details.current.disease.slice(-1)[0]?.cured
@@ -135,28 +142,26 @@ const SearchRecordOurStyle = () => {
                 />
               ))}
             </div>
-            <div className="h-auto self-center" hidden={updatePregnancy}>
-              <PregnancyUpdate info={info.current} phase={phase.current} />
-            </div>
-            <div className="h-auto self-center" hidden={addPregnancy}>
+            <div className="h-auto self-center" hidden={pregnancyFormDisplay}>
               <PregnancyForm
-                lastPregnancy={
-                  isPregnant ? details.current.pregnancy.slice(-1)[0] : false
-                }
+                phase={phase}
+                info={phase !== currentPhase.current ? info.current : {}}
+                edit={phase !== currentPhase.current}
               />
             </div>
             <div className="flex-column xs:min-h-[70px]">
               <button
                 onClick={() => {
-                  if (addPregnancy) {
-                    setAddMilk(addPregnancy)
-                    setAddDisease(addPregnancy)
+                  if (pregnancyFormDisplay) {
+                    setAddMilk(pregnancyFormDisplay)
+                    setAddDisease(pregnancyFormDisplay)
                   }
-                  setAddPregnancy(!addPregnancy)
+                  setPregnancyFormDisplay(!pregnancyFormDisplay)
+                  setPhase(currentPhase.current)
                 }}
                 className="buttons2 w-fit m-2"
               >
-                {!isPregnant ? 'Add' : 'Update'} Pregnancy
+                {!currentPhase.current ? 'Add' : 'Update'} Pregnancy
               </button>
               <button
                 onClick={() => {
@@ -262,26 +267,12 @@ const SearchRecordOurStyle = () => {
             <Link to={'/'} className="buttons w-24 min-w-fit m-2">
               &larr; Go back
             </Link>
-            <button
-              onClick={async () => {
-                if (deleteTagConfirmation.current) {
-                  if (await deleteTag(animal, tag)) {
-                    alert('Success!')
-                    navigate('/', { replace: true })
-                  }
-                } else {
-                  alert(`Are you sure you want to delete ${animal} ${tag}`)
-                  deleteTagConfirmation.current = true
-                  setTimeout(
-                    () => (deleteTagConfirmation.current = false),
-                    2000
-                  )
-                }
-              }}
-              className="delete-button"
-            >
-              Delete Tag
-            </button>
+            <DeleteButton
+              subRoute={`/delete-tag/${animal}/${tag}`}
+              navigate={() => navigate('/', { replace: true })}
+              alertDialog={`Are you sure you want to delete ${animal} ${tag}`}
+              text="Delete Tag"
+            />
           </div>
         </div>
       </div>
