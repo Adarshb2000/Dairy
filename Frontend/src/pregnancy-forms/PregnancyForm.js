@@ -9,9 +9,11 @@ import DeliveryForm from './DeliveryForm'
 import ExaminationForm from './ExaminationForm'
 import LactationForm from './LactationForm'
 
-const PregnancyForm = ({ phase, edit = false, info = {} }) => {
+const PregnancyForm = ({ ph, edit = false, info = {} }) => {
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(false)
+  const [phase, setPhase] = useState(ph)
+
   const subRoute = !(phase || edit)
     ? `/add-pregnancy/${animal}/${tag}`
     : `/update-pregnancy/${animal}/${tag}`
@@ -76,15 +78,14 @@ const PregnancyForm = ({ phase, edit = false, info = {} }) => {
             skip
           </button>
         )}
+
         {edit || (
-          <button
-            className="buttons2 w-fit bg-colour-red"
-            onClick={(e) => {
-              e.preventDefault()
-            }}
-          >
-            End Pregnancy
-          </button>
+          <DeleteButton
+            subRoute={`/abortion/${animal}/${tag}`}
+            navigate={() => window.location.reload()}
+            alertDialog="Are you sure you want to abort"
+            text="Abortion"
+          />
         )}
         {edit && (
           <DeleteButton

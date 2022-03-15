@@ -55,8 +55,6 @@ const SearchRecordOurStyle = () => {
           ? 2
           : 3
 
-      console.log(lastPregnancy)
-
       setPhase(currentPhase.current)
 
       setIsCured(
@@ -144,7 +142,7 @@ const SearchRecordOurStyle = () => {
             </div>
             <div className="h-auto self-center" hidden={pregnancyFormDisplay}>
               <PregnancyForm
-                phase={phase}
+                ph={phase}
                 info={phase !== currentPhase.current ? info.current : {}}
                 edit={phase !== currentPhase.current}
               />
@@ -156,8 +154,8 @@ const SearchRecordOurStyle = () => {
                     setAddMilk(pregnancyFormDisplay)
                     setAddDisease(pregnancyFormDisplay)
                   }
-                  setPregnancyFormDisplay(!pregnancyFormDisplay)
                   setPhase(currentPhase.current)
+                  setPregnancyFormDisplay(!pregnancyFormDisplay)
                 }}
                 className="buttons2 w-fit m-2"
               >
@@ -170,7 +168,6 @@ const SearchRecordOurStyle = () => {
                       ? details.current.pregnancy
                       : details.current.pregnancy.slice(-1)
                   )
-                  scrollTo({ top: 0 })
                 }}
                 hidden={!(details.current.pregnancy.length > 1)}
                 className="buttons2 m-2 w-fit"

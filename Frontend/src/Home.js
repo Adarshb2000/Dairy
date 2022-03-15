@@ -54,7 +54,10 @@ const Home = () => {
               className="inputs"
               id="animal"
               name="Animal"
-              onChange={(e) => setAnimal(e.target.value)}
+              onChange={(e) => {
+                setAnimal(e.target.value)
+                document.getElementById('tag').focus()
+              }}
               defaultValue=""
             >
               <option value="" disabled>
