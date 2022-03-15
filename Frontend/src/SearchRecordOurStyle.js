@@ -219,7 +219,7 @@ const SearchRecordOurStyle = () => {
               <button
                 onClick={() => {
                   if (addDisease) {
-                    setAddPregnancy(addDisease)
+                    setPregnancyFormDisplay(addDisease)
                     setAddMilk(addDisease)
                   }
                   setAddDisease(!addDisease)
@@ -253,7 +253,7 @@ const SearchRecordOurStyle = () => {
                 className="buttons2 w-24 m-2"
                 onClick={() => {
                   if (addMilk) {
-                    setAddPregnancy(addMilk)
+                    setPregnancyFormDisplay(addMilk)
                     setAddDisease(addMilk)
                   }
                   setAddMilk(!addMilk)
