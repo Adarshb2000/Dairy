@@ -282,12 +282,17 @@ const SearchRecordOurStyle = () => {
       <div className="flex rounded-xl bg-white p-4">
         <div className="pregnancy-box h-auto">
           <h4 className="heading1">Record not found</h4>
-          <Link
-            to={`/new-record/${animal}/${tag}`}
-            className="buttons w-auto self-center"
-          >
-            Add it!
-          </Link>
+          <div className="flex justify-evenly">
+            <Link
+              to={`/new-record/${animal}/${tag}`}
+              className="buttons w-max self-center"
+            >
+              Add it!
+            </Link>
+            <Link to={`/`} replace={true} className="buttons w-max self-center">
+              Go Back
+            </Link>
+          </div>
         </div>
       </div>
     </div>
