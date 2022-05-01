@@ -11,6 +11,7 @@ const removeProperties = (obj) => {
   return obj
 }
 
+// Add new
 router.post('/new-record', async (req, res) => {
   const details = req.body
   try {
@@ -20,6 +21,7 @@ router.post('/new-record', async (req, res) => {
         : await Buffalos.create({ ...details })
     res.status(201).json(animal)
   } catch (e) {
+    console.log(e)
     if (e.code === 11000) {
       res.status(409).json({ message: 'Tag already present' })
     } else {
@@ -28,6 +30,7 @@ router.post('/new-record', async (req, res) => {
   }
 })
 
+// Get old
 const getAnimal = async (req, res, next) => {
   const tag = req.params.tag
   let animal
@@ -60,50 +63,103 @@ router.post('/update/:animal/:tag', getAnimal, async (req, res) => {
   }
 })
 
+// Pregnancy
 router.post('/add-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
   try {
-    console.log(details)
-    animal.pregnancy.push({ ...details })
+    animal.pregnancies.unshift({ ...details })
+    if (details.delivery?.number) animal.deliveries = details.delivery.number
     await animal.save()
     res.status(201).json(animal)
   } catch (e) {
+    console.log(e)
     res.status(500).json(e)
   }
 })
 
-router.post('/update-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
-  const details = req.body
+router.post(
+  '/update-pregnancy/:animal/:tag/:index',
+  getAnimal,
+  async (req, res) => {
+    const details = req.body
+    const animal = req.animal
+    const index = req.params.index
+    try {
+      Object.assign(animal.pregnancies[index], details)
+      if (details.isPregnant) animal.pregnancies[index].complete = false
+      if (details.delivery?.number) animal.deliveries = details.delivery.number
+      await animal.save()
+      res.status(201).json(animal)
+    } catch (e) {
+      res.status(500).json(e)
+    }
+  }
+)
+
+router.delete('/abortion/:animal/:tag', getAnimal, async (req, res) => {
   const animal = req.animal
+  if (!animal.pregnancies.length) {
+    res.sendStatus(409)
+    return
+  }
   try {
-    Object.assign(animal.pregnancy[animal.pregnancy.length - 1], details)
+    animal.pregnancies[0].completed = true
+    animal.save()
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+})
+
+router.delete('/delete-pregnancy/:animal/:tag', getAnimal, async (req, res) => {
+  const phases = ['copulation', 'examination', 'lactation', 'delivery']
+  const detail = phases[req.body.phase]
+  const animal = req.animal
+  if (!animal.pregnancies.length) {
+    res.sendStatus(409)
+    return
+  }
+  try {
+    const lastPregnancy = animal.pregnancies.shift()._doc
+    delete lastPregnancy[detail]
+    if (detail === 'delivery') lastPregnancy.completed = false
+
+    if (
+      phases.reduce(
+        (prev, phase) => prev + Object.keys(lastPregnancy[phase] || {}).length,
+        0
+      )
+    )
+      animal.pregnancies.unshift(lastPregnancy)
     await animal.save()
-    res.status(201).json(animal)
+    res.sendStatus(204)
   } catch (e) {
+    console.log(e)
     res.status(500).json(e)
   }
 })
 
+// Disease
 router.post('/add-disease/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
   try {
-    animal.disease.push({ ...details })
+    animal.diseases.unshift({ ...details })
     await animal.save()
     res.status(201).json(animal)
   } catch (e) {
     res.status(500).json(e)
+    console.log(e)
   }
 })
 
 router.post('/add-vaccine/:animal/:tag', getAnimal, async (req, res) => {
   const details = req.body
   const animal = req.animal
-  const len = animal.disease.length - 1
   try {
-    animal.disease[len].vaccination.push({ ...details })
-    animal.disease[len].cured = details.cured
+    animal.diseases[0].vaccination.push({ ...details })
+    animal.diseases[0].cured = details.cured
     animal.save()
     res.status(201).json(animal)
   } catch (e) {
@@ -112,12 +168,38 @@ router.post('/add-vaccine/:animal/:tag', getAnimal, async (req, res) => {
   }
 })
 
+router.post(
+  '/update-disease/:animal/:tag/:diseaseIndex/:vaccineIndex',
+  getAnimal,
+  async (req, res) => {
+    const diseaseIndex = req.params.diseaseIndex
+    const vaccineIndex = req.params.vaccineIndex
+    const animal = req.animal
+    const details = req.body
+    if (!animal.diseases[diseaseIndex]?.vaccination[vaccineIndex]) {
+      res.sendStatus(409)
+      return
+    }
+    try {
+      Object.assign(animal.diseases[diseaseIndex].vaccination[vaccineIndex], {
+        ...details,
+      })
+      if (details.cured) animal.diseases[diseaseIndex].cured = true
+      animal.save()
+      res.status(201).json(animal)
+    } catch (e) {
+      res.status(500).json(e)
+    }
+  }
+)
+
+// Add Milk
 router.post('/add-milk/:animal/:tag', getAnimal, async (req, res) => {
   const animal = req.animal
   const details = req.body
   console.log(details)
   try {
-    animal.milk.push({ ...details })
+    animal.milk.unshift({ ...details })
     animal.save()
     res.status(201).json(animal)
   } catch (e) {
@@ -126,24 +208,7 @@ router.post('/add-milk/:animal/:tag', getAnimal, async (req, res) => {
   }
 })
 
-router.post('/update-disease/:animal/:tag', getAnimal, async (req, res) => {
-  const animal = req.animal
-  const details = req.body
-
-  try {
-    const len = animal.disease.length
-    if (!len) {
-      animal.disease.push({ ...details })
-    } else {
-      Object.assign(animal.disease[len - 1], { ...details })
-    }
-    animal.save()
-  } catch (e) {
-    res.status(500).json(e)
-  }
-})
-
-router.delete('/delete/:animal/:tag', getAnimal, async (req, res) => {
+router.delete('/delete-tag/:animal/:tag', getAnimal, async (req, res) => {
   const { animal, tag } = req.params
   animal == 'cow'
     ? await Cows.deleteOne({ tag: tag })

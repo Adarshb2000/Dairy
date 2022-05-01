@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
-import { diseaseSchema, milkSchema, pregSchema } from './database_schemas.js'
+import {
+  diseaseSchema,
+  informationSchema,
+  milkSchema,
+  pregSchema,
+} from './database_schemas.js'
 
 const animalSchema = new mongoose.Schema({
   tag: {
@@ -7,13 +12,18 @@ const animalSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  purchaseDate: Date,
-  vehicleNumber: Number,
-  seller: String,
+  information: informationSchema,
   comments: [String],
-  pregnancy: [pregSchema],
-  disease: [diseaseSchema],
-  milk: [milkSchema],
+  pregnancies: {
+    type: [pregSchema],
+    default: () => [],
+  },
+  deliveries: {
+    type: Number,
+    default: 0,
+  },
+  diseases: { type: [diseaseSchema], default: () => [] },
+  milk: { type: [milkSchema], default: () => [] },
 })
 
 export default animalSchema

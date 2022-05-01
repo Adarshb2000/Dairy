@@ -1,5 +1,11 @@
 import mongoose from 'mongoose'
 
+export const informationSchema = new mongoose.Schema({
+  seller: String,
+  purchaseDate: Date,
+  vehicleNumber: Number,
+})
+
 export const pregSchema = new mongoose.Schema({
   copulation: {
     date: Date,
@@ -31,8 +37,6 @@ export const vaccinationSchema = new mongoose.Schema({
 })
 
 export const diseaseSchema = new mongoose.Schema({
-  date: Date,
-  doctor: String,
   vaccination: [vaccinationSchema],
   cured: Boolean,
 })
