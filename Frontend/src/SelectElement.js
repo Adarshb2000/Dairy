@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import LanguageContext from './LanguageContext'
 
 const SelectElement = ({
   name,
@@ -9,6 +10,7 @@ const SelectElement = ({
   required = false,
 }) => {
   const [variable, setVariable] = useState(defaultValue)
+  const [lang, _] = useContext(LanguageContext)
 
   return (
     <div>
@@ -30,7 +32,7 @@ const SelectElement = ({
           required={required}
         >
           <option value="" disabled>
-            Select
+            {lang ? 'Select' : 'चयन करें'}
           </option>
           {options.map(([option, value], index) => (
             <option key={index} value={value}>

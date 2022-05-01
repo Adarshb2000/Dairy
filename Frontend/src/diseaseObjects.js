@@ -18,7 +18,6 @@ const objectForDiseaseForm = (form) => {
 
 const objectForVaccineForm = (form) => {
   const data = objectForSubmission(form)
-  console.log(data)
   if (Object.keys(data).length == 1 && !data.cured)
     throw new Error('Enter some details')
   return data

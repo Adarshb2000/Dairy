@@ -6,7 +6,7 @@ import { logout } from './Helper'
 
 const Home = () => {
   const navigate = useNavigate()
-  const [animal, setAnimal] = useState()
+  const [animal, setAnimal] = useState('buffalo')
   const [tag, setTag] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -58,7 +58,7 @@ const Home = () => {
                 setAnimal(e.target.value)
                 document.getElementById('tag').focus()
               }}
-              defaultValue=""
+              defaultValue={animal}
             >
               <option value="" disabled>
                 Select

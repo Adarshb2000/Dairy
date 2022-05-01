@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const DateElement = ({
   label,
   name,
-  className = 'inputs max-w-fit max-h-fit min-w-fit',
+  className = 'inputs w-fit max-h-fit',
   defaultValue = null,
+  lang = true,
+  onChange = () => {},
 }) => {
   const currYear = new Date().getFullYear()
   const years = Array.from({ length: currYear - 2000 + 1 }).map(
@@ -16,7 +18,9 @@ const DateElement = ({
   const days = Array.from({ length: 31 }).map((_, index) => index + 1)
   const months = Array.from({ length: 12 }).map(
     (_, index) =>
-      new Date(0, index).toLocaleString('en', { month: 'long' }) +
+      new Date(0, index).toLocaleString(lang ? 'en' : 'hi-IN', {
+        month: 'long',
+      }) +
       ' (' +
       String(index + 1) +
       ')'
@@ -27,11 +31,14 @@ const DateElement = ({
 
   const onDateChange = () => {
     setDate(new Date(year, month - 1, day, 5, 30).toISOString().split('T')[0])
+    onChange(new Date(year, month - 1, day, 5, 30))
   }
+
+  useEffect(onDateChange, [])
 
   return (
     <div className="datebox">
-      <label>{label}</label>
+      <label>{label}: </label>
       {/* <div> */}
       <select
         id="day"
@@ -48,7 +55,7 @@ const DateElement = ({
         value={day}
       >
         <option value={''} disabled>
-          Day
+          {lang ? 'Day' : 'दिन'}
         </option>
         {days.map((value) => {
           return (
@@ -73,7 +80,7 @@ const DateElement = ({
         value={month}
       >
         <option value="" disabled>
-          Month
+          {lang ? 'Month' : 'महीना'}
         </option>
         {months.map((value, index) => {
           return (
@@ -98,7 +105,7 @@ const DateElement = ({
         value={year}
       >
         <option value="" disabled>
-          Year
+          {lang ? 'Year' : 'साल'}
         </option>
         {years.map((value, index) => {
           return (

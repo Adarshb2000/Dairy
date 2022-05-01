@@ -1,32 +1,40 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DataBaseError, TokenError } from '../CustomErrors'
 import DeleteButton from '../DeleteButton'
-import { deleteDetails, logDetails, objectForSubmission } from '../Helper'
+import { logDetails, objectForSubmission } from '../Helper'
+import LanguageContext from '../LanguageContext'
 import objectForPregnancyForm from '../objectForPregnancyForm'
 import CopulationForm from './CopulationForm'
 import DeliveryForm from './DeliveryForm'
 import ExaminationForm from './ExaminationForm'
 import LactationForm from './LactationForm'
 
-const PregnancyForm = ({ ph, edit = false, info = {} }) => {
+const PregnancyForm = ({
+  phase: ph,
+  edit = false,
+  info = {},
+  deliveryNumber = 0,
+  pregnancyNumber = 0,
+}) => {
+  const [lang, _] = useContext(LanguageContext)
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(false)
-  const [phase, setPhase] = useState(ph)
+  const [phase, setPhase] = useState(ph ? ph : 0)
 
-  const subRoute = !(phase || edit)
+  const subRoute = !(ph || edit)
     ? `/add-pregnancy/${animal}/${tag}`
-    : `/update-pregnancy/${animal}/${tag}`
+    : `/update-pregnancy/${animal}/${tag}/${pregnancyNumber}`
 
-  if (info?.date) {
+  if (info.date) {
     info.date = new Date(info.date)
   }
 
   const phases = {
     0: <CopulationForm info={info} />,
-    1: <ExaminationForm info={info} />,
+    1: <ExaminationForm info={info} copulationDate={info.copulationDate} />,
     2: <LactationForm info={info} />,
-    3: <DeliveryForm info={info} />,
+    3: <DeliveryForm info={info} deliveryNumber={deliveryNumber} />,
   }
 
   const formSubmission = async (e) => {
@@ -64,9 +72,9 @@ const PregnancyForm = ({ ph, edit = false, info = {} }) => {
       {phases[phase]}
       <div className="flex justify-evenly">
         <button type="submit" className="buttons2 w-auto">
-          Submit
+          {lang ? 'Submit' : 'जामा करें।'}
         </button>
-        {edit || (
+        {ph === 3 || edit || (
           <button
             type="button"
             onClick={(e) => {
@@ -79,7 +87,7 @@ const PregnancyForm = ({ ph, edit = false, info = {} }) => {
           </button>
         )}
 
-        {edit || (
+        {(!pregnancyNumber && !(ph || edit)) || (
           <DeleteButton
             subRoute={`/abortion/${animal}/${tag}`}
             navigate={() => window.location.reload()}
@@ -87,7 +95,7 @@ const PregnancyForm = ({ ph, edit = false, info = {} }) => {
             text="Abortion"
           />
         )}
-        {edit && (
+        {!pregnancyNumber && edit && (
           <DeleteButton
             subRoute={`/delete-pregnancy/${animal}/${tag}`}
             body={{ phase: phase }}

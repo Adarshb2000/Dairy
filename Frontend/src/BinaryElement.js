@@ -8,7 +8,8 @@ const BinaryElement = ({
 }) => {
   const [checked, setChecked] = useState(defaultValue)
   return (
-    <div
+    <button
+      type={'button'}
       className={!checked ? classes[0] : classes[1]}
       onClick={() => setChecked(!checked)}
     >
@@ -24,7 +25,7 @@ const BinaryElement = ({
         onChange={() => {}}
         checked={checked}
       />
-    </div>
+    </button>
   )
 }
 

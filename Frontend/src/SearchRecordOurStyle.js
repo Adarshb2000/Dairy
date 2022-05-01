@@ -1,82 +1,39 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import PregnancyDisplay from './PregnancyDisplay'
 import { DataBaseError, TokenError } from './CustomErrors'
-import { deleteDetails, logout, fetchDetails } from './Helper'
-import DiseaseForm from './DiseaseForm'
+import { logout, fetchDetails } from './Helper'
 import MilkForm from './MilkForm'
-import DiseaseDisplay from './DiseaseDisplay'
 import MilkDisplay from './MilkDisplay'
-import PregnancyForm from './pregnancy-forms/PregnancyForm'
 import DeleteButton from './DeleteButton'
+import Diseases from './Diseases'
+import Pregnancies from './Pregnancies'
 
 const SearchRecordOurStyle = () => {
+  // Basic
   const { animal, tag } = useParams()
 
+  // API CALL
   const [loading, setLoading] = useState(true)
-
-  // Add form
-  const [addDisease, setAddDisease] = useState(true)
-  const [isCured, setIsCured] = useState(true)
-  const [addMilk, setAddMilk] = useState(true)
 
   // Details
   const details = useRef(null)
-  const [preg, setPreg] = useState([])
-  const [disease, setDisease] = useState([])
+  const [pregnancy, setPregnancy] = useState([])
   const [milkDisplay, setMilkDisplay] = useState(5)
   const [milk, setMilk] = useState([])
+  const nextDeliveryNumber = useRef(0)
 
-  const [pregnancyFormDisplay, setPregnancyFormDisplay] = useState(true)
+
+  // ----------------------------------------------------------------
+  // Form EDIT
   const currentPhase = useRef(-1)
-
-  const info = useRef({})
+  const [pregnancyEditInfo, setPregnancyEditInfo] = useState({})
   const [phase, setPhase] = useState(-1)
-
-  const navigate = useNavigate()
-
-  const doubleClick = (information, ph) => {
+  const pregnancyEdit = (information, ph) => {
     setPregnancyFormDisplay(false)
-    info.current = information
+    setPregnancyEditInfo(information)
     setPhase(ph)
-    setPregnancyFormDisplay(!pregnancyFormDisplay)
+    setTimeout(() => displayForm(0, true), 10)
   }
-
-  const fetchDet = async () => {
-    try {
-      details.current = await fetchDetails(animal, tag)
-      const lastPregnancy = details.current.pregnancy.slice(-1)[0]
-      currentPhase.current =
-        !lastPregnancy || lastPregnancy?.completed
-          ? 0
-          : !lastPregnancy?.examination
-          ? 1
-          : !lastPregnancy?.lactation
-          ? 2
-          : 3
-
-      setPhase(currentPhase.current)
-
-      setIsCured(
-        !details.current.disease.length ||
-          details.current.disease.slice(-1)[0]?.cured
-      )
-      setPreg(details.current.pregnancy.slice(-1))
-      setDisease(details.current.disease.slice(-1))
-      setMilk(details.current.milk.reverse())
-      setLoading(false)
-    } catch (e) {
-      if (e instanceof DataBaseError) {
-        setLoading(false)
-      } else if (e instanceof TokenError) {
-        logout(navigate)
-      } else console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    fetchDet()
-  }, [])
 
   return loading ? (
     <>Loading</>
@@ -129,112 +86,28 @@ const SearchRecordOurStyle = () => {
           </div>
 
           {/* Pregnancy information */}
-          <div className="pregnancy-box h-auto">
-            <h2 className="heading2">PREGNANCY</h2>
-            <div className="divide-y-4 divide-white">
-              {preg.map((ele, index) => (
-                <PregnancyDisplay
-                  info={ele}
-                  key={index}
-                  doubleClick={doubleClick}
-                />
-              ))}
-            </div>
-            <div className="h-auto self-center" hidden={pregnancyFormDisplay}>
-              <PregnancyForm
-                ph={phase}
-                info={phase !== currentPhase.current ? info.current : {}}
-                edit={phase !== currentPhase.current}
-              />
-            </div>
-            <div className="flex-column xs:min-h-[70px]">
-              <button
-                onClick={() => {
-                  if (pregnancyFormDisplay) {
-                    setAddMilk(pregnancyFormDisplay)
-                    setAddDisease(pregnancyFormDisplay)
-                  }
-                  setPhase(currentPhase.current)
-                  setPregnancyFormDisplay(!pregnancyFormDisplay)
-                }}
-                className="buttons2 w-fit m-2"
-              >
-                {!currentPhase.current ? 'Add' : 'Update'} Pregnancy
-              </button>
-              <button
-                onClick={() => {
-                  setPreg(
-                    preg.length === 1
-                      ? details.current.pregnancy
-                      : details.current.pregnancy.slice(-1)
-                  )
-                }}
-                hidden={!(details.current.pregnancy.length > 1)}
-                className="buttons2 m-2 w-fit"
-              >
-                {preg.length > 1 ? 'hide' : 'show all'}
-              </button>
-              <Link
-                to={`/add-complete-pregnancy/${animal}/${tag}`}
-                className="buttons w-20 min-w-fit m-2"
-              >
-                Add complete pregnancy
-              </Link>
-            </div>
-          </div>
+          <Pregnancies
+            displayForm={displayForm}
+            pregnancyFormDisplay={pregnancyFormDisplay}
+            pregnancies={pregnancy}
+          />
 
           {/* Disease information */}
-          <div className="pregnancy-box h-auto">
-            <h2 className="heading2">DISEASE</h2>
-            <div className="divide-y-4 divide-white">
-              {disease.map((ele, index) =>
-                ele.vaccination.length ? (
-                  <DiseaseDisplay info={ele} key={index} />
-                ) : (
-                  <></>
-                )
-              )}
-            </div>
-            <div className="h-auto self-center" hidden={addDisease}>
-              <DiseaseForm disease={isCured} />
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  setDisease(
-                    disease.length === 1
-                      ? details.current.disease
-                      : details.current.disease.slice(-1)
-                  )
-                  scrollTo({ top: 0 })
-                }}
-                hidden={!(details.current.disease.length > 1)}
-                className="buttons w-44 m-2"
-              >
-                {disease.length > 1 ? 'hide' : 'show all'}
-              </button>
-              <button
-                onClick={() => {
-                  if (addDisease) {
-                    setPregnancyFormDisplay(addDisease)
-                    setAddMilk(addDisease)
-                  }
-                  setAddDisease(!addDisease)
-                }}
-                className="buttons2 w-auto m-2"
-              >
-                {isCured ? 'Add' : 'Update'} disease
-              </button>
-            </div>
-          </div>
+          <Diseases
+            diseaseFormDisplay={diseaseFormDisplay}
+            diseases={details.current.disease}
+            displayForm={displayForm}
+          />
 
           {/* Milk information */}
           <div className="pregnancy-box h-auto">
             <h2 className="heading2">MILK RECORD</h2>
             <MilkDisplay info={milk.slice(0, milkDisplay)} />
-            <div className="h-auto self-center" hidden={addMilk}>
-              <MilkForm />
-            </div>
+            {milkFormDisplay && (
+              <div className="h-auto self-center">
+                <MilkForm />
+              </div>
+            )}
             <div className="flex justify-center">
               <button
                 hidden={!details.current.milk.length}
@@ -249,11 +122,7 @@ const SearchRecordOurStyle = () => {
               <button
                 className="buttons2 w-24 m-2"
                 onClick={() => {
-                  if (addMilk) {
-                    setPregnancyFormDisplay(addMilk)
-                    setAddDisease(addMilk)
-                  }
-                  setAddMilk(!addMilk)
+                  displayForm(2)
                 }}
               >
                 Add Milk

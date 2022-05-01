@@ -1,23 +1,41 @@
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import DateElement from './DateElement'
-import SelectElement from './SelectElement'
 import BinaryElement from './BinaryElement'
 import { DataBaseError, TokenError } from './CustomErrors'
 import { logDetails, logout } from './Helper'
 import { objectForDiseaseForm, objectForVaccineForm } from './diseaseObjects'
+import LanguageContext from './LanguageContext'
 
-const DiseaseForm = ({ disease = true }) => {
+const DiseaseForm = ({
+  mode,
+  info = {},
+  diseaseIndex = 0,
+  vaccineIndex = 0,
+}) => {
+  // mode -> 0 : Add new Disease
+  // mode -> 1 : Add Vaccine
+  // mode -> 2 : update existing
+
+  const [lang, _] = useContext(LanguageContext)
+
   const { animal, tag } = useParams()
-  const subRoute = disease
-    ? `/add-disease/${animal}/${tag}`
-    : `/add-vaccine/${animal}/${tag}`
-  const getObject = disease ? objectForDiseaseForm : objectForVaccineForm
-  const [doctor, setDoctor] = useState('')
+  const subRoute =
+    mode === 0
+      ? `/add-disease/${animal}/${tag}`
+      : mode === 1
+      ? `/add-vaccine/${animal}/${tag}/`
+      : `/update-disease/${animal}/${tag}/${diseaseIndex}/${vaccineIndex}`
+
+  info.date = new Date(info.date || Date())
+
+  const getObject = mode === 0 ? objectForDiseaseForm : objectForVaccineForm
+
+  const [doctor, setDoctor] = useState(info.doctor || '')
+  const [vaccine, setVaccine] = useState(info.vaccine || '')
+
   const [loading, setLoading] = useState(false)
-  const [vaccine, setVaccine] = useState('')
   const navigate = useNavigate()
-  const pathname = useLocation().pathname
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -31,9 +49,7 @@ const DiseaseForm = ({ disease = true }) => {
     setLoading(true)
     try {
       await logDetails(subRoute, body)
-      if (pathname === `/add-disease/${animal}/${tag}`)
-        navigate(`/${animal}/${tag}`, { replace: true })
-      else window.location.reload()
+      window.location.reload()
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
@@ -51,38 +67,47 @@ const DiseaseForm = ({ disease = true }) => {
     <>Loading...</>
   ) : (
     <form
-      className="box4 h-96 sm:h-60 bg-white rounded-xl mt-4 px-4 py-2"
+      className="box4 h-auto bg-white rounded-xl mt-4 px-4 py-2"
       onSubmit={formSubmission}
     >
-      <DateElement label="Date:" name="date" className="inputs w-20" />
-      <label htmlFor="doctor">
-        Doctor:
-        <input
-          type="text"
-          name="doctor"
-          className="inputs"
-          value={doctor}
-          onChange={({ target }) => {
-            setDoctor(target.value)
-          }}
+      <div className="pregnancy-box h-80 sm:h-60 pregnancy-forms">
+        <DateElement
+          label={lang ? 'Date' : 'दिनांक'}
+          name="date"
+          defaultValue={info.date}
         />
-      </label>
-      <label htmlFor="vaccine">
-        Vaccine:
-        <input
-          type="text"
-          name="vaccine"
-          value={vaccine}
-          onChange={({ target }) => setVaccine(target.value)}
-          className="inputs w-20"
+        <label htmlFor="doctor">
+          {lang ? 'Doctor' : 'डॉक्टर'}:
+          <input
+            type="text"
+            name="doctor"
+            className="inputs w-28"
+            value={doctor}
+            onChange={({ target }) => {
+              setDoctor(target.value)
+            }}
+          />
+        </label>
+        <label htmlFor="vaccine">
+          {lang ? 'Vaccine' : 'दवाई'}:
+          <input
+            type="text"
+            name="vaccine"
+            value={vaccine}
+            onChange={({ target }) => setVaccine(target.value)}
+            className="inputs w-28"
+          />
+        </label>
+        <BinaryElement
+          name="cured"
+          options={
+            lang ? ['Not ok', 'ok'] : ['ठीक नहीं हुआ है', 'ठीक हो गया है']
+          }
+          label="Cured:"
+          defaultValue={info.cured}
         />
-      </label>
-      <BinaryElement
-        name="cured"
-        options={['Not ok', 'ok']}
-        label="Cured:"
-        defaultValue={false}
-      />
+      </div>
+
       <button className="buttons self-center" type="submit">
         Submit
       </button>

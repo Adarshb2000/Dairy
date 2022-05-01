@@ -1,11 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import SelectElement from './SelectElement'
 import DateElement from './DateElement'
 import { logDetails, objectForSubmission } from './Helper'
 import { DataBaseError, TokenError } from './CustomErrors'
+import LanguageContext from './LanguageContext'
 
 const MilkForm = () => {
+  const [lang, _] = useContext(LanguageContext)
+
   const parameters = useParams()
   const [lineNumber, setLineNumber] = useState(0)
   const [milk, setMilk] = useState(0)
@@ -73,34 +76,41 @@ const MilkForm = () => {
       ) : (
         <></>
       )}
-      <label htmlFor="lineNumber">
-        Line Number:
-        <input
+      <div className="pregnancy-box h-80 sm:h-60 pregnancy-forms">
+        <label htmlFor="lineNumber">
+          L. N.:
+          <input
+            className="inputs w-20"
+            type="number"
+            value={lineNumber}
+            name="lineNumber"
+            step={1}
+            min={0}
+            onChange={({ target }) => setLineNumber(target.value)}
+          />
+        </label>
+        <DateElement
+          label={lang ? 'Date' : 'दिनांक'}
+          name="date"
           className="inputs w-20"
-          type="number"
-          value={lineNumber}
-          name="lineNumber"
-          step={1}
-          min={0}
-          onChange={({ target }) => setLineNumber(target.value)}
+          lang={lang}
         />
-      </label>
-      <DateElement label="Date:" name="date" className="inputs w-20" />
-      <label htmlFor="milk">
-        Milk:
-        <input
-          className="inputs w-20"
-          type="number"
-          value={milk}
-          name="milk"
-          step={0.25}
-          min={0}
-          onChange={({ target: { value } }) => setMilk(value)}
-        />
-      </label>
-      <button className="buttons self-center" type="submit">
-        Submit
-      </button>
+        <label htmlFor="milk">
+          {lang ? 'Milk' : 'दूध'}:
+          <input
+            className="inputs w-20"
+            type="number"
+            value={milk}
+            name="milk"
+            step={0.25}
+            min={0}
+            onChange={({ target: { value } }) => setMilk(value)}
+          />
+        </label>
+        <button className="buttons self-center" type="submit">
+          Submit
+        </button>
+      </div>
     </form>
   )
 }

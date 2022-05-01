@@ -97,6 +97,50 @@ const logDetails = async (subRoute, body) => {
   }
 }
 
+const animalTranslate = (animal, calf = 0) => {
+  const animals = {
+    cow: 'गाय',
+    buffalo: 'भेंस',
+  }
+  const calves = {
+    cow: 'पड़िया',
+    padiya: 'पड़िया',
+    female: 'पड़िया',
+    bull: 'पाड़ा',
+    pada: 'पाड़ा',
+    male: 'पाड़ा',
+  }
+
+  return calf ? calves[animal.toLowerCase()] : animals[animal.toLowerCase()]
+}
+
+const nearToday = (date, compareTo, days = 15) => {
+  const todayDate = new Date(compareTo).getDate()
+  const before = new Date()
+  before.setDate(todayDate - days)
+  const after = new Date()
+  after.setDate(todayDate + days)
+
+  if (typeof date === 'string') date = new Date(date)
+  return date > before && date < after
+}
+
+const displayDate = ({
+  date,
+  year = 'numeric',
+  month = 'numeric',
+  day = 'numeric',
+  lang = 'IN',
+}) => {
+  if (typeof date === 'string') date = new Date(date)
+
+  return date.toLocaleDateString(lang, {
+    day: day,
+    month: month,
+    year: year,
+  })
+}
+
 const deleteDetails = async (subRoute, body = {}) => {
   const token = localStorage.getItem('token')
   const res = await fetch(api + subRoute, {
@@ -127,4 +171,7 @@ export {
   objectForSubmission,
   deleteDetails,
   fetchDetails,
+  animalTranslate,
+  displayDate,
+  nearToday,
 }

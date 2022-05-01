@@ -8,7 +8,7 @@ const DeleteButton = ({
   text = 'Delete',
   alertDialog = 'Are you sure you want to delete this?',
 }) => {
-  const deleteTagConfirmation = useRef(false)
+  const deleteTagConfirmation = useRef(true)
 
   return (
     <button
@@ -23,7 +23,7 @@ const DeleteButton = ({
           } else {
             alert(alertDialog)
             deleteTagConfirmation.current = true
-            setTimeout(() => (deleteTagConfirmation.current = false), 2000)
+            setTimeout(() => (deleteTagConfirmation.current = false), 5 * 1000)
           }
         } catch (error) {
           alert(error.message)

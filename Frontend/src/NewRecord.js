@@ -1,21 +1,30 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { logDetails, logout, objectForSubmission } from './Helper'
 import DateElement from './DateElement'
 import SelectElement from './SelectElement'
 import { DataBaseError, TokenError } from './CustomErrors'
+import LanguageContext from './LanguageContext'
 
 const NewRecord = () => {
+  // Basics
   const params = useParams()
+  const navigate = useNavigate()
+
   const [tag, setTag] = useState(params.tag || '')
   const animal = params.animal || ''
-  const navigate = useNavigate()
+
   const [seller, setSeller] = useState('')
   const [loading, setLoading] = useState(false)
-  const [vehicleNumber, setVehicleNumber] = useState()
+  const [vehicleNumber, setVehicleNumber] = useState('')
+
+  // Comments
   const comments = useRef([])
   const [currComment, setCurrComment] = useState('')
   const [fr, setFr] = useState(false)
+
+  // Language
+  const [lang, _] = useContext(LanguageContext)
 
   return loading ? (
     <>Loading...</>
@@ -26,9 +35,19 @@ const NewRecord = () => {
         onSubmit={async (event) => {
           event.preventDefault()
           setLoading(true)
-          const object = objectForSubmission(event.target, {
+          const obj = objectForSubmission(event.target, {
             comments: comments.current,
           })
+          const object = {
+            tag: obj.tag,
+            animal: obj.animal,
+            information: {
+              vehicleNumber: obj.vehicleNumber,
+              purchaseDate: obj.purchaseDate,
+              seller: obj.seller,
+            },
+            comments: obj.comments,
+          }
           try {
             await logDetails('/new-record', object)
             navigate(`/${object.animal}/${object.tag}`, { replace: true })
@@ -44,20 +63,20 @@ const NewRecord = () => {
           }
         }}
       >
-        <h4 className="heading1"> ADD RECORD </h4>
+        <h4 className="heading1"> {lang ? 'New Record' : 'रिकॉर्ड जोड़ें'} </h4>
         <SelectElement
           name="animal"
-          label="Animal:"
+          label={lang ? 'Animal:' : 'जानवर:'}
           required={true}
           options={[
-            ['Cow', 'cow'],
-            ['Buffalo', 'buffalo'],
+            [lang ? 'Cow' : 'गाय', 'cow'],
+            [lang ? 'Buffalo' : 'भेंस', 'buffalo'],
           ]}
           className="inputs"
           defaultValue={animal}
         />
         <label htmlFor="tag">
-          Tag No.:
+          {lang ? 'Tag Number' : 'टैग संख्या'}:
           <input
             className="inputs w-20"
             required={true}
@@ -70,7 +89,7 @@ const NewRecord = () => {
           />
         </label>
         <label htmlFor="seller">
-          Seller:
+          {lang ? 'Seller' : 'विक्रेता'}:
           <input
             className="inputs w-3/5 max-w-[192px]"
             onChange={(e) => setSeller(e.target.value)}
@@ -79,9 +98,13 @@ const NewRecord = () => {
             value={seller}
           />
         </label>
-        <DateElement label="Purchase Date:" name="purchaseDate" />
+        <DateElement
+          label={lang ? 'Purchase Date' : 'खरीद की तारीख:'}
+          name="purchaseDate"
+          lang={lang}
+        />
         <label htmlFor="vehicleNumber">
-          Vehicle No.:
+          {lang ? 'Vehicle Number' : 'वाहन संख्या'}:
           <input
             className="inputs w-20"
             onChange={(e) => setVehicleNumber(e.target.value)}
@@ -141,7 +164,7 @@ const NewRecord = () => {
           </div>
         </label>
         <button className="buttons w-auto" type="submit">
-          Submit
+          {lang ? 'Submit' : 'जमा करें|'}
         </button>
       </form>
     </div>
