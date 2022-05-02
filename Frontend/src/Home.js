@@ -99,15 +99,15 @@ const Home = () => {
           {lang ? 'Search' : 'खोजें'}
         </button>
         <div className="border-t-2 border-grey1 w-full h-0"></div>
-        <div className="responsive-box min-h-[70px]">
+        <div className="responsive-box my-4">
           <Link to={'/new-record'} className="buttons2 h-fit w-fit">
             {lang ? 'Add New Record' : 'नया रिकॉर्ड जोड़ें'}
           </Link>
         </div>
         <div className="border-t-2 border-grey1 w-full h-0"></div>
-        <div className="responsive-box min-h-[70px]">
+        <div className="responsive-box justify-evenly p-2">
           <button
-            className="buttons2 h-fit w-fit"
+            className="buttons2 h-fit w-fit my-2"
             onClick={() => {
               logout(navigate)
             }}
@@ -115,7 +115,7 @@ const Home = () => {
             logout
           </button>
           <button
-            className="buttons2 min-w-fit"
+            className="buttons2 w-fit my-2"
             onClick={() => {
               setLang(!lang)
             }}

@@ -43,7 +43,6 @@ const SearchRecord = () => {
   const fetchDet = async () => {
     try {
       details.current = await fetchDetails(animal, tag)
-      console.log(details.current)
       setLoading(false)
     } catch (e) {
       if (e instanceof DataBaseError) {

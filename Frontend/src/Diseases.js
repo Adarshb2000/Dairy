@@ -72,15 +72,19 @@ const Diseases = ({
           )
         )}
       </div>
-      <div className="h-auto self-center" hidden={!formDisplay} ref={formRef}>
-        <DiseaseForm
-          mode={diseaseMode}
-          info={formInfo}
-          diseaseIndex={diseaseIndex}
-          vaccineIndex={vaccineIndex}
-          reloadPage={reloadPage}
-        />
-      </div>
+      {formDisplay ? (
+        <div className="h-auto self-center" ref={formRef}>
+          <DiseaseForm
+            mode={diseaseMode}
+            info={formInfo}
+            diseaseIndex={diseaseIndex}
+            vaccineIndex={vaccineIndex}
+            reloadPage={reloadPage}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="flex justify-center">
         <button
           onClick={() => {

@@ -108,20 +108,20 @@ const Pregnancies = ({
       {detailedInfo && (
         <PregnancyDisplay info={detailedInfo} pregnancyEdit={informationEdit} />
       )}
-      <div
-        ref={formRef}
-        className="h-auto self-center mb-2"
-        hidden={!formDisplay}
-      >
-        <PregnancyForm
-          phase={formPhase}
-          edit={pregnancyNumber !== 0 || formPhase !== (currentPhase + 1) % 4}
-          info={formInfo}
-          deliveryNumber={nextDeliveryNumber}
-          pregnancyNumber={pregnancyNumber}
-          reloadPage={reloadPage}
-        />
-      </div>
+      {formDisplay ? (
+        <div ref={formRef} className="h-auto self-center mb-2">
+          <PregnancyForm
+            phase={formPhase}
+            edit={pregnancyNumber !== 0 || formPhase !== (currentPhase + 1) % 4}
+            info={formInfo}
+            deliveryNumber={nextDeliveryNumber}
+            pregnancyNumber={pregnancyNumber}
+            reloadPage={reloadPage}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="flex justify-center">
         <button
           onClick={() => {

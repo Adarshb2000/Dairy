@@ -33,9 +33,13 @@ const Milk = ({
     <div className="pregnancy-box h-auto">
       <h2 className="heading2">{lang ? 'MILK RECORD' : 'दूध का रिकॉर्ड'}</h2>
       <MilkDisplay info={milk.slice(0, milkDisplay)} />
-      <div className="h-auto self-center" hidden={!formDisplay} ref={formRef}>
-        <MilkForm reloadPage={reloadPage} info={milk[0] || {}} />
-      </div>
+      {formDisplay ? (
+        <div className="h-auto self-center" ref={formRef}>
+          <MilkForm reloadPage={reloadPage} info={milk[0] || {}} />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="flex justify-center">
         <button
           hidden={milk.length <= 5}
