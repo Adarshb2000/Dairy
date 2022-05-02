@@ -1,18 +1,30 @@
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import LanguageContext from './LanguageContext'
 import MilkDisplay from './MilkDisplay'
 import MilkForm from './MilkForm'
 
-const Milk = ({ milk = [], forms = [], hideForms = () => {} }) => {
+const Milk = ({
+  milk = [],
+  forms = [],
+  hideForms = () => {},
+  reloadPage = () => {},
+}) => {
   // Basic
   const [lang, _] = useContext(LanguageContext)
 
   // Form Display
+  const formRef = useRef(null)
   const [formDisplay, setFormDisplay] = useState(false)
   forms.push(setFormDisplay)
   const displayForm = () => {
     hideForms()
-    setTimeout(() => setFormDisplay(true), 0)
+    if (!formDisplay) {
+      setTimeout(() => setFormDisplay(true), 0)
+      setTimeout(
+        () => formRef.current.scrollIntoView({ behavior: 'smooth' }),
+        0
+      )
+    }
   }
 
   const [milkDisplay, setMilkDisplay] = useState(5)
@@ -21,16 +33,12 @@ const Milk = ({ milk = [], forms = [], hideForms = () => {} }) => {
     <div className="pregnancy-box h-auto">
       <h2 className="heading2">{lang ? 'MILK RECORD' : 'दूध का रिकॉर्ड'}</h2>
       <MilkDisplay info={milk.slice(0, milkDisplay)} />
-      {formDisplay ? (
-        <div className="h-auto self-center">
-          <MilkForm />
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="h-auto self-center" hidden={!formDisplay} ref={formRef}>
+        <MilkForm reloadPage={reloadPage} info={milk[0] || {}} />
+      </div>
       <div className="flex justify-center">
         <button
-          hidden={!milk.length}
+          hidden={milk.length <= 5}
           className="buttons2 w-28 m-2"
           onClick={() => {
             if (milkDisplay >= milk.length) setMilkDisplay(5)
@@ -39,8 +47,14 @@ const Milk = ({ milk = [], forms = [], hideForms = () => {} }) => {
         >
           {milkDisplay >= milk.length ? 'Show Less' : 'Show more'}
         </button>
-        <button className="buttons2 w-24 m-2" onClick={displayForm}>
-          {lang ? 'Add Milk' : 'दूध जोड़ें'}
+        <button className="buttons2 min-w-fit m-2" onClick={displayForm}>
+          {formDisplay
+            ? lang
+              ? 'Close form'
+              : 'रद्द करें'
+            : lang
+            ? 'Add Milk'
+            : 'दूध जोड़ें'}
         </button>
       </div>
     </div>

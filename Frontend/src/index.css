@@ -58,6 +58,10 @@
   @apply h-[15rem] md:h-[10rem];
 }
 
+.information-display-box {
+  @apply pregnancy-box min-w-fit bg-colour h-32 m-2 hover:bg-slate-400;
+}
+
 .heading0 {
   @apply min-h-fit text-4xl text-center text-red1 font-bold;
 }

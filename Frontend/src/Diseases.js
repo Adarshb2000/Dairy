@@ -5,11 +5,17 @@ import { useScrollDirection } from 'react-use-scroll-direction'
 import { nearToday } from './Helper'
 import LanguageContext from './LanguageContext'
 
-const Diseases = ({ diseases = [], forms = [], hideForms = () => {} }) => {
+const Diseases = ({
+  diseases = [],
+  forms = [],
+  hideForms = () => {},
+  reloadPage = () => {},
+}) => {
   // Basic
   const [lang, _] = useContext(LanguageContext)
 
   // Form Display
+  const formRef = useRef(null)
   const [formDisplay, setFormDisplay] = useState(false)
   forms.push(setFormDisplay)
   const displayForm = () => {
@@ -31,8 +37,8 @@ const Diseases = ({ diseases = [], forms = [], hideForms = () => {} }) => {
     nextVaccineInfo.doctor = lastVaccine.doctor
     nextVaccineInfo.date = new Date(lastVaccine.date)
     nextVaccineInfo.date.setDate(nextVaccineInfo.date.getDate() + 3)
-    // if (nearToday(nextVaccineInfo.date, new Date(), 5))
-    //   nextVaccineInfo.date = new Date()
+    if (nearToday(nextVaccineInfo.date, new Date(), 5))
+      nextVaccineInfo.date = new Date()
   }
 
   const informationEdit = (info, diseaseIndex = 0, vaccineIndex = 0) => {
@@ -47,7 +53,7 @@ const Diseases = ({ diseases = [], forms = [], hideForms = () => {} }) => {
     <div className="pregnancy-box h-auto">
       <h2 className="heading2">{lang ? 'DISEASE' : 'दवाई'}</h2>
       <div
-        className="divide-y-4 max-h-[199px] overflow-y-auto divide-white"
+        className="divide-y-4 max-h-[200px] overflow-y-auto divide-white"
         onScroll={(e) => {
           e.preventDefault()
         }}
@@ -66,28 +72,38 @@ const Diseases = ({ diseases = [], forms = [], hideForms = () => {} }) => {
           )
         )}
       </div>
-      {formDisplay ? (
-        <div className="h-auto self-center">
-          <DiseaseForm
-            mode={diseaseMode}
-            info={formInfo}
-            diseaseIndex={diseaseIndex}
-            vaccineIndex={vaccineIndex}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="h-auto self-center" hidden={!formDisplay} ref={formRef}>
+        <DiseaseForm
+          mode={diseaseMode}
+          info={formInfo}
+          diseaseIndex={diseaseIndex}
+          vaccineIndex={vaccineIndex}
+          reloadPage={reloadPage}
+        />
+      </div>
       <div className="flex justify-center">
         <button
           onClick={() => {
+            if (formDisplay) {
+              hideForms()
+              return
+            }
             setDiseaseMode(currentState ? 0 : 1)
             setFormInfo(nextVaccineInfo)
             displayForm()
+            setTimeout(() => {
+              formRef.current.scrollIntoView({
+                behavior: 'smooth',
+              })
+            }, 0)
           }}
-          className="buttons2 w-auto m-2"
+          className="buttons min-w-fit m-2"
         >
-          {lang
+          {formDisplay
+            ? lang
+              ? 'Close form'
+              : 'रद्द करें'
+            : lang
             ? currentState
               ? 'Add new Disease'
               : 'Add vaccine'

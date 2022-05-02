@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { animalTranslate, displayDate } from './Helper'
+import { animalTranslate, displayDate, romanize } from './Helper'
 import LanguageContext from './LanguageContext'
 const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
   const [lang, _] = useContext(LanguageContext)
@@ -29,12 +29,19 @@ const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
       className={`${boxColor} h-16 w-full my-1 px-2 rounded-lg flex justify-center items-center text-lg overflow-x-hidden text-white hover:font-bold`}
     >
       {info.delivery ? (
-        `${info.delivery.number} ${
-          lang ? 'Delivered on' : 'ब्याही'
-        } ${displayDate({
-          date: info.delivery.date,
-          year: '2-digit',
-        })} ${animalTranslate(info.delivery.gender, 1)}`
+        <>
+          <span className="font-bold text-3xl">
+            {romanize(info.delivery.number)}
+          </span>
+          &nbsp;&nbsp;
+          {lang ? 'Delivered on' : 'ब्याही'}&nbsp;&nbsp;
+          {displayDate({
+            date: info.delivery.date,
+            year: '2-digit',
+          })}
+          &nbsp;&nbsp;
+          {animalTranslate(info.delivery.gender, 1)}
+        </>
       ) : info.lactation ? (
         `${lang ? 'Lactation date: ' : 'छुटाई'} ${displayDate({
           date: info.lactation.date,

@@ -27,13 +27,21 @@ const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
         <div className="flex overflow-x-auto">
           {info.vaccination.map((ele, vaccineIndex) => (
             <button
-              className="pregnancy-box bg-colour h-32 m-2 hover:bg-slate-400 border-2 border-slate-400"
+              className="pregnancy-box items-center font-semibold divide-y-2 divide-slate-400 bg-colour h-32 m-2 hover:bg-slate-400 border-2 border-slate-400"
               key={vaccineIndex}
               onClick={() => informationEdit(ele, diseaseIndex, vaccineIndex)}
             >
+              {ele.vaccine ? (
+                <label htmlFor="vaccine">
+                  {/* {lang ? 'Vaccine' : 'दवाई'}:&nbsp; */}
+                  <span>{ele.vaccine}</span>
+                </label>
+              ) : (
+                <></>
+              )}
               {ele.date ? (
                 <label htmlFor="date">
-                  {lang ? 'Date' : 'दिनांक'}:{' '}
+                  {/* {lang ? 'Date' : 'दिनांक'}:{' '} */}
                   <span>
                     {new Date(ele.date).toLocaleDateString('hi-IN', {
                       day: 'numeric',
@@ -45,16 +53,11 @@ const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
               ) : (
                 <></>
               )}
-              {ele.vaccine ? (
-                <label htmlFor="vaccine">
-                  {lang ? 'Vaccine' : 'दवाई'}: <span>{ele.vaccine}</span>
-                </label>
-              ) : (
-                <></>
-              )}
+
               {ele.doctor ? (
                 <label htmlFor="doctor">
-                  {lang ? 'Doctor' : 'डॉक्टर'}: <span>{ele.doctor}</span>
+                  {/* {lang ? 'Doctor' : 'डॉक्टर'}:&nbsp; */}
+                  <span>{ele.doctor}</span>
                 </label>
               ) : (
                 <></>

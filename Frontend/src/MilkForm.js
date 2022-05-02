@@ -2,31 +2,44 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useContext } from 'react'
 import SelectElement from './SelectElement'
 import DateElement from './DateElement'
-import { logDetails, objectForSubmission } from './Helper'
+import { logDetails, nearToday, objectForSubmission } from './Helper'
 import { DataBaseError, TokenError } from './CustomErrors'
 import LanguageContext from './LanguageContext'
 
-const MilkForm = () => {
+const MilkForm = ({ info = {}, reloadPage = () => {} }) => {
+  // Basic
   const [lang, _] = useContext(LanguageContext)
-
-  const parameters = useParams()
-  const [lineNumber, setLineNumber] = useState(0)
-  const [milk, setMilk] = useState(0)
-  const animal = parameters.animal || ''
-  const navigate = useNavigate()
-  const [tag, setTag] = useState(parameters.tag || '')
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+
+  // Params
+  const parameters = useParams()
+
+  // form vars
+  const [lineNumber, setLineNumber] = useState(info.lineNumber || '')
+  const [milk, setMilk] = useState(info.milk || '')
+  const animal = parameters.animal || ''
+  const [tag, setTag] = useState(parameters.tag || '')
+
+  // autofill
+  info.date = info.date ? new Date(info.date) : new Date()
+  info.date.setMonth(info.date.getMonth() + 1)
+  if (nearToday(info.date)) info.date = new Date()
+
   const formSubmission = async (e) => {
     e.preventDefault()
     try {
       const object = objectForSubmission(e.target)
       if (Object.keys(object).length != 3) throw new Error('Enter all details')
       setLoading(true)
-      const res = await logDetails(
+      await logDetails(
         `/add-milk/${animal || object.animal}/${tag}`,
         objectForSubmission(e.target)
       )
-      window.location.reload()
+      if (parameters) {
+        navigate(`/${animal}/${tag}/#milk`)
+        reloadPage()
+      } else window.location.reload()
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
@@ -92,8 +105,8 @@ const MilkForm = () => {
         <DateElement
           label={lang ? 'Date' : 'दिनांक'}
           name="date"
-          className="inputs w-20"
           lang={lang}
+          defaultValue={info.date}
         />
         <label htmlFor="milk">
           {lang ? 'Milk' : 'दूध'}:
@@ -107,8 +120,8 @@ const MilkForm = () => {
             onChange={({ target: { value } }) => setMilk(value)}
           />
         </label>
-        <button className="buttons self-center" type="submit">
-          Submit
+        <button className="buttons2 self-center min-w-fit" type="submit">
+          {lang ? 'Submit' : 'जामा करें।'}
         </button>
       </div>
     </form>

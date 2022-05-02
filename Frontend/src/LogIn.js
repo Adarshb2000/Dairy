@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authentication } from './Helper'
+import { Oval } from 'react-loader-spinner'
 
 const LogIn = () => {
   const navigate = useNavigate()
@@ -23,7 +24,18 @@ const LogIn = () => {
     }
   }
   return loading ? (
-    <>Loading</>
+    <div className="wrapper">
+      <Oval
+        ariaLabel="loading-indicator"
+        height={100}
+        width={100}
+        strokeWidth={1}
+        strokeWidthSecondary={1}
+        color="red"
+        secondaryColor={'white'}
+      />
+      <span className="heading1">Loading...</span>
+    </div>
   ) : (
     <div className="wrapper extra-short">
       <form className="login-container" onSubmit={formSubmit}>

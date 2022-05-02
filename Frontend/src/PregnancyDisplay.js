@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { displayDate } from './Helper'
 import LanguageContext from './LanguageContext'
 
 const PregnancyDisplay = ({
@@ -12,20 +13,14 @@ const PregnancyDisplay = ({
       {/* Copulation Display */}
       {copulation && (
         <button
-          className="pregnancy-box min-w-fit bg-colour h-32 m-2"
+          className="pregnancy-box min-w-fit bg-colour h-32 m-2 hover:bg-slate-400"
           onClick={() => pregnancyEdit(copulation, 0, index)}
         >
           <h2 className="heading3">{lang ? 'Copulation' : 'उथि'}</h2>
           {copulation.date && (
             <label htmlFor="date">
               {lang ? 'Date' : 'दिनांक'}:{' '}
-              <span>
-                {new Date(copulation.date).toLocaleDateString('IN', {
-                  day: 'numeric',
-                  month: 'numeric',
-                  year: 'numeric',
-                })}
-              </span>
+              <span>{displayDate({ date: copulation.date })}</span>
             </label>
           )}
           {copulation.worker && (
@@ -44,19 +39,13 @@ const PregnancyDisplay = ({
       {/* Examination Display */}
       {examination && (
         <button
-          className="pregnancy-box min-w-fit bg-colour h-32 m-2"
+          className="information-display-box"
           onClick={() => pregnancyEdit(examination, 1, index)}
         >
           <h2 className="heading3">{lang ? 'Examination' : 'Test'}</h2>
           <label htmlFor="date">
             {lang ? 'Date' : 'दिनांक'}:{' '}
-            <span>
-              {new Date(examination.date).toLocaleDateString('IN', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
-              })}
-            </span>
+            <span>{displayDate({ date: examination.date })}</span>
           </label>
           <label htmlFor="doctor">
             {lang ? 'Doctor' : 'डॉक्टर'}: <span>{examination.doctor}</span>
@@ -79,17 +68,15 @@ const PregnancyDisplay = ({
       {/* Lactation Display */}
       {lactation && (
         <button
-          className="pregnancy-box justifying-start min-w-fit bg-colour h-32 m-2"
+          className="pregnancy-box justifying-start min-w-fit bg-colour h-32 m-2 hover:bg-slate-400"
           onClick={() => pregnancyEdit(lactation, 2, index)}
         >
           <h2 className="heading3">{lang ? 'Lactation' : 'छुटाई'}</h2>
           <label htmlFor="date">
             {lang ? 'Date' : 'दिनांक'}:{' '}
             <span>
-              {new Date(lactation.date).toLocaleDateString('IN', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
+              {displayDate({
+                date: lactation.date,
               })}
             </span>
           </label>
@@ -98,7 +85,7 @@ const PregnancyDisplay = ({
       {/* Delivery Display */}
       {delivery && (
         <button
-          className="pregnancy-box bg-colour min-w-fit h-32 m-2"
+          className="information-display-box"
           onClick={() => pregnancyEdit(delivery, 3, index)}
         >
           <h2 className="heading3">{lang ? 'Delivery' : 'ब्याही'}</h2>
@@ -108,10 +95,8 @@ const PregnancyDisplay = ({
           <label htmlFor="date">
             {lang ? 'Date' : 'दिनांक'}:{' '}
             <span>
-              {new Date(delivery.date).toLocaleDateString('IN', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
+              {displayDate({
+                date: delivery.date,
               })}
             </span>
           </label>

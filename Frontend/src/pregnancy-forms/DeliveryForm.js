@@ -38,6 +38,7 @@ const DeliveryForm = ({ info, deliveryNumber = 0 }) => {
         defaultValue={info?.gender || ''}
         label={lang ? 'Gender' : 'पाड़ा/पड़िया'}
         className="inputs min-w-fit max-w-[20]"
+        required={true}
       />
     </div>
   )

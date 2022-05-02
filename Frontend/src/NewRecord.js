@@ -1,6 +1,12 @@
 import { useState, useRef, useContext } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { logDetails, logout, objectForSubmission } from './Helper'
+import {
+  animals,
+  animalTranslate,
+  logDetails,
+  logout,
+  objectForSubmission,
+} from './Helper'
 import DateElement from './DateElement'
 import SelectElement from './SelectElement'
 import { DataBaseError, TokenError } from './CustomErrors'
@@ -68,10 +74,10 @@ const NewRecord = () => {
           name="animal"
           label={lang ? 'Animal:' : 'जानवर:'}
           required={true}
-          options={[
-            [lang ? 'Cow' : 'गाय', 'cow'],
-            [lang ? 'Buffalo' : 'भेंस', 'buffalo'],
-          ]}
+          options={animals.map((animal) => [
+            animalTranslate(animal, 0, lang),
+            animal,
+          ])}
           className="inputs"
           defaultValue={animal}
         />

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { DataBaseError, TokenError } from '../CustomErrors'
 import DeleteButton from '../DeleteButton'
 import { logDetails, objectForSubmission } from '../Helper'
@@ -16,11 +16,13 @@ const PregnancyForm = ({
   info = {},
   deliveryNumber = 0,
   pregnancyNumber = 0,
+  reloadPage = () => {},
 }) => {
   const [lang, _] = useContext(LanguageContext)
   const { animal, tag } = useParams()
   const [loading, setLoading] = useState(false)
   const [phase, setPhase] = useState(ph ? ph : 0)
+  const navigate = useNavigate()
 
   const subRoute = !(ph || edit)
     ? `/add-pregnancy/${animal}/${tag}`
@@ -49,7 +51,8 @@ const PregnancyForm = ({
     setLoading(true)
     try {
       await logDetails(subRoute, object)
-      window.location.reload()
+      navigate(`/${animal}/${tag}#pregnancies`, { replace: true })
+      reloadPage()
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
@@ -62,6 +65,7 @@ const PregnancyForm = ({
       }
     }
   }
+
   return loading ? (
     <>Loading...</>
   ) : (

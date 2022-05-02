@@ -12,6 +12,7 @@ const DiseaseForm = ({
   info = {},
   diseaseIndex = 0,
   vaccineIndex = 0,
+  reloadPage = () => {},
 }) => {
   // mode -> 0 : Add new Disease
   // mode -> 1 : Add Vaccine
@@ -49,7 +50,8 @@ const DiseaseForm = ({
     setLoading(true)
     try {
       await logDetails(subRoute, body)
-      window.location.reload()
+      navigate(`/${animal}/${tag}#diseases`)
+      reloadPage()
     } catch (e) {
       if (e instanceof TokenError) {
         alert('not logged in')
@@ -71,10 +73,21 @@ const DiseaseForm = ({
       onSubmit={formSubmission}
     >
       <div className="pregnancy-box h-80 sm:h-60 pregnancy-forms">
+        <label htmlFor="vaccine">
+          {lang ? 'Vaccine' : 'दवाई'}:
+          <input
+            type="text"
+            name="vaccine"
+            value={vaccine}
+            onChange={({ target }) => setVaccine(target.value)}
+            className="inputs w-28"
+          />
+        </label>
         <DateElement
           label={lang ? 'Date' : 'दिनांक'}
           name="date"
           defaultValue={info.date}
+          lang={lang}
         />
         <label htmlFor="doctor">
           {lang ? 'Doctor' : 'डॉक्टर'}:
@@ -88,16 +101,6 @@ const DiseaseForm = ({
             }}
           />
         </label>
-        <label htmlFor="vaccine">
-          {lang ? 'Vaccine' : 'दवाई'}:
-          <input
-            type="text"
-            name="vaccine"
-            value={vaccine}
-            onChange={({ target }) => setVaccine(target.value)}
-            className="inputs w-28"
-          />
-        </label>
         <BinaryElement
           name="cured"
           options={
@@ -108,8 +111,8 @@ const DiseaseForm = ({
         />
       </div>
 
-      <button className="buttons self-center" type="submit">
-        Submit
+      <button className="buttons min-w-fit self-center" type="submit">
+        {lang ? 'Submit' : 'जामा करें।'}
       </button>
     </form>
   )

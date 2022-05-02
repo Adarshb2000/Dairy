@@ -1,6 +1,8 @@
 import { api, host } from './config'
 import { DataBaseError, TokenError } from './CustomErrors'
 
+const animals = ['cow', 'buffalo']
+
 const logout = (navigate) => {
   localStorage.clear()
   navigate('/login', { replace: true })
@@ -8,12 +10,14 @@ const logout = (navigate) => {
 
 const fetchDetails = async (animal, tag) => {
   const token = localStorage.getItem('token')
-  const res = await fetch(`${api}/${animal}/${tag}`, {
+  const subRoute = animal ? `/${animal}/${tag}` : ''
+  const res = await fetch(api + subRoute, {
     method: 'GET',
     headers: {
       'x-auth-token': token,
     },
   })
+  if (!animal) return res.ok
   if (res.ok) {
     const ret = await res.json()
     return ret
@@ -97,10 +101,13 @@ const logDetails = async (subRoute, body) => {
   }
 }
 
-const animalTranslate = (animal, calf = 0) => {
+const animalTranslate = (animal, calf = 0, lang = 0) => {
+  if (lang) {
+    return animal.charAt(0).toUpperCase() + animal.slice(1)
+  }
   const animals = {
     cow: 'गाय',
-    buffalo: 'भेंस',
+    buffalo: 'भैंस',
   }
   const calves = {
     cow: 'पड़िया',
@@ -164,7 +171,49 @@ const deleteDetails = async (subRoute, body = {}) => {
   }
 }
 
+const romanize = (num) => {
+  if (isNaN(num)) return NaN
+  var digits = String(+num).split(''),
+    key = [
+      '',
+      'C',
+      'CC',
+      'CCC',
+      'CD',
+      'D',
+      'DC',
+      'DCC',
+      'DCCC',
+      'CM',
+      '',
+      'X',
+      'XX',
+      'XXX',
+      'XL',
+      'L',
+      'LX',
+      'LXX',
+      'LXXX',
+      'XC',
+      '',
+      'I',
+      'II',
+      'III',
+      'IV',
+      'V',
+      'VI',
+      'VII',
+      'VIII',
+      'IX',
+    ],
+    roman = '',
+    i = 3
+  while (i--) roman = (key[+digits.pop() + i * 10] || '') + roman
+  return Array(+digits.join('') + 1).join('M') + roman
+}
+
 export {
+  animals,
   authentication,
   logout,
   logDetails,
@@ -174,4 +223,5 @@ export {
   animalTranslate,
   displayDate,
   nearToday,
+  romanize,
 }

@@ -1,6 +1,6 @@
 import PregnancyDisplay from './PregnancyDisplay'
 import PregnancyForm from './pregnancy-forms/PregnancyForm'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import PregnancyDisplayBrief from './PregnancyDisplayBrief'
 import LanguageContext from './LanguageContext'
 import { nearToday } from './Helper'
@@ -10,6 +10,7 @@ const Pregnancies = ({
   forms = [],
   deliveries = 0,
   hideForms = () => {},
+  reloadPage = () => {},
 }) => {
   // Basic
   const [lang, _] = useContext(LanguageContext)
@@ -19,7 +20,7 @@ const Pregnancies = ({
 
   // Pregnancy
   const currentPhase =
-    !pregnancies.length || pregnancies[0].delivery
+    !pregnancies.length || pregnancies[0].completed || pregnancies[0].delivery
       ? 3
       : pregnancies[0].lactation
       ? 2
@@ -29,7 +30,7 @@ const Pregnancies = ({
 
   const nextDeliveryNumber = deliveries + 1
   const currentPhaseDate = new Date(
-    pregnancies.length ? pregnancies[0][phases[currentPhase]].date : ''
+    pregnancies.length ? pregnancies[0][phases[currentPhase]]?.date : ''
   )
 
   const today = new Date()
@@ -63,6 +64,7 @@ const Pregnancies = ({
   }
 
   // Form rest
+  const formRef = useRef(null)
   const [formInfo, setFormInfo] = useState({})
   const [formPhase, setFormPhase] = useState((currentPhase + 1) % 4)
   const [pregnancyNumber, setPregnancyNumber] = useState(0)
@@ -106,35 +108,47 @@ const Pregnancies = ({
       {detailedInfo && (
         <PregnancyDisplay info={detailedInfo} pregnancyEdit={informationEdit} />
       )}
-      {formDisplay ? (
-        <div className="h-auto self-center mb-2">
-          <PregnancyForm
-            phase={formPhase}
-            edit={pregnancyNumber !== 0 || formPhase !== (currentPhase + 1) % 4}
-            info={formInfo}
-            deliveryNumber={nextDeliveryNumber}
-            pregnancyNumber={pregnancyNumber}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
+      <div
+        ref={formRef}
+        className="h-auto self-center mb-2"
+        hidden={!formDisplay}
+      >
+        <PregnancyForm
+          phase={formPhase}
+          edit={pregnancyNumber !== 0 || formPhase !== (currentPhase + 1) % 4}
+          info={formInfo}
+          deliveryNumber={nextDeliveryNumber}
+          pregnancyNumber={pregnancyNumber}
+          reloadPage={reloadPage}
+        />
+      </div>
       <div className="flex justify-center">
         <button
           onClick={() => {
+            if (formDisplay) {
+              hideForms()
+              return
+            }
             setFormInfo(nextPhaseInfo)
             setFormPhase((currentPhase + 1) % 4)
             setPregnancyNumber(0)
             displayForm()
+            setTimeout(() => {
+              formRef.current.scrollIntoView({
+                behavior: 'smooth',
+              })
+            }, 0)
           }}
           className="buttons2 w-fit m-2"
         >
-          {add_update[Number(lang)][lastComplete]}{' '}
-          {phaseStatements[(currentPhase + 1) % 4][Number(lang)]}
+          {formDisplay
+            ? lang
+              ? 'Close form'
+              : 'रद्द करें'
+            : `${add_update[Number(lang)][Number(lastComplete)]} ${
+                phaseStatements[(currentPhase + 1) % 4][Number(lang)]
+              }`}
         </button>
-        {/* <button hidden={pregnancies.length > 1} className="buttons2 m-2 w-fit">
-          {pregnancies.length > 1 ? 'hide' : 'show all'}
-        </button> */}
       </div>
     </div>
   )
