@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import {
   animals,
   animalTranslate,
+  authorization,
   fetchDetails,
   logDetails,
   logout,
@@ -38,13 +39,16 @@ const Home = () => {
 
   const verifyToken = async () => {
     try {
-      await fetchDetails()
+      await authorization()
       setLoading(false)
     } catch (e) {
       if (e instanceof TokenError) {
         logout()
         navigate('/login')
-      } else alert('Contact the maker')
+      } else {
+        alert('Contact the maker')
+        console.log(e)
+      }
     }
   }
 

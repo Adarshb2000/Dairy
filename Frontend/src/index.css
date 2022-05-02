@@ -114,7 +114,7 @@
 }
 
 .checkbox {
-  @apply px-1.5 py-0.5 text-center w-full hover:font-bold border-2 text-white rounded-3xl;
+  @apply ml-5 px-1.5 py-0.5 text-center w-20 hover:font-bold border-2 text-white rounded-3xl;
 }
 
 .checkbox-0 {

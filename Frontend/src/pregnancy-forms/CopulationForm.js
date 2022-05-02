@@ -9,7 +9,7 @@ const CopulationForm = ({ info }) => {
 
   return (
     <div className="pregnancy-box pregnancy-box-big pregnancy-forms">
-      <h2 className="heading2">{lang ? 'Copulation' : 'उथि'}</h2>
+      <h2 className="heading2">{lang ? 'Copulation' : 'उठी'}</h2>
       <DateElement
         name="uthiDate"
         label={lang ? 'Date' : 'दिनांक'}

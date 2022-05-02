@@ -4,9 +4,17 @@ import LanguageContext from '../LanguageContext'
 import SelectElement from '../SelectElement'
 
 const ExaminationForm = ({ info, copulationDate }) => {
+  // Language
+  const [lang, _] = useContext(LanguageContext)
+
+  // Form
   const [doctor, setDoctor] = useState(info?.doctor || '')
   const [duration, setDuration] = useState(info?.duration || '')
-  const [lang, _] = useContext(LanguageContext)
+
+  // Duration
+  const [durationDisplay, setDurationDisplay] = useState(true)
+  const durationChange = (temp) => setDurationDisplay(!temp)
+
   const onDateChange = (date) => {
     if (!copulationDate) return
     if (typeof copulationDate === 'string')
@@ -57,8 +65,9 @@ const ExaminationForm = ({ info, copulationDate }) => {
         defaultValue={info?.isPregnant || ''}
         label={lang ? 'Pregnant:' : 'क्या pregnant है?'}
         className="inputs min-w-fit max-w-30"
+        onChange={durationChange}
       />
-      <label htmlFor="duration">
+      <label htmlFor="duration" hidden={durationDisplay}>
         {lang ? 'Duration' : 'समय'}:
         <input
           name="duration"
@@ -68,6 +77,9 @@ const ExaminationForm = ({ info, copulationDate }) => {
           onChange={({ target }) => setDuration(target.value)}
           className="inputs w-20"
         />
+        <span className="font-bold py-2 px-2 rounded-xl text-red1">
+          {lang ? 'Months' : 'महीने'}
+        </span>
       </label>
     </div>
   )

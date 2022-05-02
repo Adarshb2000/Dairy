@@ -49,6 +49,19 @@ const authentication = async (username, password) => {
   }
 }
 
+const authorization = async () => {
+  const ret = await fetch(`${api}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth-token': localStorage.getItem('token'),
+    },
+  })
+  if (ret.status === 400 || ret.status === 408)
+    throw new TokenError(ret.message)
+  else if (ret.status === 500) throw new Error('Something went wrong')
+  else return
+}
+
 const objectForSubmission = (form, obj = {}) => {
   const object = Object.assign(
     Object.fromEntries(
@@ -224,4 +237,5 @@ export {
   displayDate,
   nearToday,
   romanize,
+  authorization,
 }

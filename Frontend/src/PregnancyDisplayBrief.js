@@ -10,7 +10,7 @@ const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
     info.completed || info.delivery
       ? info.delivery
         ? 'bg-green1'
-        : 'bg-red1'
+        : 'bg-red-600'
       : 'bg-yellow-500'
 
   const { ref, inView } = useInView()
@@ -63,7 +63,7 @@ const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
           info.examination.doctor
         }`}</span>
       ) : info.copulation ? (
-        `${lang ? 'Copulation date: ' : 'उथि'} ${displayDate({
+        `${lang ? 'Copulation date: ' : 'उठी'} ${displayDate({
           date: info.copulation.date,
         })} ${
           info.copulation.bullNumber

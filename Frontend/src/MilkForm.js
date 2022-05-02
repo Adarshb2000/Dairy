@@ -121,7 +121,7 @@ const MilkForm = ({ info = {}, reloadPage = () => {} }) => {
           />
         </label>
         <button className="buttons2 self-center min-w-fit" type="submit">
-          {lang ? 'Submit' : 'जामा करें।'}
+          {lang ? 'Submit' : 'जमा करें।'}
         </button>
       </div>
     </form>

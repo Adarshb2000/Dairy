@@ -103,16 +103,14 @@ const DiseaseForm = ({
         </label>
         <BinaryElement
           name="cured"
-          options={
-            lang ? ['Not ok', 'ok'] : ['ठीक नहीं हुआ है', 'ठीक हो गया है']
-          }
-          label="Cured:"
+          options={lang ? ['no', 'yes'] : ['नहीं', 'हां']}
+          label={lang ? 'Cured?' : 'क्या यह अब ठीक है?'}
           defaultValue={info.cured}
         />
       </div>
 
       <button className="buttons min-w-fit self-center" type="submit">
-        {lang ? 'Submit' : 'जामा करें।'}
+        {lang ? 'Submit' : 'जमा करें।'}
       </button>
     </form>
   )

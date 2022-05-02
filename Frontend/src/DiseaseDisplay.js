@@ -33,7 +33,9 @@ const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
             >
               {ele.vaccine ? (
                 <label htmlFor="vaccine">
-                  {/* {lang ? 'Vaccine' : 'दवाई'}:&nbsp; */}
+                  <span className="font-normal">
+                    {lang ? 'Vaccine' : 'दवाई'}:&nbsp;
+                  </span>
                   <span>{ele.vaccine}</span>
                 </label>
               ) : (
@@ -44,8 +46,8 @@ const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
                   {/* {lang ? 'Date' : 'दिनांक'}:{' '} */}
                   <span>
                     {new Date(ele.date).toLocaleDateString('hi-IN', {
-                      day: 'numeric',
-                      month: 'numeric',
+                      day: '2-digit',
+                      month: '2-digit',
                       year: '2-digit',
                     })}
                   </span>
@@ -56,7 +58,9 @@ const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
 
               {ele.doctor ? (
                 <label htmlFor="doctor">
-                  {/* {lang ? 'Doctor' : 'डॉक्टर'}:&nbsp; */}
+                  <span className="font-normal">
+                    {lang ? 'Doctor' : 'डॉक्टर'}:&nbsp;
+                  </span>
                   <span>{ele.doctor}</span>
                 </label>
               ) : (

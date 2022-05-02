@@ -16,7 +16,7 @@ const Pregnancies = ({
   const [lang, _] = useContext(LanguageContext)
 
   const phases = ['copulation', 'examination', 'lactation', 'delivery']
-  const phaseTime = [0, 2, 5, 3]
+  const phaseTime = [0, 3, 5, 3]
 
   // Pregnancy
   const currentPhase =
@@ -68,11 +68,13 @@ const Pregnancies = ({
   const [formInfo, setFormInfo] = useState({})
   const [formPhase, setFormPhase] = useState((currentPhase + 1) % 4)
   const [pregnancyNumber, setPregnancyNumber] = useState(0)
+  const [formEdit, setFormEdit] = useState(false)
 
   const informationEdit = (info = {}, phase = 0, pregnancyNumber = 0) => {
     setFormInfo(info)
     setFormPhase(phase)
     setPregnancyNumber(pregnancyNumber)
+    setFormEdit(true)
     displayForm()
   }
 
@@ -82,11 +84,11 @@ const Pregnancies = ({
   const lastComplete = pregnancies[0]?.completed
   const add_update = [
     ['नई', ''],
-    ['Add', 'Update'],
+    ['Update', 'Add'],
   ]
 
   const phaseStatements = [
-    ['नई उथि की जानकारी जोड़ें', 'new Pregnancy'],
+    ['नई उठी की जानकारी जोड़ें', 'new Pregnancy'],
     ['Test की जानकारी जोड़ें', 'Examination details'],
     ['छुटाई की तारीख जोड़ें', 'Lactation date'],
     ['ब्याही की जानकारी जोड़ें', 'Delivery information'],
@@ -112,7 +114,7 @@ const Pregnancies = ({
         <div ref={formRef} className="h-auto self-center mb-2">
           <PregnancyForm
             phase={formPhase}
-            edit={pregnancyNumber !== 0 || formPhase !== (currentPhase + 1) % 4}
+            edit={formEdit}
             info={formInfo}
             deliveryNumber={nextDeliveryNumber}
             pregnancyNumber={pregnancyNumber}
@@ -132,6 +134,7 @@ const Pregnancies = ({
             setFormInfo(nextPhaseInfo)
             setFormPhase((currentPhase + 1) % 4)
             setPregnancyNumber(0)
+            setFormEdit(false)
             displayForm()
             setTimeout(() => {
               formRef.current.scrollIntoView({

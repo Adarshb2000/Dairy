@@ -8,6 +8,7 @@ const SelectElement = ({
   defaultValue = '',
   className = '',
   required = false,
+  onChange = () => {},
 }) => {
   const [variable, setVariable] = useState(defaultValue)
   const [lang, _] = useContext(LanguageContext)
@@ -25,7 +26,10 @@ const SelectElement = ({
         />
         <select
           name={name}
-          onChange={({ target }) => setVariable(target.value)}
+          onChange={({ target }) => {
+            setVariable(target.value)
+            onChange('true' === target.value)
+          }}
           onBlur={({ target }) => setVariable(target.value)}
           value={variable}
           className={className}

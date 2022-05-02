@@ -76,7 +76,7 @@ const PregnancyForm = ({
       {phases[phase]}
       <div className="flex justify-evenly">
         <button type="submit" className="buttons2 w-auto">
-          {lang ? 'Submit' : 'जामा करें।'}
+          {lang ? 'Submit' : 'जमा करें।'}
         </button>
         {ph === 3 || edit || (
           <button

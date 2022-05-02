@@ -16,7 +16,7 @@ const PregnancyDisplay = ({
           className="pregnancy-box min-w-fit bg-colour h-32 m-2 hover:bg-slate-400"
           onClick={() => pregnancyEdit(copulation, 0, index)}
         >
-          <h2 className="heading3">{lang ? 'Copulation' : 'उथि'}</h2>
+          <h2 className="heading3">{lang ? 'Copulation' : 'उठी'}</h2>
           {copulation.date && (
             <label htmlFor="date">
               {lang ? 'Date' : 'दिनांक'}:{' '}
