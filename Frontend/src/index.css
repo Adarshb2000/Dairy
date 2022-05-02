@@ -15,7 +15,7 @@
 }
 
 .home-container {
-  @apply flex-column justify-evenly items-center p-4 max-w-xl rounded-xl min-h-fit h-3/5 w-screen xs:w-3/4 bg-white;
+  @apply flex-column justify-evenly items-center p-4 max-w-xl rounded-xl min-h-fit h-3/5 w-screen xs:w-3/4 bg-white short:min-h-[400px] short:my-10;
 }
 
 .new-record-container {
