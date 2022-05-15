@@ -9,6 +9,7 @@ const objectForDiseaseForm = (form) => {
         vaccine: data.vaccine,
         date: data.date,
         doctor: data.doctor,
+        cured: data.cured,
       },
     ],
     cured: data.cured,

@@ -18,7 +18,8 @@ const DeleteButton = ({
           if (deleteTagConfirmation.current) {
             if (await deleteDetails(subRoute, body)) {
               alert('Delete was successful')
-              navigate()
+              if (navigate) navigate()
+              else window.location.reload()
             }
           } else {
             alert(alertDialog)

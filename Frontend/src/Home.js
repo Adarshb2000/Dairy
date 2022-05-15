@@ -43,7 +43,7 @@ const Home = () => {
       setLoading(false)
     } catch (e) {
       if (e instanceof TokenError) {
-        logout()
+        logout(navigate)
         navigate('/login')
       } else {
         alert('Contact the maker')

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useContext } from 'react'
 import DiseaseDisplay from './DiseaseDisplay'
 import DiseaseForm from './DiseaseForm'
-import { useScrollDirection } from 'react-use-scroll-direction'
 import { nearToday } from './Helper'
 import LanguageContext from './LanguageContext'
 
@@ -37,7 +36,7 @@ const Diseases = ({
     nextVaccineInfo.doctor = lastVaccine.doctor
     nextVaccineInfo.date = new Date(lastVaccine.date)
     nextVaccineInfo.date.setDate(nextVaccineInfo.date.getDate() + 3)
-    if (nearToday(nextVaccineInfo.date, new Date(), 5))
+    if (nearToday(nextVaccineInfo.date, new Date(), 2))
       nextVaccineInfo.date = new Date()
   }
 

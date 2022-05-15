@@ -6,6 +6,7 @@ import { DataBaseError, TokenError } from './CustomErrors'
 import { logDetails, logout } from './Helper'
 import { objectForDiseaseForm, objectForVaccineForm } from './diseaseObjects'
 import LanguageContext from './LanguageContext'
+import DeleteButton from './DeleteButton'
 
 const DiseaseForm = ({
   mode,
@@ -108,10 +109,19 @@ const DiseaseForm = ({
           defaultValue={info.cured}
         />
       </div>
-
-      <button className="buttons min-w-fit self-center" type="submit">
-        {lang ? 'Submit' : 'जमा करें।'}
-      </button>
+      <div className="flex justify-evenly">
+        <button className="buttons min-w-fit self-center" type="submit">
+          {lang ? 'Submit' : 'जमा करें।'}
+        </button>
+        {mode === 2 ? (
+          <DeleteButton
+            subRoute={`/delete-disease/${animal}/${tag}/${diseaseIndex}/${vaccineIndex}`}
+            text={'Delete'}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
     </form>
   )
 }
