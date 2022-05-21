@@ -1,5 +1,4 @@
-import { useEffect, useContext } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { useContext } from 'react'
 import { animalTranslate, displayDate, romanize } from './Helper'
 import LanguageContext from './LanguageContext'
 const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
@@ -12,15 +11,6 @@ const PregnancyDisplayBrief = ({ info, detailedInfo, index = 0 }) => {
         ? 'bg-green1'
         : 'bg-red-600'
       : 'bg-yellow-500'
-
-  const { ref, inView } = useInView()
-
-  // useEffect(() => {
-  //   inView &&
-  //     document
-  //       .getElementById(`pregnancy${index}`)
-  //       .scrollIntoView((alignToTop = true))
-  // }, [inView])
 
   return (
     <button

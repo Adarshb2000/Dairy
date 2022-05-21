@@ -176,6 +176,8 @@ router.post(
     const vaccineIndex = req.params.vaccineIndex
     const animal = req.animal
     const details = req.body
+    const currState =
+      animal.diseases[diseaseIndex]?.vaccination[vaccineIndex].cured
     if (!animal.diseases[diseaseIndex]?.vaccination[vaccineIndex]) {
       res.sendStatus(409)
       return
@@ -185,10 +187,38 @@ router.post(
         ...details,
       })
       if (details.cured) animal.diseases[diseaseIndex].cured = true
+      else if (currState) animal.diseases[diseaseIndex].cured = false
       animal.save()
       res.status(201).json(animal)
     } catch (e) {
       res.status(500).json(e)
+    }
+  }
+)
+
+router.delete(
+  '/delete-disease/:animal/:tag/:diseaseIndex/:vaccineIndex',
+  getAnimal,
+  async (req, res) => {
+    const animal = req.animal
+    const diseaseIndex = req.params.diseaseIndex
+    const vaccineIndex = req.params.vaccineIndex
+    try {
+      if (
+        animal.diseases[diseaseIndex]?.cured &&
+        animal.diseases[diseaseIndex]?.vaccination[vaccineIndex]?.cured
+      ) {
+        console.log('here')
+        animal.diseases[diseaseIndex].cured = false
+      }
+      animal.diseases[diseaseIndex]?.vaccination.splice(vaccineIndex, 1)
+      if (!animal.diseases[diseaseIndex]?.vaccination.length)
+        animal.diseases.splice(diseaseIndex, 1)
+      await animal.save()
+      res.sendStatus(201)
+    } catch (err) {
+      console.error(err)
+      res.status(500).json(err)
     }
   }
 )

@@ -34,6 +34,10 @@ export const vaccinationSchema = new mongoose.Schema({
   vaccine: String,
   date: Date,
   doctor: String,
+  cured: {
+    type: Boolean,
+    default: () => false,
+  },
 })
 
 export const diseaseSchema = new mongoose.Schema({
