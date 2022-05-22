@@ -11,6 +11,7 @@ import SearchRecordOurStyle from './SearchRecordOurStyle'
 import Test from './Test'
 import SearchRecord from './SearchRecord'
 import LanguageContext from './LanguageContext'
+import NotFound from './NotFound'
 
 const App = () => {
   const lang = useState(false)
@@ -33,6 +34,7 @@ const App = () => {
             element={<AddDiseaseRecord />}
           />
           <Route path="/add-milk" element={<AddMilkRecord />} />
+          <Route element={<NotFound />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
