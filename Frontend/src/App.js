@@ -34,8 +34,8 @@ const App = () => {
             element={<AddDiseaseRecord />}
           />
           <Route path="/add-milk" element={<AddMilkRecord />} />
-          <Route element={<NotFound />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
     </LanguageContext.Provider>

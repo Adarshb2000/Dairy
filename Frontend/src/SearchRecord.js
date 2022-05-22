@@ -5,7 +5,7 @@ import BasicInformation from './BasicInformation'
 import { DataBaseError, TokenError } from './CustomErrors'
 import DeleteButton from './DeleteButton'
 import Diseases from './Diseases'
-import { logout, fetchDetails, animalTranslate } from './Helper'
+import { logout, fetchDetails, animalTranslate, animals } from './Helper'
 import LanguageContext from './LanguageContext'
 import Milk from './Milk'
 import Pregnancies from './Pregnancies'
@@ -41,6 +41,11 @@ const SearchRecord = () => {
   }
 
   const fetchDet = async () => {
+    if (animals.indexOf(animal) === -1 || isNaN(tag)) {
+      alert('invalid!!!')
+      navigate('/', { replace: true })
+      return
+    }
     try {
       details.current = await fetchDetails(animal, tag)
       setLoading(false)
