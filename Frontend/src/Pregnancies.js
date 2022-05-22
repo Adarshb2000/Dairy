@@ -81,7 +81,7 @@ const Pregnancies = ({
   // Detailed information
   const [detailedInfo, setDetailedInfo] = useState(pregnancies[0] || {})
 
-  const lastComplete = pregnancies[0]?.completed
+  const lastComplete = pregnancies[0]?.completed ?? true
   const add_update = [
     ['नई', ''],
     ['Update', 'Add'],
