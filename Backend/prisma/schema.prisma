@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  username String @unique
+  password String
+}
+
+model Animal {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tag Int @unique
+
+  seller String?
+  purchaseDate DateTime?
+  vehicleNumber Int?
+
+
+  deliveries Int @default(0)
+
+
+}
+
+model Comments {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  comment String
+
+  tag Int
+  animal Animal @relation(fields: [tag], references: [tag])
+}
+
+// Pregnancy
+model Pregnancy {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  completed Boolean?
+
+  tag Int
+  animal Animal @relation(fields: [tag], references: [tag])
+}
+
+
+model Copulation {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime?
+  bullNumber Int?
+  worker String?
+
+  pregnancyId String
+  pregnancy Pregnancy @relation(fields: [pregnancyId], references: [id])
+}
+
+model Examination {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  date DateTime?
+  doctor String?
+  duration Decimal?
+  isPregnant Boolean?
+  reason String?
+
+  pregnancyId String
+  pregnancy Pregnancy @relation(fields: [pregnancyId], references: [id])
+}
+
+model Lactation {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime?
+
+  pregnancyId String
+  pregnancy Pregnancy @relation(fields: [pregnancyId], references: [id])
+}
+
+model Delivery {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  number Int?
+  date DateTime?
+  gender String?
+
+  pregnancyId String
+  pregnancy Pregnancy @relation(fields: [pregnancyId], references: [id])
+}
+
+// Disease
+model Disease {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cured Boolean
+
+  tag Int
+  animal Animal @relation(fields: [tag], references: [tag])
+}
+
+model Vaccination {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vaccine String
+  date DateTime
+  doctor String
+  cured Boolean @default(false)
+
+  diseaseId String
+  disease Disease @relation(fields: [diseaseId], references: [id])
+}
+
+model Milk {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  milk Int
+  date DateTime?
+  lineNumber Int
+
+  tag Int
+  animal Animal @relation(fields: [tag], references: [tag])
+}
