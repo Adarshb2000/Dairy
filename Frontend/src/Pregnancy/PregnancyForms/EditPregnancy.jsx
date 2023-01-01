@@ -33,7 +33,6 @@ const EditPregnancy = ({ stage, data, id, closeForm }) => {
         oldData.data.pregnancies[
           oldData.data.pregnancies.findIndex((pregnancy) => pregnancy.id === id)
         ] = newData.data
-        console.log(oldData.data.pregnancies)
       })
       window.location.reload()
 

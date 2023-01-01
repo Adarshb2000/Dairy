@@ -10,7 +10,6 @@ export const createToken = (data: Object) => {
 
 export const verifyToken: Handler = (req, res, next) => {
   try {
-    console.log(req.cookies)
     const data = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
     req['data'] = data
     next()
