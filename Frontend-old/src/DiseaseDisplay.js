@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import LanguageContext from './LanguageContext'
 
 const DiseaseDisplay = ({ info, informationEdit, diseaseIndex }) => {
-  const [lang, _] = useContext(LanguageContext)
+  const [lang] = useContext(LanguageContext)
 
   return info.vaccination[0] && Object.keys(info.vaccination[0]).length > 1 ? (
     <div className="flex">

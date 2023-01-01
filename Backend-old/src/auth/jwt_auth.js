@@ -18,6 +18,7 @@ export const verifyToken = (req, res, next) => {
       if (error instanceof jwt.TokenExpiredError) res.sendStatus(408)
       else if (error instanceof jwt.JsonWebTokenError) res.sendStatus(403)
       else res.sendStatus(400)
+      next(TokenError)
     }
   }
 }

@@ -1,3 +1,3 @@
-class TokenError extends Error {}
-class DataBaseError extends Error {}
-export { TokenError, DataBaseError }
+export class DataBaseError extends Error {}
+
+export class TokenError extends Error {}

@@ -1,25 +1,18 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
-import bp from 'body-parser'
 import { createToken, verifyToken } from './auth/jwt_auth.js'
 import { password, username } from './config.js'
 import { connect } from './database/database_connection.js'
 import { router } from './database/database_routes.js'
+import { body, validationResult } from 'express-validator'
 
 export const app = express()
 
-app.disable('x-powered-by')
-
 app.use(cors())
 app.use(morgan('dev'))
-app.use(bp.json())
-app.use(bp.urlencoded({ extended: true }))
-
-app.use(function (err, req, res, next) {
-  console.log(err.stack)
-  res.status(500).send('Something broke')
-})
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use('/api', router)
 
@@ -27,11 +20,19 @@ app.get('/', verifyToken, (req, res) => {
   res.json({ message: 'ok' })
 })
 
-app.post('/auth', (req, res) => {
-  if (!(req.body && req.body.username && req.body.password)) res.sendStatus(400)
-  else if (req.body.username !== username || req.body.password !== password)
-    res.sendStatus(403)
-  else res.json({ token: createToken({ username: req.body.username }) })
+app.post(
+  '/auth',
+  body(['username', 'password']).exists().isString(),
+
+  (req, res) => {
+    if (req.body.username !== username || req.body.password !== password)
+      res.sendStatus(403)
+    else res.json({ token: createToken({ username: req.body.username }) })
+  }
+)
+
+app.use(function (err, req, res, next) {
+  res.status(500).send('Something broke')
 })
 
 export const start = async (host, port) => {

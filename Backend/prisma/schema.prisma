@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+}
+
+enum Animals {
+  cow
+  buffalo
+}
+
+model Animal {
+  tag       String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  seller        String?
+  purchaseDate  DateTime?
+  vehicleNumber Int?
+
+  deliveries Int @default(0)
+
+  comments    Comment[]
+  pregnancies Pregnancy[]
+  diseases    Disease[]
+  milks       Milk[]
+}
+
+model Comment {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  comment String
+
+  tag    String
+  animal Animal @relation(fields: [tag], references: [tag], onDelete: Cascade, onUpdate: Cascade)
+}
+
+// Pregnancy
+enum PREGNANCY_STAGE {
+  COPULATION
+  EXAMINATION
+  LACTATION
+  DELIVERY
+}
+
+model Pregnancy {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stage     PREGNANCY_STAGE @default(DELIVERY)
+  completed Boolean         @default(false)
+
+  tag         String
+  animal      Animal       @relation(fields: [tag], references: [tag], onDelete: Cascade)
+  copulation  Copulation?
+  examination Examination?
+  lactation   Lactation?
+  delivery    Delivery?
+}
+
+model Copulation {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date       DateTime?
+  bullNumber Int?
+  worker     String?
+
+  pregnancyId String    @unique
+  pregnancy   Pregnancy @relation(fields: [pregnancyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Examination {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date       DateTime
+  doctor     String
+  duration   Float?
+  isPregnant Boolean
+  reason     String?
+
+  pregnancyId String    @unique
+  pregnancy   Pregnancy @relation(fields: [pregnancyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Lactation {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime
+
+  pregnancyId String    @unique
+  pregnancy   Pregnancy @relation(fields: [pregnancyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Delivery {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  number Int      @default(autoincrement())
+  date   DateTime
+  gender String
+
+  pregnancyId String    @unique
+  pregnancy   Pregnancy @relation(fields: [pregnancyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+// Disease
+model Disease {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tag         String
+  animal      Animal        @relation(fields: [tag], references: [tag], onDelete: Cascade, onUpdate: Cascade)
+  vaccination Vaccination[]
+}
+
+model Vaccination {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vaccine String
+  date    DateTime
+  doctor  String
+  cured   Boolean  @default(false)
+
+  diseaseId String
+  disease   Disease @relation(fields: [diseaseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+// Milk
+model Milk {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  milk       Float
+  date       DateTime
+  lineNumber Int
+
+  tag    String
+  animal Animal @relation(fields: [tag], references: [tag], onDelete: Cascade, onUpdate: Cascade)
+}

@@ -5,8 +5,6 @@ import {
   animals,
   animalTranslate,
   authorization,
-  fetchDetails,
-  logDetails,
   logout,
   objectForSubmission,
 } from './Helper'
