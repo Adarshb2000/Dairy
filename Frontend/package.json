@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "vite build && node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adarsh Baderia, Soumya Agrawal",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@tanstack/react-query": "^4.20.4",
     "autoprefixer": "^10.4.13",
+    "express": "^4.18.2",
     "postcss": "^8.4.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

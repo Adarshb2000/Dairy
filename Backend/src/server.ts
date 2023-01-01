@@ -10,11 +10,18 @@ import animalRouter from './animal/router'
 import milkRouter from './milk/router'
 import { verifyToken } from './helpers/jwt'
 import cookieParser from 'cookie-parser'
+import { origins } from './config'
 
 const app = express()
 app.use(
   cors({
-    origin: 'http://127.0.0.1:5173',
+    origin: (origin, callback) => {
+      if (origins.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   })

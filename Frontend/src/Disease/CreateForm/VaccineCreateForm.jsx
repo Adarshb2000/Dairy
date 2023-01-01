@@ -14,9 +14,7 @@ const VaccineCreateForm = ({
   const query = useQueryClient()
   const addVaccine = useMutation(addVaccineForm, {
     onSuccess: (newData) => {
-      console.log(newData.data)
       query.setQueryData([tag, tag], (oldData) => {
-        console.log(oldData.data.diseases[0].vaccination)
         oldData.data.diseases[0].vaccination.push(newData.data)
       })
       closeForm()
