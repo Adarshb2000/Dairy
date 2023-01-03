@@ -41,7 +41,6 @@ const NewRecord = () => {
     submitData.tag = `${data.animal[0].toUpperCase()}-${data.tag}`
     submitData.purchaseDate = new Date(data.purchaseDate)
     submitData.seller = data.seller
-    submitData.vehicleNumber = Number(data.vehicleNumber)
     create.mutate(submitData)
   }
 
@@ -73,12 +72,12 @@ const NewRecord = () => {
           />
         </label>
 
-        <label htmlFor="seller">
-          {lang ? 'Seller' : 'विक्रेता'}:
+        <label htmlFor="information">
+          {lang ? 'Information' : 'जानकारी डाले'}:
           <input
             className="inputs w-3/5 max-w-[192px]"
-            id="seller"
-            name="seller"
+            id="information"
+            name="information"
           />
         </label>
 

@@ -32,11 +32,9 @@ const Lactation = ({ lastStageDate, data = {}, formSubmission }) => {
         defaultValue={data?.date || new Date()}
         lang={lang}
       />
-      <div className="text-center">
-        <button type="submit" className="buttons min-w-fit">
+        <button type="submit" className="buttons min-w-fit self-center w-full">
           {lang ? 'Submit' : 'जमा करें।'}
         </button>
-      </div>
     </form>
   )
 }

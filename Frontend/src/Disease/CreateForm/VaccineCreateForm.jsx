@@ -28,7 +28,7 @@ const VaccineCreateForm = ({
   })
 
   let tempDate = new Date(date)
-  tempDate.setDate(tempDate.getDate() + 3)
+  tempDate.setDate(tempDate.getDate() + 4)
   date = nearToday(tempDate, 1) ? new Date() : tempDate
 
   const formSubmission = (data) => {

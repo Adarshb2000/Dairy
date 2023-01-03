@@ -90,8 +90,8 @@ app.use((err, req, res, next) => {
   }
 })
 
-export const start = () => {
-  app.listen(3000, () => {
-    console.log('Listening on http://localhost:3000')
+export const start = (host: string, port: number) => {
+  app.listen(port, host, () => {
+    console.log(`running on http://${host}:${port}`)
   })
 }

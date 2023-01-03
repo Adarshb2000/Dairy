@@ -103,11 +103,9 @@ const Examination = ({ data = {}, lastStageDate, formSubmission }) => {
           Comment <input name="reason" type="text" className="inputs w-20" />
         </label>
       )}
-      <div className="text-center">
-        <button type="submit" className="buttons min-w-fit">
-          {lang ? 'Submit' : 'जमा करें।'}
-        </button>
-      </div>
+      <button type="submit" className="buttons w-full min-w-fit self-center">
+        {lang ? 'Submit' : 'जमा करें।'}
+      </button>
     </form>
   )
 }

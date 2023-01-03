@@ -47,11 +47,9 @@ const Copulation = ({ data = {}, formSubmission }) => {
           className="inputs w-48"
         />
       </label>
-      <div className="text-center">
-        <button type="submit" className="buttons min-w-fit">
-          {lang ? 'Submit' : 'जमा करें।'}
-        </button>
-      </div>
+      <button type="submit" className="buttons w-full min-w-fit self-center">
+        {lang ? 'Submit' : 'जमा करें।'}
+      </button>
     </form>
   )
 }

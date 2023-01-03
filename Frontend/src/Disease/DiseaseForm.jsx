@@ -52,7 +52,7 @@ const DiseaseForm = ({ data = {}, formSubmission = () => {} }) => {
           defaultValue={data.cured || false}
         />
         <div className="flex justify-evenly">
-          <button className="buttons min-w-fit self-center" type="submit">
+          <button className="buttons w-96 min-w-fit self-center" type="submit">
             {lang ? 'Submit' : 'जमा करें।'}
           </button>
         </div>

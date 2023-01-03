@@ -4,7 +4,9 @@
   "description": "Dairy Backend",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/index.ts"
+    "dev": "ts-node-dev src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsc -p tsconfig.json && node dist/index.js"
   },
   "author": "",
   "license": "ISC",

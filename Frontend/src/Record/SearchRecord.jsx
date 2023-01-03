@@ -74,7 +74,7 @@ const SearchRecord = () => {
       <Navbar>
         <Link
           to={`/edit-record/${tag}`}
-          className="rounded-lg bg-rose-500 p-1 text-white hover:border hover:border-rose-500 hover:bg-white hover:text-black"
+          className="max-w-sm rounded-lg bg-rose-500 p-1 text-white hover:border hover:border-rose-500 hover:bg-white hover:text-black"
         >
           {lang ? (
             <>
@@ -86,21 +86,7 @@ const SearchRecord = () => {
                 : null}
             </>
           ) : (
-            <>
-              {result.data.data.purchaseDate
-                ? `${displayDate({
-                    date: result.data.data.purchaseDate,
-                    lang,
-                  })} को `
-                : null}
-              {result.data.data.seller
-                ? `${result.data.data.seller} की `
-                : null}
-              {result.data.data.vehicleNumber
-                ? `(${result.data.data.vehicleNumber}N) `
-                : null}
-              गाड़ी से आई
-            </>
+            <>{result.data.data.seller ? `${result.data.data.seller}` : null}</>
           )}
         </Link>
         <span className="absolute top-0 right-0 p-2 text-7xl font-bold">

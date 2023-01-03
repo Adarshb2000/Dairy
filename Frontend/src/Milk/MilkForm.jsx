@@ -53,7 +53,7 @@ const MilkForm = ({ data = {}, formSubmission = () => {} }) => {
             min={0}
           />
         </label>
-        <button className="buttons2 min-w-fit self-center" type="submit">
+        <button className="buttons2 w-full min-w-fit self-center" type="submit">
           {lang ? 'Submit' : 'जमा करें।'}
         </button>
       </div>

@@ -63,11 +63,9 @@ const Delivery = ({
         className="inputs min-w-fit max-w-[20]"
         required={true}
       />
-      <div className="text-center">
-        <button type="submit" className="buttons min-w-fit">
-          {lang ? 'Submit' : 'जमा करें।'}
-        </button>
-      </div>
+      <button type="submit" className="buttons w-full min-w-fit self-center">
+        {lang ? 'Submit' : 'जमा करें।'}
+      </button>
     </form>
   )
 }

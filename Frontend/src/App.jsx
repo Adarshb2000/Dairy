@@ -25,6 +25,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const lang = useState(false)
+
   return (
     <div className="flex h-screen w-screen flex-col justify-start bg-grey0">
       <LanguageContext.Provider value={lang}>

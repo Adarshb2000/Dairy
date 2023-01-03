@@ -22,7 +22,7 @@ const Examination = ({ data, lang }) => {
       year: '2-digit',
     })} ${data.doctor ? (lang ? 'Doctor' : 'डॉक्टर') : ''} ${
       data.doctor
-    }`}</span>
+    } ${data.duration ? `${data.duration} ${lang ? 'months' : 'माह'}` : null}`}</span>
   )
 }
 
