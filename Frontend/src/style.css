@@ -93,7 +93,7 @@
 }
 
 .buttons {
-  @apply w-20 rounded-3xl border-2 border-red1 bg-red1 px-1.5 py-0.5 text-white hover:border-red1 hover:bg-white hover:font-bold hover:text-red1;
+  @apply rounded-3xl border-2 border-red1 bg-red1 px-1.5 py-0.5 text-white hover:border-red1 hover:bg-white hover:font-bold hover:text-red1;
 }
 
 .delete-button {

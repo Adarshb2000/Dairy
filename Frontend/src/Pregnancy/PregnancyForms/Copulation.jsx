@@ -13,8 +13,7 @@ const Copulation = ({ data = {}, formSubmission }) => {
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData.entries())
         data.date = new Date(data.date)
-        if (data.bullNumber === '') delete data.bullNumber
-        else data.bullNumber = Number(data.bullNumber)
+        if (data.bull === '') delete data.bull
         if (data.worker === '') delete data.worker
         data.stage = 'COPULATION'
         formSubmission(data)
@@ -27,15 +26,15 @@ const Copulation = ({ data = {}, formSubmission }) => {
         defaultValue={new Date(data.date || Date())}
         lang={lang}
       />
-      <label htmlFor="bullNumber">
-        {lang ? 'BullNumber' : 'बैल संख्या'}:
+      <label htmlFor="bull">
+        {lang ? 'Bull' : 'पड़ा'}:
         <input
           className="inputs w-20"
-          type="number"
+          type="text"
           min={0}
-          defaultValue={data?.bullNumber || ''}
+          defaultValue={data?.bull || ''}
           step={1}
-          name="bullNumber"
+          name="bull"
         />
       </label>
       <label htmlFor="worker my-2">

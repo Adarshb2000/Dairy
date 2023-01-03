@@ -54,3 +54,29 @@ export const editPregnancy = async ({ data, tag, id }) => {
   }
   return res.json()
 }
+
+export const abortPregnancy = async ({ tag, id }) => {
+  const res = await fetch(`${host}/pregnancy/${tag}/abort/${id}`, {
+    method: 'PATCH',
+    credentials: 'include',
+  })
+
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return res.json()
+}
+
+export const unAbortPregnancy = async ({ tag, id }) => {
+  const res = await fetch(`${host}/pregnancy/${tag}/unabort/${id}`, {
+    method: 'PATCH',
+    credentials: 'include',
+  })
+
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return res.json()
+}

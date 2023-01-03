@@ -32,7 +32,7 @@ const Diseases = ({ diseases = [] }) => {
               <Modal>
                 <DiseaseCreateForm closeForm={() => showForm(false)} />
                 <div className="text-center">
-                  <button className="buttons" onClick={() => showForm(false)}>
+                  <button className="buttons " onClick={() => showForm(false)}>
                     {lang ? 'Close' : 'बंद करें'}
                   </button>
                 </div>

@@ -40,10 +40,10 @@ const PregnancyDisplay = ({
               <span className="ml-2">{copulation.worker}</span>
             </label>
           )}
-          {copulation.bullNumber && (
-            <label htmlFor="bullNumber">
-              {lang ? 'Bull Number' : 'बैल संख्या'}
-              <span className="ml-2">{copulation.bullNumber}</span>
+          {copulation.bull && (
+            <label htmlFor="bull">
+              {lang ? 'Bull' : 'पड़ा'}
+              <span className="ml-2">{copulation.bull}</span>
             </label>
           )}
         </button>
@@ -135,19 +135,12 @@ const PregnancyDisplay = ({
       )}
       {form ? (
         <Modal>
-          <div>
-            <EditPregnancy
-              data={editData}
-              id={id}
-              stage={editStage}
-              closeForm={() => showForm(false)}
-            />
-            <div className="text-center">
-              <button className="buttons" onClick={() => showForm(false)}>
-                {lang ? 'Close' : 'बंद करें'}
-              </button>
-            </div>
-          </div>
+          <EditPregnancy
+            data={editData}
+            id={id}
+            stage={editStage}
+            closeForm={() => showForm(false)}
+          />
         </Modal>
       ) : null}
     </div>

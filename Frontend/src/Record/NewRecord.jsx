@@ -40,7 +40,7 @@ const NewRecord = () => {
     const submitData = {}
     submitData.tag = `${data.animal[0].toUpperCase()}-${data.tag}`
     submitData.purchaseDate = new Date(data.purchaseDate)
-    submitData.seller = data.seller
+    submitData.information = data.information
     create.mutate(submitData)
   }
 
@@ -73,7 +73,7 @@ const NewRecord = () => {
         </label>
 
         <label htmlFor="information">
-          {lang ? 'Information' : 'जानकारी डाले'}:
+          {lang ? 'Information' : 'खरीद के बारे में जानकारी'}:
           <input
             className="inputs w-3/5 max-w-[192px]"
             id="information"
@@ -87,16 +87,6 @@ const NewRecord = () => {
           lang={lang}
           defaultValue={new Date()}
         />
-
-        <label htmlFor="vehicleNumber">
-          {lang ? 'Vehicle Number' : 'वाहन संख्या'}:
-          <input
-            className="inputs w-20"
-            id="vehicleNumber"
-            name="vehicleNumber"
-            type="number"
-          />
-        </label>
 
         {/* <label htmlFor="comments">
           Comments:{' '}
@@ -146,7 +136,7 @@ const NewRecord = () => {
             </button>
           </div>
         </label> */}
-        <button className="buttons w-auto" type="submit">
+        <button className="buttons w-3/5" type="submit">
           {lang ? 'Submit' : 'जमा करें|'}
         </button>
       </form>

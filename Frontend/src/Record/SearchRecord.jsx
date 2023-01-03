@@ -22,6 +22,9 @@ const SearchRecord = () => {
   const navigate = useNavigate()
 
   const result = useQuery([tag, tag], getTagDetails, {
+    onSuccess: (data) => {
+      console.log(data)
+    },
     onError: (err) => {
       if (err instanceof TokenError) {
         logout(navigate)
@@ -76,18 +79,7 @@ const SearchRecord = () => {
           to={`/edit-record/${tag}`}
           className="max-w-sm rounded-lg bg-rose-500 p-1 text-white hover:border hover:border-rose-500 hover:bg-white hover:text-black"
         >
-          {lang ? (
-            <>
-              {result.data.data.purchaseDate
-                ? `Purchased on ${displayDate({
-                    date: result.data.data.purchaseDate,
-                    lang,
-                  })}`
-                : null}
-            </>
-          ) : (
-            <>{result.data.data.seller ? `${result.data.data.seller}` : null}</>
-          )}
+          {result.data.data.information}
         </Link>
         <span className="absolute top-0 right-0 p-2 text-7xl font-bold">
           {tag.split('-')[1]}

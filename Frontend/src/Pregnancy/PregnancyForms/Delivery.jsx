@@ -59,7 +59,7 @@ const Delivery = ({
           [lang ? 'bull' : animalTranslate('bull', 1), 'male'],
         ]}
         defaultValue={data?.gender || ''}
-        label={lang ? 'Gender' : 'पाड़ा/पड़िया'}
+        label={lang ? 'Gender' : 'पड़ा/पड़िया'}
         className="inputs min-w-fit max-w-[20]"
         required={true}
       />

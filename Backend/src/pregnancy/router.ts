@@ -24,15 +24,15 @@ router.post(
   createPregnancy
 )
 
+router.patch('/abort/:id', abortPregnancy)
+router.patch('/unabort/:id', unAbortPregnancy)
+
 router
   .route('/:id')
   .all(param('id').exists(), validator)
   .get(getPregnancy)
   .delete(deletePregnancy)
   .put(body('stage').exists().isIn(pregnancyStages), updatePregnancy)
-
-router.patch('/abort/:id', abortPregnancy)
-router.patch('/unabort/:id', unAbortPregnancy)
 
 router
   .route('/:id')

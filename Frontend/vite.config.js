@@ -8,8 +8,5 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir: true,
   },
-  server: {
-    port: 1234,
-    host: '192.168.29.235',
-  },
+  envDir: '.',
 })

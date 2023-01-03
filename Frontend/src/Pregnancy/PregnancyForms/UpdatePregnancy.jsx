@@ -4,7 +4,7 @@ import { pregnancyStages } from '../../Helpers/constants'
 import Delivery from './Delivery'
 import Examination from './Examination'
 import Lactation from './Lactation'
-import { updatePregnancy } from './pregnancyforms'
+import { abortPregnancy, updatePregnancy } from './pregnancyforms'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import LanguageContext from '../../LanguageContext'
@@ -59,6 +59,16 @@ const UpdatePregnancy = ({ pregnancy, closeForm }) => {
     },
   })
 
+  const abort = useMutation(abortPregnancy, {
+    onSuccess: (newData) => {
+      query.setQueryData([tag, tag], (oldData) => {
+        oldData.data.pregnancies.shift()
+        oldData.data.pregnancies.unshift(newData.data)
+        closeForm()
+      })
+    },
+  })
+
   const nextStage =
     pregnancyStages[pregnancyStages.indexOf(pregnancy.stage) + 1]
 
@@ -73,7 +83,15 @@ const UpdatePregnancy = ({ pregnancy, closeForm }) => {
         pregnancy[pregnancy.stage.toLowerCase()].date,
         formSubmission
       )}
-      <div className="text-center">
+      <div className="flex justify-evenly">
+        <button
+          className="delete-button"
+          onClick={() => {
+            abort.mutate({ tag, id: pregnancy.id })
+          }}
+        >
+          Abort
+        </button>
         <button onClick={() => closeForm()} className="buttons">
           {lang ? 'Close' : 'बंद करें'}
         </button>

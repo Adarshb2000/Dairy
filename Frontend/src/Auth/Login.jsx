@@ -39,6 +39,7 @@ const LogIn = () => {
               name="username"
               autoFocus={true}
               required={true}
+              defaultValue={import.meta.env.username || ''}
             />
           </label>
         </div>
@@ -52,6 +53,7 @@ const LogIn = () => {
               name="password"
               required={true}
               placeholder="password"
+              defaultValue={import.meta.env.password || ''}
             />
           </label>
         </div>

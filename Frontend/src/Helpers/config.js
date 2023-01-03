@@ -1,1 +1,1 @@
-export const host = 'https://api.baderiadairy.works'
+export const host = 'http://localhost:3000'

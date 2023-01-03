@@ -10,9 +10,7 @@ import PregnancyDisplay from './PregnancyDisplay'
 const Copulation = ({ data, lang }) => {
   return `${lang ? 'Copulation date: ' : 'उठी'} ${displayDate({
     date: data.date,
-  })} ${data.bullNumber ? `S.N.(${data.bullNumber})` : ''} ${
-    data.worker ? data.worker : ''
-  }`
+  })} ${data.bull ? `${data.bull}` : ''} ${data.worker ? data.worker : ''}`
 }
 
 const Examination = ({ data, lang }) => {
@@ -20,9 +18,9 @@ const Examination = ({ data, lang }) => {
     <span>{`TEST ${displayDate({
       date: data.date,
       year: '2-digit',
-    })} ${data.doctor ? (lang ? 'Doctor' : 'डॉक्टर') : ''} ${
-      data.doctor
-    } ${data.duration ? `${data.duration} ${lang ? 'months' : 'माह'}` : null}`}</span>
+    })} ${data.doctor ? (lang ? 'Doctor' : 'डॉक्टर') : ''} ${data.doctor} ${
+      data.duration ? `${data.duration} ${lang ? 'months' : 'माह'}` : null
+    }`}</span>
   )
 }
 

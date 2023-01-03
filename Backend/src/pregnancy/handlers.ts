@@ -80,6 +80,13 @@ export const abortPregnancy: Handler = async (req, res, next) => {
       },
       data: {
         completed: true,
+        aborted: true,
+      },
+      include: {
+        copulation: true,
+        examination: true,
+        lactation: true,
+        delivery: true,
       },
     })
     res.json({ data: pregnancy })
@@ -96,6 +103,13 @@ export const unAbortPregnancy: Handler = async (req, res, next) => {
       },
       data: {
         completed: false,
+        aborted: false,
+      },
+      include: {
+        copulation: true,
+        examination: true,
+        lactation: true,
+        delivery: true,
       },
     })
     res.json({ data: pregnancy })

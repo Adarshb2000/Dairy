@@ -42,8 +42,7 @@ const EditRecord = () => {
     const data = Object.fromEntries(formData.entries())
     const submitData = {}
     submitData.purchaseDate = new Date(data.purchaseDate)
-    submitData.seller = data.seller
-    submitData.vehicleNumber = Number(data.vehicleNumber)
+    submitData.information = data.information
     edit.mutate({ data: submitData, tag })
   }
 
@@ -77,13 +76,13 @@ const EditRecord = () => {
           />
         </label>
 
-        <label htmlFor="seller">
-          {lang ? 'Seller' : 'विक्रेता'}:
+        <label htmlFor="information">
+          {lang ? 'Information' : 'खरीद के बारे में जानकारी'}:
           <input
             className="inputs w-3/5 max-w-[192px]"
-            id="seller"
-            name="seller"
-            defaultValue={data.seller}
+            id="information"
+            name="information"
+            defaultValue={data.information}
           />
         </label>
 
@@ -91,19 +90,8 @@ const EditRecord = () => {
           label={lang ? 'Purchase Date' : 'खरीद की तारीख'}
           name="purchaseDate"
           lang={lang}
-          defaultValue={new Date(data.purchaseDate)}
+          defaultValue={new Date(data.purchaseDate || Date())}
         />
-
-        <label htmlFor="vehicleNumber">
-          {lang ? 'Vehicle Number' : 'वाहन संख्या'}:
-          <input
-            className="inputs w-20"
-            id="vehicleNumber"
-            name="vehicleNumber"
-            type="number"
-            defaultValue={data.vehicleNumber}
-          />
-        </label>
 
         {/* <label htmlFor="comments">
           Comments:{' '}
@@ -153,7 +141,7 @@ const EditRecord = () => {
             </button>
           </div>
         </label> */}
-        <button className="buttons w-auto" type="submit">
+        <button className="buttons w-3/5" type="submit">
           {lang ? 'Submit' : 'जमा करें|'}
         </button>
       </form>
