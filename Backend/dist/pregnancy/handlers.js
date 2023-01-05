@@ -172,7 +172,14 @@ var abortPregnancy = function (req, res, next) { return __awaiter(void 0, void 0
                             id: req.params.id
                         },
                         data: {
-                            completed: true
+                            completed: true,
+                            aborted: true
+                        },
+                        include: {
+                            copulation: true,
+                            examination: true,
+                            lactation: true,
+                            delivery: true
                         }
                     })];
             case 1:
@@ -199,7 +206,14 @@ var unAbortPregnancy = function (req, res, next) { return __awaiter(void 0, void
                             id: req.params.id
                         },
                         data: {
-                            completed: false
+                            completed: false,
+                            aborted: false
+                        },
+                        include: {
+                            copulation: true,
+                            examination: true,
+                            lactation: true,
+                            delivery: true
                         }
                     })];
             case 1:

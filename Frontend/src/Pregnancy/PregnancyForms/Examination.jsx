@@ -12,7 +12,7 @@ const Examination = ({ data = {}, lastStageDate, formSubmission }) => {
   const [isPregnant, setIsPregnant] = useState(null)
   if (!data.date && lastStageDate) {
     const someDate = new Date(lastStageDate)
-    someDate.setDate(someDate.getDate() + 3 * 30)
+    someDate.setDate(someDate.getDate() + 75)
     data.date = someDate
   }
 
@@ -84,7 +84,7 @@ const Examination = ({ data = {}, lastStageDate, formSubmission }) => {
         required={true}
       />
       {isPregnant ? (
-        <label htmlFor="duration">
+        <label htmlFor="duration" className="mb-2">
           {lang ? 'Duration' : 'समय'}:
           <input
             name="duration"
@@ -100,7 +100,8 @@ const Examination = ({ data = {}, lastStageDate, formSubmission }) => {
       ) : null}
       {isPregnant ?? true ? null : (
         <label htmlFor="reason">
-          Comment <input name="reason" type="text" className="inputs w-20" />
+          Comment{' '}
+          <input name="reason" type="text" className="inputs mb-2 w-20" />
         </label>
       )}
       <button type="submit" className="buttons w-full min-w-fit self-center">

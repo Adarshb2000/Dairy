@@ -7,7 +7,7 @@ const Lactation = ({ lastStageDate, data = {}, formSubmission }) => {
 
   if (!Object.keys(data).length && lastStageDate) {
     const tempStage = new Date(lastStageDate)
-    tempStage.setMonth(tempStage.getMonth() + 2)
+    tempStage.setMonth(tempStage.getMonth() + 5)
     data.date = tempStage
   } else if (data.date) {
     data.date = new Date(data.date)
@@ -32,9 +32,9 @@ const Lactation = ({ lastStageDate, data = {}, formSubmission }) => {
         defaultValue={data?.date || new Date()}
         lang={lang}
       />
-        <button type="submit" className="buttons min-w-fit self-center w-full">
-          {lang ? 'Submit' : 'जमा करें।'}
-        </button>
+      <button type="submit" className="buttons w-full min-w-fit self-center">
+        {lang ? 'Submit' : 'जमा करें।'}
+      </button>
     </form>
   )
 }

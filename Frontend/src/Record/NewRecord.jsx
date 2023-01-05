@@ -78,6 +78,7 @@ const NewRecord = () => {
             className="inputs w-3/5 max-w-[192px]"
             id="information"
             name="information"
+            autoComplete={false}
           />
         </label>
 
