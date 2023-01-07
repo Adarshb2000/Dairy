@@ -67,6 +67,7 @@ const Milk = ({ data }) => {
                       {new Date(date).toLocaleDateString('hi-In', {
                         day: '2-digit',
                         month: '2-digit',
+                        year: '2-digit',
                       })}
                     </td>
                     <td className="border border-rose-400 text-center">

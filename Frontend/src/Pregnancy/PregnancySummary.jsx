@@ -76,7 +76,7 @@ const PregnancySummary = ({ pregnancy }) => {
     <div>
       <button
         id={pregnancy.id}
-        className={`${boxColor} bg- my-1 flex h-16 w-full items-center justify-center overflow-x-hidden rounded-lg px-2 text-lg text-white hover:font-bold`}
+        className={`${boxColor} my-1 flex h-16 w-full items-center justify-center overflow-x-hidden rounded-lg px-2 text-lg text-white hover:font-bold`}
         onClick={() => {
           showDetailedView(!detailedView)
         }}

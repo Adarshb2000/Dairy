@@ -15,9 +15,9 @@ export const animalTranslate = (animal, calf = 0, lang = 0) => {
     cow: 'पड़िया',
     padiya: 'पड़िया',
     female: 'पड़िया',
-    bull: 'पाड़ा',
-    pada: 'पाड़ा',
-    male: 'पाड़ा',
+    bull: 'पड़ा',
+    pada: 'पड़ा',
+    male: 'पड़ा',
   }
 
   return calf ? calves[animal.toLowerCase()] : animals[animal.toLowerCase()]

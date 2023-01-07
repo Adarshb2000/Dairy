@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getTagDetails } from './tagDetails'
 import Loading from '../Custom/Loading'
@@ -7,14 +7,11 @@ import Pregnancies from '../Pregnancy/Pregnancies'
 import Diseases from '../Disease/Diseases'
 import Milk from '../Milk/Milk'
 import { DataBaseError, TokenError } from '../customErrors'
-import {
-  animalTranslate,
-  displayDate,
-  logout,
-} from '../Helpers/helperFunctions'
+import { animalTranslate, logout } from '../Helpers/helperFunctions'
 import { useContext } from 'react'
 import LanguageContext from '../LanguageContext'
 import Navbar from '../Navbar'
+import Comments from '../Comment/Comments'
 
 const SearchRecord = () => {
   const { tag } = useParams()
@@ -93,6 +90,10 @@ const SearchRecord = () => {
       </div>
       <div className="w-full max-w-3xl">
         <Milk data={result.data.data.milks} />
+      </div>
+
+      <div className="w-full max-w-3xl">
+        <Comments comments={result.data.data.comments} />
       </div>
     </div>
   )
