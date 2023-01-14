@@ -34,7 +34,7 @@ const App = () => {
             <div className="mb-2 w-full bg-rose-200 p-4 text-center">
               <div id="navbar">
                 <Link to={'/'} className="text-2xl font-bold">
-                  Baderia Dariy
+                  Baderia Dairy
                 </Link>
               </div>
             </div>
